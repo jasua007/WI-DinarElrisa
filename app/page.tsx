@@ -4,7 +4,7 @@ import WeddingJourneyInvitation from "./components/WeddingJourneyInvitation";
 
 export default function Home() {
   return (
-    <main style={{ background: "#efe6dd", minHeight: "100vh", padding: "24px 0" }}>
+    <main style={{ background: "#97908a", minHeight: "100vh", padding: "24px 0" }}>
       <WeddingJourneyInvitation
         groomName="Bagas"
         brideName="Ayu"

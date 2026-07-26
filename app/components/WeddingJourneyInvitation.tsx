@@ -35,35 +35,35 @@ const CHECKPOINTS: Checkpoint[] = [
     xPos: 300,
     title: 'Selamat Datang',
     npcLabel: 'Info Pernikahan',
-    npcImage: '/assets/groom.png.png',
+    npcImage: '/assets/groom.png',
   },
   {
     id: 'location',
     xPos: 800,
     title: 'Waktu & Lokasi',
     npcLabel: 'Lihat Denah',
-    npcImage: '/assets/clocktower.png.png',
+    npcImage: '/assets/clocktower.png',
   },
   {
     id: 'rsvp',
     xPos: 1300,
     title: 'Konfirmasi Kehadiran',
     npcLabel: 'RSVP',
-    npcImage: '/assets/npc-rsvp.png.png',
+    npcImage: '/assets/npc-rsvp.png',
   },
   {
     id: 'gift',
     xPos: 1800,
     title: 'Kado Digital & QRIS',
     npcLabel: 'Kirim Hadiah',
-    npcImage: '/assets/groom.png.png',
+    npcImage: '/assets/groom.png',
   },
   {
     id: 'thanks',
     xPos: 2200,
     title: 'Terima Kasih',
     npcLabel: 'Pesan Spesial',
-    npcImage: '/assets/bride.png.png',
+    npcImage: '/assets/bride.png',
   },
 ];
 
@@ -362,7 +362,7 @@ export default function WeddingJourneyInvitation({
                 <h3>Thank You!</h3>
                 <p>Kehadiran serta doa restu Anda merupakan hadiah terindah bagi pernikahan kami.</p>
                 <p className={styles.coupleSign}><strong>{brideName} & {groomName}</strong></p>
-              </div>
+              </div>    
             )}
           </div>
         </div>
