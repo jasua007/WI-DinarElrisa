@@ -3,6 +3,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './WeddingJourneyInvitation.module.css';
 
+// 1. Interface TypeScript untuk Props (Menghindari Error Build Vercel)
+interface WeddingJourneyProps {
+  groomName?: string;
+  brideName?: string;
+  guestName?: string;
+  tagline?: string;
+  weddingDateISO?: string;
+  weddingDateLabel?: string;
+  openingMessage?: string;
+  story?: Array<{ year: string; title: string; text: string }>;
+  events?: any;
+  gifts?: any;
+  musicUrl?: string;
+  onRsvpSubmit?: (data: any) => Promise<any> | void;
+}
+
 interface Checkpoint {
   id: string;
   xPos: number; // Posisi koordinat X dalam piksel dunia game
@@ -19,39 +35,47 @@ const CHECKPOINTS: Checkpoint[] = [
     xPos: 300,
     title: 'Selamat Datang',
     npcLabel: 'Info Pernikahan',
-    npcImage: '/assets/groom.png',
+    npcImage: '/assets/groom.png.png',
   },
   {
     id: 'location',
     xPos: 800,
     title: 'Waktu & Lokasi',
     npcLabel: 'Lihat Denah',
-    npcImage: '/assets/clocktower.png',
+    npcImage: '/assets/clocktower.png.png',
   },
   {
     id: 'rsvp',
     xPos: 1300,
     title: 'Konfirmasi Kehadiran',
     npcLabel: 'RSVP',
-    npcImage: '/assets/npc-rsvp.png',
+    npcImage: '/assets/npc-rsvp.png.png',
   },
   {
     id: 'gift',
     xPos: 1800,
     title: 'Kado Digital & QRIS',
     npcLabel: 'Kirim Hadiah',
-    npcImage: '/assets/groom.png',
+    npcImage: '/assets/groom.png.png',
   },
   {
     id: 'thanks',
     xPos: 2200,
     title: 'Terima Kasih',
     npcLabel: 'Pesan Spesial',
-    npcImage: '/assets/bride.png',
+    npcImage: '/assets/bride.png.png',
   },
 ];
 
-export default function WeddingJourneyInvitation() {
+// 2. Menerima Props dari app/page.tsx
+export default function WeddingJourneyInvitation({
+  groomName = 'PRESET',
+  brideName = 'MARY',
+  guestName,
+  tagline = 'THE WEDDING OF',
+  weddingDateLabel = '30 . 06 . 26',
+  onRsvpSubmit,
+}: WeddingJourneyProps) {
   const [gameState, setGameState] = useState<'cover' | 'gender' | 'playing'>('cover');
   const [gender, setGender] = useState<'man' | 'woman'>('man');
   
@@ -128,14 +152,15 @@ export default function WeddingJourneyInvitation() {
       {gameState === 'cover' && (
         <div className={styles.cover}>
           <div className={styles.headerInfo}>
-            <p className={styles.tagline}>THE WEDDING OF</p>
-            <h1 className={styles.mainTitle}>MARY ♥ PRESET</h1>
-            <p className={styles.dateText}>30 . 06 . 26</p>
+            <p className={styles.tagline}>{tagline}</p>
+            <h1 className={styles.mainTitle}>{brideName} ♥ {groomName}</h1>
+            <p className={styles.dateText}>{weddingDateLabel}</p>
+            {guestName && <p className={styles.guestText}>Kepada: {guestName}</p>}
           </div>
 
           <div className={styles.coverCoupleWrapper}>
-            <img src="/assets/groom.png" alt="Groom" className={styles.coverGroomImg} />
-            <img src="/assets/bride.png" alt="Bride" className={styles.coverBrideImg} />
+            <img src="/assets/groom.png.png" alt="Groom" className={styles.coverGroomImg} />
+            <img src="/assets/bride.png.png" alt="Bride" className={styles.coverBrideImg} />
           </div>
 
           <button className={styles.openButton} onClick={() => setGameState('gender')}>
@@ -148,9 +173,9 @@ export default function WeddingJourneyInvitation() {
       {gameState === 'gender' && (
         <div className={styles.genderScreen}>
           <div className={styles.headerInfo}>
-            <p className={styles.tagline}>THE WEDDING OF</p>
-            <h1 className={styles.mainTitle}>MARY ♥ PRESET</h1>
-            <p className={styles.dateText}>30 . 06 . 26</p>
+            <p className={styles.tagline}>{tagline}</p>
+            <h1 className={styles.mainTitle}>{brideName} ♥ {groomName}</h1>
+            <p className={styles.dateText}>{weddingDateLabel}</p>
           </div>
 
           <div className={styles.characterPreviewArea}>
@@ -185,9 +210,9 @@ export default function WeddingJourneyInvitation() {
       {gameState === 'playing' && (
         <div className={styles.gameStage}>
           <div className={styles.headerInfoOverlay}>
-            <p className={styles.tagline}>THE WEDDING OF</p>
-            <h2 className={styles.gameTitle}>MARY ♥ PRESET</h2>
-            <p className={styles.dateText}>30 . 06 . 26</p>
+            <p className={styles.tagline}>{tagline}</p>
+            <h2 className={styles.gameTitle}>{brideName} ♥ {groomName}</h2>
+            <p className={styles.dateText}>{weddingDateLabel}</p>
           </div>
 
           {/* Interactive Pill ketika Dekat Checkpoint */}
@@ -288,12 +313,15 @@ export default function WeddingJourneyInvitation() {
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
+                    if (onRsvpSubmit) {
+                      onRsvpSubmit({ status: 'attending' });
+                    }
                     alert('Terima kasih! Konfirmasi Anda telah tersimpan.');
                     setActiveModal(null);
                   }}
                   className={styles.formGroup}
                 >
-                  <input type="text" placeholder="Nama Lengkap" required />
+                  <input type="text" placeholder="Nama Lengkap" defaultValue={guestName || ''} required />
                   <select required>
                     <option value="">Jumlah Kehadiran</option>
                     <option value="1">1 Orang</option>
@@ -322,7 +350,7 @@ export default function WeddingJourneyInvitation() {
             {activeModal === 'gift' && (
               <div className={styles.modalBody}>
                 <h3>Kado Digital & QRIS</h3>
-                <p>BCA: <strong>1234567890</strong> a.n Mary</p>
+                <p>BCA: <strong>1234567890</strong> a.n {brideName}</p>
                 <div className={styles.qrisBox}>
                   <p>[ GAMBAR QRIS REKENING ]</p>
                 </div>
@@ -333,7 +361,7 @@ export default function WeddingJourneyInvitation() {
               <div className={styles.modalBody}>
                 <h3>Thank You!</h3>
                 <p>Kehadiran serta doa restu Anda merupakan hadiah terindah bagi pernikahan kami.</p>
-                <p className={styles.coupleSign}><strong>Mary & Preset</strong></p>
+                <p className={styles.coupleSign}><strong>{brideName} & {groomName}</strong></p>
               </div>
             )}
           </div>
