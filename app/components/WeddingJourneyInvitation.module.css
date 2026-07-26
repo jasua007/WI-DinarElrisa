@@ -9,7 +9,7 @@
   max-height: 850px;
   margin: 0 auto;
   overflow: hidden;
-  background-color: #efe6dd;
+  background-color: #814408;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
@@ -18,7 +18,7 @@
 
 .headerInfo, .headerInfoOverlay {
   text-align: center;
-  color: #ffffff;
+  color: #8e3d3d;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   margin-top: 30px;
   z-index: 10;
@@ -107,8 +107,8 @@
   transform: scale(1.4);
 }
 
-.manPreview { background-image: url('/assets/man-walk.png'); }
-.womanPreview { background-image: url('/assets/woman-walk.png'); }
+.manPreview { background-image: url('/assets/man.png'); }
+.womanPreview { background-image: url('/assets/woman.png'); }
 
 .animateWalk {
   animation: playSprite 0.45s steps(1) infinite;
@@ -133,7 +133,7 @@
   background-repeat: repeat-x;
   background-position: bottom center;
   background-size: auto 100%;
-  background-color: #edd3b8; /* Warna fallback jika gambar telat loading */
+  background-color: #eaa65e; /* Warna fallback jika gambar telat loading */
 }
 
 .interactivePillWrapper {

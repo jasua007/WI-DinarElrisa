@@ -71,9 +71,9 @@ const CHECKPOINTS: Checkpoint[] = [
 export default function WeddingJourneyInvitation({
   groomName = 'Dinar',
   brideName = 'Elrisa',
-  guestName,
+  guestName = 'Jojo & Jeje',
   tagline = 'THE WEDDING OF',
-  weddingDateLabel = '30 . 06 . 26',
+  weddingDateLabel = '30 . 11 . 26',
   onRsvpSubmit,
 }: WeddingJourneyProps) {
   const [gameState, setGameState] = useState<'cover' | 'gender' | 'playing'>('cover');
@@ -96,7 +96,7 @@ export default function WeddingJourneyInvitation({
 
     const gameLoop = () => {
       const { left, right } = walkingStateRef.current;
-      const speed = 4; // Kecepatan jalan karakter
+      const speed = 3; // Kecepatan jalan karakter
 
       if (left && !right) {
         setPlayerX((prev) => Math.max(50, prev - speed));
@@ -153,14 +153,14 @@ export default function WeddingJourneyInvitation({
         <div className={styles.cover}>
           <div className={styles.headerInfo}>
             <p className={styles.tagline}>{tagline}</p>
-            <h1 className={styles.mainTitle}>{brideName} ♥ {groomName}</h1>
+            <h1 className={styles.mainTitle}>{groomName} ♥ {brideName}</h1>
             <p className={styles.dateText}>{weddingDateLabel}</p>
             {guestName && <p className={styles.guestText}>Kepada: {guestName}</p>}
           </div>
 
           <div className={styles.coverCoupleWrapper}>
-            <img src="/assets/groom.png.png" alt="Groom" className={styles.coverGroomImg} />
-            <img src="/assets/bride.png.png" alt="Bride" className={styles.coverBrideImg} />
+            <img src="/assets/groom.png" alt="Groom" className={styles.coverGroomImg} />
+            <img src="/assets/bride.png" alt="Bride" className={styles.coverBrideImg} />
           </div>
 
           <button className={styles.openButton} onClick={() => setGameState('gender')}>
