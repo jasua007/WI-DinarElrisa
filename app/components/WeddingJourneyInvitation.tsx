@@ -69,8 +69,8 @@ const CHECKPOINTS: Checkpoint[] = [
 
 // 2. Menerima Props dari app/page.tsx
 export default function WeddingJourneyInvitation({
-  groomName = 'PRESET',
-  brideName = 'MARY',
+  groomName = 'Dinar',
+  brideName = 'Elrisa',
   guestName,
   tagline = 'THE WEDDING OF',
   weddingDateLabel = '30 . 06 . 26',
