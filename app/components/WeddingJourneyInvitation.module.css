@@ -1,3 +1,6 @@
+/* ==========================================================================
+   1. CONTAINER & WRAPPER UTAMA
+   ========================================================================== */
 .wrapper {
   position: relative;
   width: 100%;
@@ -6,7 +9,7 @@
   max-height: 850px;
   margin: 0 auto;
   overflow: hidden;
-  background: linear-gradient(to bottom, #d69873 0%, #edd3b8 60%, #e0bd9b 100%);
+  background-color: #efe6dd;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
@@ -26,6 +29,9 @@
 .mainTitle, .gameTitle { font-size: 28px; font-weight: bold; margin: 4px 0; }
 .dateText { font-size: 12px; letter-spacing: 3px; margin: 0; }
 
+/* ==========================================================================
+   2. COVER & GENDER SCREEN
+   ========================================================================== */
 .cover, .genderScreen {
   height: 100%;
   display: flex;
@@ -34,6 +40,7 @@
   padding: 20px;
   box-sizing: border-box;
   align-items: center;
+  background: linear-gradient(to bottom, #d69873 0%, #edd3b8 60%, #e0bd9b 100%);
 }
 
 .coverCoupleWrapper {
@@ -66,12 +73,27 @@
   justify-content: center;
 }
 
-/* SPRITE FRAME SYSTEM */
+.genderDialogCard {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 18px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.genderBtnGroup { display: flex; gap: 12px; margin-top: 12px; }
+.genderBtn { flex: 1; padding: 10px 24px; border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; }
+.manBtn { background-color: #65b32e; }
+.womanBtn { background-color: #f06292; }
+
+/* ==========================================================================
+   3. SPRITE FRAME SYSTEM (SESUAI ASET ASLI)
+   ========================================================================== */
 .spriteFrame {
   width: 100px;
   height: 160px;
-  background-size: 300% 100%; /* 3 Frame dalam 1 PNG */
-  background-position: 50% 0; /* Default: Idle (Tengah) */
+  background-size: 300% 100%; 
+  background-position: 50% 0; 
 }
 
 .manSprite { background-image: url('/assets/man-walk.png'); }
@@ -88,36 +110,30 @@
 .manPreview { background-image: url('/assets/man-walk.png'); }
 .womanPreview { background-image: url('/assets/woman-walk.png'); }
 
-/* Keyframe Animasi Melangkah (3 Frame Loop) */
 .animateWalk {
   animation: playSprite 0.45s steps(1) infinite;
 }
 
 @keyframes playSprite {
-  0% { background-position: 0% 0; }      /* Frame Melangkah 1 */
-  33% { background-position: 50% 0; }    /* Frame Idle/Tengah */
-  66% { background-position: 100% 0; }   /* Frame Melangkah 2 */
+  0% { background-position: 0% 0; }      
+  33% { background-position: 50% 0; }    
+  66% { background-position: 100% 0; }   
 }
 
-.genderDialogCard {
-  background: white;
-  padding: 20px 30px;
-  border-radius: 18px;
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.genderBtnGroup { display: flex; gap: 12px; margin-top: 12px; }
-.genderBtn { flex: 1; padding: 10px 24px; border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; }
-.manBtn { background-color: #65b32e; }
-.womanBtn { background-color: #f06292; }
-
-/* Game Viewport 2D */
+/* ==========================================================================
+   4. GAME STAGE & BACKGROUND KOTA 
+   ========================================================================== */
 .gameStage {
   position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
+  /* BACKGROUND KOTA DITAMBAHKAN DI SINI */
+  background-image: url('/assets/city-bg.png');
+  background-repeat: repeat-x;
+  background-position: bottom center;
+  background-size: auto 100%;
+  background-color: #edd3b8; /* Warna fallback jika gambar telat loading */
 }
 
 .interactivePillWrapper {
@@ -158,37 +174,60 @@
   top: 0;
   bottom: 0;
   left: 0;
+  width: 3000px;
   will-change: transform;
+  
+  /* PERBAIKAN BACKGROUND KOTA */
+  background-image: url('/assets/city-bg.png');
+  background-repeat: repeat-x;
+  background-position: center bottom;
+  background-size: auto 100%; /* UBAH KE 100% agar ditarik penuh dari atas sampai bawah */
 }
 
-.npcWorldContainer {
-  position: absolute;
-  bottom: 60px;
-  transform: translateX(-50%);
-}
+/* ==========================================================================
+   5. PERBAIKAN TANAH, NPC & PLAYER (ANTI-FLOATING & ANTI-RAKSASA)
+   ========================================================================== */
 
-.npcImg {
-  height: 160px;
-  object-fit: contain;
-}
-
-.playerWorldContainer {
-  position: absolute;
-  bottom: 60px;
-  z-index: 20;
-  margin-left: -50px; /* Center alignment */
-}
-
+/* Tanah / Ground */
 .groundBar {
   position: absolute;
   bottom: 0;
+  left: 0;
   height: 65px;
+  width: 4000px; /* SANGAT PENTING: Agar tanah tidak terpotong saat jalan ke kanan */
   background-image: url('/assets/ground.png');
   background-repeat: repeat-x;
-  background-size: contain;
+  background-size: auto 100%;
   z-index: 10;
 }
 
+/* NPC (Karakter Bride/Groom yang menunggu) */
+.npcWorldContainer {
+  position: absolute;
+  bottom: 50px; /* Disesuaikan agar kakinya tenggelam sedikit ke rumput */
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  z-index: 12;
+}
+
+.npcImg {
+  height: 130px; /* MEMPERBAIKI BUG RAKSASA: Membatasi tinggi NPC */
+  width: auto;
+  object-fit: contain;
+}
+
+/* Karakter Pemain yang Berjalan */
+.playerWorldContainer {
+  position: absolute;
+  bottom: 50px; /* Harus sama persis dengan npcWorldContainer agar sejajar */
+  z-index: 20;
+  transform: translateX(-50%);
+}
+
+/* ==========================================================================
+   6. KONTROL BAWAH & MODAL
+   ========================================================================== */
 .controlsBar {
   position: absolute;
   bottom: 12px;
