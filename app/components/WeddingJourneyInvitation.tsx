@@ -29,8 +29,6 @@ interface Checkpoint {
   npcImage: string;
 }
 
-/** Lebar total dunia game (px). Dipakai sinkron oleh worldTrack & groundBar
- *  lewat inline style, supaya keduanya tidak pernah "kepotong" tidak sinkron. */
 const WORLD_WIDTH = 2950;
 
 const CHECKPOINTS: Checkpoint[] = [
@@ -39,7 +37,6 @@ const CHECKPOINTS: Checkpoint[] = [
   { id: 'rsvp', xPos: 1350, title: 'Konfirmasi Kehadiran', npcLabel: 'RSVP', npcImage: '/assets/npc-rsvp.png' },
   { id: 'gift', xPos: 1850, title: 'Kado Digital & QRIS', npcLabel: 'Kirim Hadiah', npcImage: '/assets/groom.png' },
   { id: 'thanks', xPos: 2250, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/bride.png' },
-  // Landmark di ujung jalan — tujuan akhir perjalanan.
   { id: 'venue', xPos: 2750, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/clocktower.png' },
 ];
 
@@ -116,24 +113,32 @@ export default function WeddingJourneyInvitation({
 
   return (
     <div className={styles.wrapper}>
-      {/* 1. COVER SCREEN */}
+      {/* 1. COVER SCREEN (NEW ELEGANT DESIGN) */}
       {gameState === 'cover' && (
         <div className={styles.cover}>
-          <div className={styles.headerInfo}>
-            <p className={styles.tagline}>{tagline}</p>
-            <h1 className={styles.mainTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h1>
-            <p className={styles.dateText}>{weddingDateLabel}</p>
-            {guestName && <p className={styles.guestText}>Kepada Yth: <span>{guestName}</span></p>}
+          {/* ORNAMENTS (Animated Reveal) */}
+          <img src="/assets/goldenarch.png" alt="" className={styles.goldenArch} />
+          <img src="/assets/bungasudutkiriatas.png" alt="" className={`${styles.flowerCorner} ${styles.flowerTL}`} />
+          <img src="/assets/bungasudutkananatas.png" alt="" className={`${styles.flowerCorner} ${styles.flowerTR}`} />
+          <img src="/assets/bungasudutkiribawah.png" alt="" className={`${styles.flowerCorner} ${styles.flowerBL}`} />
+          <img src="/assets/bungasudutkananbawah.png" alt="" className={`${styles.flowerCorner} ${styles.flowerBR}`} />
+
+          <div className={styles.coverContent}>
+            <div className={styles.coverHeader}>
+              <p className={styles.coverTagline}>{tagline}</p>
+              <h1 className={styles.coverTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h1>
+              <p className={styles.coverDate}>{weddingDateLabel}</p>
+              {guestName && <p className={styles.coverGuest}>Kepada Yth: <span>{guestName}</span></p>}
+            </div>
+
+            <div className={styles.coverCoupleWrapper}>
+              <img src="/assets/mempelai.png" alt="Mempelai" className={styles.coverCoupleImg} />
+            </div>
+
+            <button className={styles.coverOpenBtn} onClick={() => setGameState('gender')}>
+              Open Invitation
+            </button>
           </div>
-
-          <div className={styles.coverCoupleWrapper}>
-            <img src="/assets/mempelai.png" alt="Groom" className={styles.coverGroomImg} />
-
-          </div>
-
-          <button className={styles.openButton} onClick={() => setGameState('gender')}>
-            Open Invitation
-          </button>
         </div>
       )}
 

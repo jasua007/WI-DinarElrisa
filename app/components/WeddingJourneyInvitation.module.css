@@ -1,22 +1,18 @@
+/* Import Google Fonts: Cormorant Garamond & Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600;700&family=Montserrat:wght@400;600;700&display=swap');
+
 /* ==========================================================================
    1. CONTAINER & WRAPPER UTAMA + PALET WARNA
-   --------------------------------------------------------------------------
-   Catatan: variabel warna sengaja didefinisikan di ".wrapper", BUKAN di
-   ":root". CSS Modules (termasuk yang dipakai Next.js) menolak build kalau
-   ada selector "telanjang" seperti :root/html/body tanpa class lokal
-   ("selector is not pure") — jadi taruh di sini supaya 100% aman di-build,
-   sekaligus tetap ke-inherit ke semua elemen di dalam wrapper seperti biasa.
    ========================================================================== */
 .wrapper {
-  /* -- Palet warna (sesuai katalog) -- */
-  --color-wheat: #DAC077;       /* Wheat / Butter Yellow — aksen judul & tombol utama */
-  --color-sage: #A3A78A;        /* Sage — border, elemen natural */
-  --color-olive: #696C4D;       /* Olive — teks sekunder */
-  --color-cypress: #4C5C36;     /* Cypress — teks utama & tombol primer */
-  --color-dusty-blue: #768899;  /* Dusty Blue — aksen karakter pria */
-  --color-lavender: #A9A3AA;    /* Lavender Grey — aksen karakter wanita */
-  --color-ivory: #DFD4C2;       /* Ivory — permukaan kartu/modal */
-  --color-light-cream: #FDF9F1; /* Krem paling terang — latar utama */
+  --color-wheat: #DAC077;
+  --color-sage: #A3A78A;
+  --color-olive: #696C4D;
+  --color-cypress: #4C5C36;
+  --color-dusty-blue: #768899;
+  --color-lavender: #A9A3AA;
+  --color-ivory: #DFD4C2;
+  --color-light-cream: #F8EFE3; /* Krem background ala watercolor */
 
   position: relative;
   width: 100%;
@@ -26,14 +22,177 @@
   margin: 0 auto;
   overflow: hidden;
   background-color: var(--color-light-cream);
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Montserrat', sans-serif; /* Default Font (Subtitles) */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   border-radius: 16px;
   user-select: none;
 }
 
 /* ==========================================================================
-   2. TYPOGRAPHY & HEADER (CLEAN & ELEGANT)
+   2. COVER SCREEN (NEW ELEGANT & ANIMATED DESIGN)
+   ========================================================================== */
+.cover {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: var(--color-light-cream); /* Atau gunakan gambar tekstur kertas bila ada */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* --- A. ANIMASI ORNAMEN (ARCH & BUNGA) --- */
+.goldenArch {
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  width: calc(100% - 30px);
+  height: calc(100% - 30px);
+  object-fit: contain;
+  opacity: 0;
+  animation: revealArch 2s ease-out 0.2s forwards;
+  z-index: 1;
+}
+
+.flowerCorner {
+  position: absolute;
+  width: 130px;
+  height: auto;
+  opacity: 0;
+  z-index: 2;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+.flowerTL { top: 0px; left: 0px; animation: slideFlowerTL 1.5s ease-out 0.8s forwards; }
+.flowerTR { top: 0px; right: 0px; animation: slideFlowerTR 1.5s ease-out 1s forwards; }
+.flowerBL { bottom: -10px; left: -10px; animation: slideFlowerBL 1.5s ease-out 1.2s forwards; }
+.flowerBR { bottom: -10px; right: -10px; animation: slideFlowerBR 1.5s ease-out 1.4s forwards; }
+
+/* --- B. KONTEN TEKS & GAMBAR (DI ATAS ORNAMEN) --- */
+.coverContent {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 90%;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.coverHeader {
+  text-align: center;
+  opacity: 0;
+  animation: fadeSlideUp 1.2s ease-out 1.8s forwards;
+}
+
+.coverTagline {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  color: var(--color-olive);
+  text-transform: uppercase;
+}
+
+.coverTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px; /* Lebih besar & elegan sesuai referensi */
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-cypress);
+}
+
+.coverDate {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 6px;
+  margin: 8px 0 15px 0;
+  color: var(--color-olive);
+}
+
+.coverGuest {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: var(--color-cypress);
+}
+.coverGuest span {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--color-sage);
+}
+
+.coverCoupleWrapper {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  opacity: 0;
+  animation: fadeSlideUp 1.5s ease-out 2.2s forwards;
+}
+
+.coverCoupleImg {
+  height: 380px; /* Sesuaikan ukuran mempelai agar pas di arch */
+  object-fit: contain;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+}
+
+.coverOpenBtn {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--color-cypress);
+  color: white;
+  border: none;
+  padding: 14px 45px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 20px rgba(76, 92, 54, 0.4);
+  opacity: 0;
+  animation: fadeSlideUp 1s ease-out 3s forwards; /* Muncul paling terakhir */
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.coverOpenBtn:active { transform: scale(0.95); }
+
+/* --- C. KEYFRAMES ANIMASI REVEAL --- */
+@keyframes revealArch {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes slideFlowerTL {
+  0% { opacity: 0; transform: translate(-20px, -20px); }
+  100% { opacity: 1; transform: translate(0, 0); }
+}
+@keyframes slideFlowerTR {
+  0% { opacity: 0; transform: translate(20px, -20px); }
+  100% { opacity: 1; transform: translate(0, 0); }
+}
+@keyframes slideFlowerBL {
+  0% { opacity: 0; transform: translate(-20px, 20px); }
+  100% { opacity: 1; transform: translate(0, 0); }
+}
+@keyframes slideFlowerBR {
+  0% { opacity: 0; transform: translate(20px, 20px); }
+  100% { opacity: 1; transform: translate(0, 0); }
+}
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ==========================================================================
+   3. GENDER SCREEN, HEADER DI GAME & LAINNYA
    ========================================================================== */
 .headerInfo, .headerInfoOverlay {
   text-align: center;
@@ -41,169 +200,66 @@
   z-index: 10;
   pointer-events: none;
 }
-
-/* Tambahan background lembut untuk teks saat di-dalam game agar terbaca */
 .headerInfoOverlay {
-  background: linear-gradient(180deg, rgba(253, 249, 241, 0.92) 0%, rgba(253, 249, 241, 0) 100%);
+  background: linear-gradient(180deg, rgba(248, 239, 227, 0.95) 0%, rgba(248, 239, 227, 0) 100%);
   padding: 30px 10px 50px 10px;
   margin-top: 0;
 }
 
+/* Reusable typography classes based on the new fonts */
 .tagline {
-  font-size: 11px;
-  letter-spacing: 4px;
-  margin: 0 0 6px 0;
-  font-weight: 600;
-  color: var(--color-olive);
-  text-transform: uppercase;
+  font-size: 11px; letter-spacing: 4px; margin: 0 0 6px 0; font-weight: 600;
+  color: var(--color-olive); text-transform: uppercase;
 }
-
 .mainTitle, .gameTitle {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0;
-  color: var(--color-cypress);
+  font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700;
+  margin: 0; color: var(--color-cypress);
 }
-
-.heart {
-  color: var(--color-sage);
-  font-size: 22px;
-  vertical-align: middle;
-}
-
+.heart { color: var(--color-sage); font-size: 22px; vertical-align: middle; font-family: 'Montserrat', sans-serif;}
 .dateText {
-  font-size: 12px;
-  letter-spacing: 3px;
-  margin: 6px 0 0 0;
-  color: var(--color-olive);
+  font-family: 'Cormorant Garamond', serif; font-size: 14px; letter-spacing: 4px;
+  margin: 6px 0 0 0; color: var(--color-olive); font-weight: 600;
 }
 
-.guestText {
-  font-size: 13px;
-  color: var(--color-cypress);
-  margin-top: 15px;
+.genderScreen {
+  height: 100%; display: flex; flex-direction: column; justify-content: space-between;
+  padding: 0 20px; box-sizing: border-box; align-items: center;
+  background: linear-gradient(180deg, var(--color-light-cream) 0%, var(--color-ivory) 55%, var(--color-wheat) 100%);
 }
-.guestText span {
-  font-weight: 700;
-  border-bottom: 1px solid var(--color-sage);
-}
-
-/* ==========================================================================
-   3. COVER & GENDER SCREEN
-   ========================================================================== */
-.cover, .genderScreen {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0 20px;
-  box-sizing: border-box;
-  align-items: center;
-  background: linear-gradient(
-    180deg,
-    var(--color-light-cream) 0%,
-    var(--color-ivory) 55%,
-    var(--color-wheat) 100%
-  );
-}
-
-.coverCoupleWrapper {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 15px;
-}
-
-.coverGroomImg, .coverBrideImg {
-  height: 450px;
-  object-fit: contain;
-}
-
-.openButton {
-  background-color: var(--color-cypress);
-  color: white;
-  border: none;
-  padding: 14px 40px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 40px;
-  letter-spacing: 1px;
-  box-shadow: 0 6px 20px rgba(76, 92, 54, 0.3);
-  transition: transform 0.2s ease;
-}
-.openButton:active { transform: scale(0.95); }
-
 .characterPreviewArea {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 30px;
-  margin: 15px 0;
-  width: 100%;
+  display: flex; align-items: flex-end; justify-content: center; gap: 30px; margin: 15px 0; width: 100%;
 }
-
 .characterCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.2s ease;
 }
 .characterCard:hover { transform: translateY(-5px); }
-
 .genderDialogCard {
-  background: rgba(223, 212, 194, 0.88);
-  padding: 15px 25px;
-  border-radius: 12px;
-  text-align: center;
-  margin-bottom: 40px;
-  color: var(--color-cypress);
-  font-weight: 600;
-  font-size: 13px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  background: rgba(255, 255, 255, 0.9); padding: 15px 25px; border-radius: 12px;
+  text-align: center; margin-bottom: 40px; color: var(--color-cypress);
+  font-weight: 600; font-size: 13px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
-
 .selectCharBtn {
-  margin-top: 15px;
-  padding: 8px 24px;
-  border: none;
-  border-radius: 20px;
-  color: white;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin-top: 15px; padding: 8px 24px; border: none; border-radius: 20px;
+  color: white; font-weight: 600; font-size: 13px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 .manSelectBtn { background-color: var(--color-dusty-blue); }
 .womanSelectBtn { background-color: var(--color-lavender); }
+
 
 /* ==========================================================================
    4. SPRITE FRAME SYSTEM
    ========================================================================== */
 .spriteFrame {
-  width: 100px;
-  height: 160px;
-  background-size: 300% 100%;
-  background-position: 50% 0;
+  width: 100px; height: 160px; background-size: 300% 100%; background-position: 50% 0;
 }
 .manSprite { background-image: url('/assets/man-walk.png'); }
 .womanSprite { background-image: url('/assets/woman-walk.png'); }
-
 .previewSprite {
-  width: 120px;
-  height: 180px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom center;
+  width: 120px; height: 180px; background-size: contain; background-repeat: no-repeat; background-position: bottom center;
 }
 .manPreview { background-image: url('/assets/man.png'); }
 .womanPreview { background-image: url('/assets/woman.png'); }
-
-.animateWalk {
-  animation: playSprite 0.45s steps(1) infinite;
-}
+.animateWalk { animation: playSprite 0.45s steps(1) infinite; }
 @keyframes playSprite {
   0% { background-position: 0% 0; }
   33% { background-position: 50% 0; }
@@ -211,116 +267,53 @@
   100% { background-position: 0% 0; }
 }
 
+
 /* ==========================================================================
    5. GAME STAGE, BACKGROUND KOTA & LAYOUT
    ========================================================================== */
 .gameStage {
-  position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--color-wheat);
+  position: relative; height: 100%; display: flex; flex-direction: column; background-color: var(--color-wheat);
 }
-
 .viewport {
-  position: relative;
-  flex: 1;
-  width: 100%;
-  overflow: hidden;
+  position: relative; flex: 1; width: 100%; overflow: hidden;
 }
-
 .worldTrack {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  /* width diisi lewat inline style dari WORLD_WIDTH di komponen —
-     supaya selalu sinkron dengan .groundBar dan tidak pernah kepotong. */
-  will-change: transform;
-
-  /* Latar Kota */
-  background-image: url('/assets/city-bg.png');
-  background-repeat: repeat-x;
-  background-position: center bottom;
-  background-size: auto 100%;
+  position: absolute; top: 0; bottom: 0; left: 0; will-change: transform;
+  background-image: url('/assets/city-bg.png'); background-repeat: repeat-x;
+  background-position: center bottom; background-size: auto 100%;
 }
-
-/* Tanah */
 .groundBar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 60px;
-  background-image: url('/assets/ground.png');
-  background-repeat: repeat-x;
-  background-position: top center;
-  background-size: auto 100%;
-  z-index: 10;
+  position: absolute; bottom: 0; left: 0; height: 60px;
+  background-image: url('/assets/ground.png'); background-repeat: repeat-x;
+  background-position: top center; background-size: auto 100%; z-index: 10;
 }
-
-/* NPC & Player (Menempel dengan Tanah) — tinggi disamakan agar sebanding
-   dengan tinggi karakter pemain (.spriteFrame = 160px). */
 .npcWorldContainer {
-  position: absolute;
-  bottom: 45px;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: flex-end;
-  z-index: 12;
+  position: absolute; bottom: 45px; transform: translateX(-50%); display: flex; align-items: flex-end; z-index: 12;
 }
-.npcImg {
-  height: 150px;
-  width: auto;
-  object-fit: contain;
-}
+.npcImg { height: 150px; width: auto; object-fit: contain; }
 
-/* Landmark besar di ujung jalan (mis. clocktower.png) — jauh lebih tinggi
-   dari NPC/karakter supaya terasa proporsional sebagai gedung, tapi tetap
-   dibatasi max-height agar tidak terpotong di layar pendek. */
 .venueWorldContainer {
-  position: absolute;
-  bottom: 45px;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 11;
+  position: absolute; bottom: 45px; transform: translateX(-50%);
+  display: flex; align-items: flex-end; justify-content: center; z-index: 11;
 }
 .venueImg {
-  height: 340px;
-  max-height: 55vh;
-  width: auto;
-  object-fit: contain;
+  height: 340px; max-height: 55vh; width: auto; object-fit: contain;
   filter: drop-shadow(0 14px 18px rgba(76, 92, 54, 0.35));
 }
-
 .playerWorldContainer {
-  position: absolute;
-  bottom: 45px;
-  z-index: 20;
+  position: absolute; bottom: 45px; z-index: 20;
 }
+
 
 /* ==========================================================================
    6. CONTROLS, INTERACTIVE PILL & MODALS
    ========================================================================== */
 .interactivePillWrapper {
-  position: absolute;
-  top: 140px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  z-index: 25;
+  position: absolute; top: 140px; width: 100%; display: flex; justify-content: center; z-index: 25;
 }
-
 .interactivePill {
-  background: var(--color-ivory);
-  border: 2px solid var(--color-sage);
-  padding: 8px 24px;
-  border-radius: 20px;
-  font-weight: 700;
-  color: var(--color-cypress);
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  background: white; border: 2px solid var(--color-sage); padding: 8px 24px; border-radius: 20px;
+  font-weight: 700; color: var(--color-cypress); cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   animation: bouncePill 1.5s infinite;
 }
 @keyframes bouncePill {
@@ -329,115 +322,41 @@
 }
 
 .controlsBar {
-  position: absolute;
-  bottom: 15px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 25px;
-  box-sizing: border-box;
-  z-index: 30;
+  position: absolute; bottom: 15px; width: 100%; display: flex; justify-content: space-between;
+  padding: 0 25px; box-sizing: border-box; z-index: 30;
 }
-
 .arrowBtn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.95);
-  border: none;
-  font-size: 18px;
-  color: var(--color-cypress);
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  width: 50px; height: 50px; border-radius: 50%; background: rgba(255, 255, 255, 0.95);
+  border: none; font-size: 18px; color: var(--color-cypress); cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
-
 .swapGenderBtn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--color-sage);
-  color: white;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
+  width: 42px; height: 42px; border-radius: 50%; background: var(--color-sage); color: white; border: none; font-size: 18px; cursor: pointer;
 }
 
 /* MODAL / POPUP */
 .modalOverlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(76, 92, 54, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  padding: 20px;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  position: absolute; inset: 0; background: rgba(76, 92, 54, 0.4); display: flex; align-items: center; justify-content: center;
+  z-index: 100; padding: 20px; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
 }
-
 .modalCard {
-  background: var(--color-ivory);
-  width: 100%;
-  max-width: 320px;
-  border-radius: 16px;
-  padding: 24px;
-  position: relative;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: var(--color-ivory); width: 100%; max-width: 320px; border-radius: 16px; padding: 24px;
+  position: relative; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
-
 .closeBtn {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  border: none;
-  background: transparent;
-  font-size: 16px;
-  color: var(--color-olive);
-  cursor: pointer;
+  position: absolute; top: 12px; right: 14px; border: none; background: transparent; font-size: 16px; color: var(--color-olive); cursor: pointer;
 }
-
-.modalBody h3 {
-  color: var(--color-cypress);
-  margin-top: 5px;
-  margin-bottom: 10px;
-}
-.modalBody p {
-  color: var(--color-olive);
-  font-size: 14px;
-}
-
+.modalBody h3 { color: var(--color-cypress); margin-top: 5px; margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; font-size: 22px;}
+.modalBody p { color: var(--color-olive); font-size: 14px; }
 .formGroup { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
 .formGroup input, .formGroup select {
-  padding: 10px;
-  border: 1px solid var(--color-sage);
-  border-radius: 8px;
-  color: var(--color-cypress);
-  background: var(--color-light-cream);
+  padding: 10px; border: 1px solid var(--color-sage); border-radius: 8px; color: var(--color-cypress); background: var(--color-light-cream); font-family: 'Montserrat', sans-serif;
 }
 .submitBtn {
-  background: var(--color-cypress);
-  color: white;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  margin-top: 5px;
+  background: var(--color-cypress); color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 5px; font-family: 'Montserrat', sans-serif;
 }
-
 .qrisBox {
-  margin-top: 15px;
-  padding: 20px;
-  background: var(--color-light-cream);
-  border: 1px dashed var(--color-sage);
-  border-radius: 8px;
-  color: var(--color-olive);
+  margin-top: 15px; padding: 20px; background: var(--color-light-cream); border: 1px dashed var(--color-sage); border-radius: 8px; color: var(--color-olive);
 }
-
 .coupleSign {
-  margin-top: 20px;
-  font-size: 16px;
-  color: var(--color-cypress);
-} 
+  margin-top: 20px; font-size: 18px; color: var(--color-cypress); font-family: 'Cormorant Garamond', serif; font-weight: 700;
+}
