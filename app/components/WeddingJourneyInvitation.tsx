@@ -15,6 +15,9 @@ interface WeddingJourneyProps {
   events?: any;
   gifts?: any;
   musicUrl?: string;
+  venueName?: string;
+  venueAddress?: string;
+  venueMapsUrl?: string;
   onRsvpSubmit?: (data: any) => Promise<any> | void;
 }
 
@@ -26,44 +29,18 @@ interface Checkpoint {
   npcImage: string;
 }
 
-const WORLD_WIDTH = 2400;
+/** Lebar total dunia game (px). Dipakai sinkron oleh worldTrack & groundBar
+ *  lewat inline style, supaya keduanya tidak pernah "kepotong" tidak sinkron. */
+const WORLD_WIDTH = 2950;
 
 const CHECKPOINTS: Checkpoint[] = [
-  {
-    id: 'welcome',
-    xPos: 300,
-    title: 'Selamat Datang',
-    npcLabel: 'Info Pernikahan',
-    npcImage: '/assets/groom.png',
-  },
-  {
-    id: 'location',
-    xPos: 800,
-    title: 'Waktu & Lokasi',
-    npcLabel: 'Lihat Denah',
-    npcImage: '/assets/clocktower.png',
-  },
-  {
-    id: 'rsvp',
-    xPos: 1300,
-    title: 'Konfirmasi Kehadiran',
-    npcLabel: 'RSVP',
-    npcImage: '/assets/npc-rsvp.png',
-  },
-  {
-    id: 'gift',
-    xPos: 1800,
-    title: 'Kado Digital & QRIS',
-    npcLabel: 'Kirim Hadiah',
-    npcImage: '/assets/groom.png',
-  },
-  {
-    id: 'thanks',
-    xPos: 2200,
-    title: 'Terima Kasih',
-    npcLabel: 'Pesan Spesial',
-    npcImage: '/assets/bride.png',
-  },
+  { id: 'welcome', xPos: 350, title: 'Selamat Datang', npcLabel: 'Info Pernikahan', npcImage: '/assets/groom.png' },
+  { id: 'location', xPos: 850, title: 'Waktu & Lokasi', npcLabel: 'Lihat Denah', npcImage: '/assets/npc-location.png' },
+  { id: 'rsvp', xPos: 1350, title: 'Konfirmasi Kehadiran', npcLabel: 'RSVP', npcImage: '/assets/npc-rsvp.png' },
+  { id: 'gift', xPos: 1850, title: 'Kado Digital & QRIS', npcLabel: 'Kirim Hadiah', npcImage: '/assets/groom.png' },
+  { id: 'thanks', xPos: 2250, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/bride.png' },
+  // Landmark di ujung jalan — tujuan akhir perjalanan.
+  { id: 'venue', xPos: 2750, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/clocktower.png' },
 ];
 
 export default function WeddingJourneyInvitation({
@@ -72,11 +49,14 @@ export default function WeddingJourneyInvitation({
   guestName = 'Jojo & Jeje',
   tagline = 'THE WEDDING OF',
   weddingDateLabel = '30 . 11 . 26',
+  venueName = 'Menara Waktu Grand Hall',
+  venueAddress = 'Jl. Contoh Raya No. 10, Jakarta',
+  venueMapsUrl = 'https://maps.google.com',
   onRsvpSubmit,
 }: WeddingJourneyProps) {
   const [gameState, setGameState] = useState<'cover' | 'gender' | 'playing'>('cover');
   const [gender, setGender] = useState<'man' | 'woman'>('man');
-  
+
   const [playerX, setPlayerX] = useState(100);
   const [direction, setDirection] = useState<'right' | 'left'>('right');
   const [isWalking, setIsWalking] = useState(false);
@@ -84,22 +64,21 @@ export default function WeddingJourneyInvitation({
 
   const walkingStateRef = useRef({ left: false, right: false });
 
-  // Game Loop 60FPS
+  // Game Loop
   useEffect(() => {
     if (gameState !== 'playing' || activeModal) return;
 
     let animationFrameId: number;
-
     const gameLoop = () => {
       const { left, right } = walkingStateRef.current;
-      const speed = 3;
+      const speed = 3.5;
 
       if (left && !right) {
-        setPlayerX((prev) => Math.max(50, prev - speed));
+        setPlayerX((prev) => Math.max(60, prev - speed));
         setDirection('left');
         setIsWalking(true);
       } else if (right && !left) {
-        setPlayerX((prev) => Math.min(WORLD_WIDTH - 100, prev + speed));
+        setPlayerX((prev) => Math.min(WORLD_WIDTH - 120, prev + speed));
         setDirection('right');
         setIsWalking(true);
       } else {
@@ -113,19 +92,17 @@ export default function WeddingJourneyInvitation({
     return () => cancelAnimationFrame(animationFrameId);
   }, [gameState, activeModal]);
 
-  // Keyboard Event Listeners
+  // Key Listeners
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (gameState !== 'playing' || activeModal) return;
-      if (e.key === 'ArrowRight' || e.key === 'd') walkingStateRef.current.right = true;
-      if (e.key === 'ArrowLeft' || e.key === 'a') walkingStateRef.current.left = true;
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') walkingStateRef.current.right = true;
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') walkingStateRef.current.left = true;
     };
-
     const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight' || e.key === 'd') walkingStateRef.current.right = false;
-      if (e.key === 'ArrowLeft' || e.key === 'a') walkingStateRef.current.left = false;
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') walkingStateRef.current.right = false;
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') walkingStateRef.current.left = false;
     };
-
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
     return () => {
@@ -134,11 +111,8 @@ export default function WeddingJourneyInvitation({
     };
   }, [gameState, activeModal]);
 
-  const nearbyCheckpoint = CHECKPOINTS.find(
-    (cp) => Math.abs(cp.xPos - playerX) < 90
-  );
-
-  const cameraX = Math.max(0, playerX - 160);
+  const nearbyCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - playerX) < 95);
+  const cameraX = Math.max(0, Math.min(WORLD_WIDTH - 340, playerX - 170));
 
   return (
     <div className={styles.wrapper}>
@@ -147,84 +121,63 @@ export default function WeddingJourneyInvitation({
         <div className={styles.cover}>
           <div className={styles.headerInfo}>
             <p className={styles.tagline}>{tagline}</p>
-            <h1 className={styles.mainTitle}>{groomName} ♥ {brideName}</h1>
+            <h1 className={styles.mainTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h1>
             <p className={styles.dateText}>{weddingDateLabel}</p>
-            {guestName && <p className={styles.guestText}>Kepada: {guestName}</p>}
+            {guestName && <p className={styles.guestText}>Kepada Yth: <span>{guestName}</span></p>}
           </div>
 
           <div className={styles.coverCoupleWrapper}>
-            <img src="/assets/groom.png" alt="Groom" className={styles.coverGroomImg} />
-            <img src="/assets/bride.png" alt="Bride" className={styles.coverBrideImg} />
+            <img src="/assets/mempelai.png" alt="Groom" className={styles.coverGroomImg} />
+
           </div>
 
           <button className={styles.openButton} onClick={() => setGameState('gender')}>
-            open invitation
+            Open Invitation
           </button>
         </div>
       )}
 
-      {/* 2. PILIH KARAKTER BERDAMPINGAN */}
+      {/* 2. CHOOSE CHARACTER */}
       {gameState === 'gender' && (
         <div className={styles.genderScreen}>
           <div className={styles.headerInfo}>
-            <p className={styles.tagline}>THE WEDDING OF</p>
-            <h1 className={styles.mainTitle}>{brideName} ♥ {groomName}</h1>
+            <p className={styles.tagline}>{tagline}</p>
+            <h1 className={styles.mainTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h1>
             <p className={styles.dateText}>{weddingDateLabel}</p>
           </div>
 
           <div className={styles.characterPreviewArea}>
-            {/* Karakter Pria */}
-            <div 
-              className={styles.characterCard} 
-              onClick={() => {
-                setGender('man');
-                setGameState('playing'); // FIX: Diubah dari 'game' ke 'playing'
-              }}
-            >
+            <div className={styles.characterCard} onClick={() => { setGender('man'); setGameState('playing'); }}>
               <div className={`${styles.previewSprite} ${styles.manPreview}`} />
-              <button className={`${styles.selectCharBtn} ${styles.manSelectBtn}`}>
-                Pilih Pria
-              </button>
+              <button className={`${styles.selectCharBtn} ${styles.manSelectBtn}`}>Pilih Pria</button>
             </div>
 
-            {/* Karakter Wanita */}
-            <div 
-              className={styles.characterCard} 
-              onClick={() => {
-                setGender('woman');
-                setGameState('playing'); // FIX: Diubah dari 'game' ke 'playing'
-              }}
-            >
+            <div className={styles.characterCard} onClick={() => { setGender('woman'); setGameState('playing'); }}>
               <div className={`${styles.previewSprite} ${styles.womanPreview}`} />
-              <button className={`${styles.selectCharBtn} ${styles.womanSelectBtn}`}>
-                Pilih Wanita
-              </button>
+              <button className={`${styles.selectCharBtn} ${styles.womanSelectBtn}`}>Pilih Wanita</button>
             </div>
           </div>
 
           <div className={styles.genderDialogCard}>
-            <p style={{ margin: 0, fontWeight: 'bold', color: '#4a3e3d' }}>
-              Pilih Karakter untuk Memulai Petualangan!
-            </p>
+            <p>Pilih karaktermu untuk menelusuri lokasi acara</p>
           </div>
         </div>
       )}
 
-      {/* 3. GAME SIDE-SCROLLER REAL 2D */}
+      {/* 3. GAMEPLAY */}
       {gameState === 'playing' && (
         <div className={styles.gameStage}>
+          {/* Header */}
           <div className={styles.headerInfoOverlay}>
             <p className={styles.tagline}>{tagline}</p>
-            <h2 className={styles.gameTitle}>{brideName} ♥ {groomName}</h2>
+            <h2 className={styles.gameTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h2>
             <p className={styles.dateText}>{weddingDateLabel}</p>
           </div>
 
+          {/* Interactive Pill */}
           {nearbyCheckpoint && (
             <div className={styles.interactivePillWrapper}>
-              <button
-                className={styles.interactivePill}
-                onClick={() => setActiveModal(nearbyCheckpoint.id)}
-              >
+              <button className={styles.interactivePill} onClick={() => setActiveModal(nearbyCheckpoint.id)}>
                 <span>{nearbyCheckpoint.npcLabel}</span>
               </button>
             </div>
@@ -233,23 +186,30 @@ export default function WeddingJourneyInvitation({
           <div className={styles.viewport}>
             <div
               className={styles.worldTrack}
-              style={{ transform: `translateX(-${cameraX}px)` }}
+              style={{ width: `${WORLD_WIDTH}px`, transform: `translateX(-${cameraX}px)` }}
             >
-              {CHECKPOINTS.map((cp) => (
-                <div
-                  key={cp.id}
-                  className={styles.npcWorldContainer}
-                  style={{ left: `${cp.xPos}px` }}
-                >
-                  <img src={cp.npcImage} alt={cp.title} className={styles.npcImg} />
-                </div>
-              ))}
+              {CHECKPOINTS.map((cp) => {
+                const isVenue = cp.id === 'venue';
+                return (
+                  <div
+                    key={cp.id}
+                    className={isVenue ? styles.venueWorldContainer : styles.npcWorldContainer}
+                    style={{ left: `${cp.xPos}px` }}
+                  >
+                    <img
+                      src={cp.npcImage}
+                      alt={cp.title}
+                      className={isVenue ? styles.venueImg : styles.npcImg}
+                    />
+                  </div>
+                );
+              })}
 
               <div
                 className={styles.playerWorldContainer}
                 style={{
                   left: `${playerX}px`,
-                  transform: direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)',
+                  transform: `translateX(-50%) ${direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)'}`,
                 }}
               >
                 <div
@@ -259,10 +219,7 @@ export default function WeddingJourneyInvitation({
                 />
               </div>
 
-              <div
-                className={styles.groundBar}
-                style={{ width: `${WORLD_WIDTH}px` }}
-              />
+              <div className={styles.groundBar} style={{ width: `${WORLD_WIDTH}px` }} />
             </div>
           </div>
 
@@ -276,14 +233,9 @@ export default function WeddingJourneyInvitation({
             >
               ◀
             </button>
-
-            <button
-              className={styles.swapGenderBtn}
-              onClick={() => setGender(gender === 'man' ? 'woman' : 'man')}
-            >
+            <button className={styles.swapGenderBtn} onClick={() => setGender(gender === 'man' ? 'woman' : 'man')}>
               {gender === 'man' ? '♂' : '♀'}
             </button>
-
             <button
               className={styles.arrowBtn}
               onMouseDown={() => (walkingStateRef.current.right = true)}
@@ -306,25 +258,23 @@ export default function WeddingJourneyInvitation({
             {activeModal === 'rsvp' && (
               <div className={styles.modalBody}>
                 <h3>Konfirmasi Kehadiran</h3>
-                <p>Isi form di bawah untuk mengonfirmasi kehadiran Anda:</p>
+                <p>Silakan konfirmasi kehadiran Anda untuk acara kami:</p>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    if (onRsvpSubmit) {
-                      onRsvpSubmit({ status: 'attending' });
-                    }
-                    alert('Terima kasih! Konfirmasi Anda telah tersimpan.');
+                    if (onRsvpSubmit) onRsvpSubmit({ status: 'attending' });
+                    alert('Terima kasih! Konfirmasi Anda telah berhasil disimpan.');
                     setActiveModal(null);
                   }}
                   className={styles.formGroup}
                 >
                   <input type="text" placeholder="Nama Lengkap" defaultValue={guestName || ''} required />
                   <select required>
-                    <option value="">Jumlah Kehadiran</option>
-                    <option value="1">1 Orang</option>
-                    <option value="2">2 Orang</option>
+                    <option value="">Pilih Kehadiran</option>
+                    <option value="1">Hadir (1 Orang)</option>
+                    <option value="2">Hadir (2 Orang)</option>
                   </select>
-                  <button type="submit" className={styles.submitBtn}>Kirim RSVP</button>
+                  <button type="submit" className={styles.submitBtn}>Kirim Konfirmasi</button>
                 </form>
               </div>
             )}
@@ -335,11 +285,8 @@ export default function WeddingJourneyInvitation({
                 <p><strong>Akad Nikah:</strong> 08.00 WIB</p>
                 <p><strong>Resepsi:</strong> 11.00 - Selesai</p>
                 <p>Gedung Grand Ballroom, Jakarta</p>
-                <button
-                  className={styles.submitBtn}
-                  onClick={() => window.open('https://maps.google.com', '_blank')}
-                >
-                  Buka Google Maps
+                <button className={styles.submitBtn} onClick={() => window.open('https://maps.google.com', '_blank')}>
+                  Buka Peta Google Maps
                 </button>
               </div>
             )}
@@ -347,19 +294,31 @@ export default function WeddingJourneyInvitation({
             {activeModal === 'gift' && (
               <div className={styles.modalBody}>
                 <h3>Kado Digital & QRIS</h3>
-                <p>BCA: <strong>1234567890</strong> a.n {brideName}</p>
+                <p>Bank BCA: <strong>1234567890</strong><br />a.n {brideName}</p>
                 <div className={styles.qrisBox}>
-                  <p>[ GAMBAR QRIS REKENING ]</p>
+                  <p>[ QRIS REKENING DIGITAL ]</p>
                 </div>
+              </div>
+            )}
+
+            {activeModal === 'venue' && (
+              <div className={styles.modalBody}>
+                <h3>Kamu Telah Tiba!</h3>
+                <p>Inilah tempat kami akan merayakan hari bahagia ini bersama.</p>
+                <p><strong>{venueName}</strong></p>
+                <p>{venueAddress}</p>
+                <button className={styles.submitBtn} onClick={() => window.open(venueMapsUrl, '_blank')}>
+                  Buka Peta Google Maps
+                </button>
               </div>
             )}
 
             {(activeModal === 'thanks' || activeModal === 'welcome') && (
               <div className={styles.modalBody}>
-                <h3>Thank You!</h3>
+                <h3>Terima Kasih!</h3>
                 <p>Kehadiran serta doa restu Anda merupakan hadiah terindah bagi pernikahan kami.</p>
                 <p className={styles.coupleSign}><strong>{brideName} & {groomName}</strong></p>
-              </div>    
+              </div>
             )}
           </div>
         </div>
