@@ -110,6 +110,18 @@
   color: var(--color-cypress);
 }
 
+.coverPrayer {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  color: var(--color-olive);
+  text-transform: uppercase;
+  background: var(--color-ivory); width: 100%; max-width: 320px; border-radius: 16px; padding: 24px;
+  position: relative; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2)
+}
+
 .coverDate {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;

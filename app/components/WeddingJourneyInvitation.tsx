@@ -45,10 +45,10 @@ export default function WeddingJourneyInvitation({
   brideName = 'Elrisa',
   guestName = 'Jojo & Jeje',
   tagline = 'THE WEDDING OF',
-  weddingDateLabel = '30 . 11 . 26',
-  venueName = 'Menara Waktu Grand Hall',
-  venueAddress = 'Jl. Contoh Raya No. 10, Jakarta',
-  venueMapsUrl = 'https://maps.google.com',
+  weddingDateLabel = '22 . 11 . 26',
+  venueName = 'Gedung Balairakyat Depok I / Gedung Serbaguna',
+  venueAddress = 'Jl. Bangau Raya No.192-174, Depok Jaya, Pancoran Mas, Depok City, West Java 16432',
+  venueMapsUrl = 'https://www.google.com/maps/place/Gedung+Serbaguna+Depok+Jaya/@-6.3907592,106.809646,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69e9508de3b925:0xf1901ae7fbf4d254!8m2!3d-6.3907592!4d106.809646!16s%2Fg%2F11b5qx2h68!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D',
   onRsvpSubmit,
 }: WeddingJourneyProps) {
   const [gameState, setGameState] = useState<'cover' | 'gender' | 'playing'>('cover');
@@ -128,7 +128,12 @@ export default function WeddingJourneyInvitation({
               <p className={styles.coverTagline}>{tagline}</p>
               <h1 className={styles.coverTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h1>
               <p className={styles.coverDate}>{weddingDateLabel}</p>
-              {guestName && <p className={styles.coverGuest}>Kepada Yth: <span>{guestName}</span></p>}
+              {guestName && <p className={styles.coverGuest}>Dear: <span>{guestName}</span></p>}
+              <div className={styles.modalformGroup}>
+                <p className={styles.coverPrayer} > "And among the signs of His power is that He created for you wives of your own kind, so that you would be inclined and feel at ease with them, and He made among you a feeling of love and affection. Indeed, in that there are truly signs for a person who thinks (لِقَوْمٍ يَتَفَكَّرُونَ )."
+                <br></br> (QS. Ar-Rum: 21)</p>
+              </div>
+              
             </div>
 
             <div className={styles.coverCoupleWrapper}>
