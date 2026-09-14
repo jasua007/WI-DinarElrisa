@@ -19,7 +19,7 @@ interface WeddingJourneyProps {
   venueAddress?: string;
   venueMapsUrl?: string;
   onRsvpSubmit?: (data: any) => Promise<any> | void;
-}
+} 
 
 interface Checkpoint {
   id: string;
@@ -32,10 +32,10 @@ interface Checkpoint {
 const WORLD_WIDTH = 2950;
 
 const CHECKPOINTS: Checkpoint[] = [
-  { id: 'welcome', xPos: 350, title: 'Selamat Datang', npcLabel: 'Info Pernikahan', npcImage: '/assets/groom.png' },
-  { id: 'location', xPos: 850, title: 'Waktu & Lokasi', npcLabel: 'Lihat Denah', npcImage: '/assets/npc-location.png' },
+  { id: 'welcome', xPos: 350, title: 'Selamat Datang', npcLabel: 'Information', npcImage: '/assets/groom.png' },
+  { id: 'location', xPos: 850, title: 'Waktu & Lokasi', npcLabel: 'Vanue', npcImage: '/assets/npc-location.png' },
   { id: 'rsvp', xPos: 1350, title: 'Konfirmasi Kehadiran', npcLabel: 'RSVP', npcImage: '/assets/npc-rsvp.png' },
-  { id: 'gift', xPos: 1850, title: 'Kado Digital & QRIS', npcLabel: 'Kirim Hadiah', npcImage: '/assets/groom.png' },
+  { id: 'gift', xPos: 1850, title: 'Kado Digital & QRIS', npcLabel: 'Wedding Gift', npcImage: '/assets/groom.png' },
   { id: 'thanks', xPos: 2250, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/bride.png' },
   { id: 'venue', xPos: 2750, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/clocktower.png' },
 ];
@@ -45,10 +45,10 @@ export default function WeddingJourneyInvitation({
   brideName = 'Elrisa',
   guestName = 'Jojo & Jeje',
   tagline = 'THE WEDDING OF',
-  weddingDateLabel = '22 . 11 . 26',
+  weddingDateLabel = '22 . 11 . 2026',
   venueName = 'Gedung Balairakyat Depok I / Gedung Serbaguna',
   venueAddress = 'Jl. Bangau Raya No.192-174, Depok Jaya, Pancoran Mas, Depok City, West Java 16432',
-  venueMapsUrl = 'https://www.google.com/maps/place/Gedung+Serbaguna+Depok+Jaya/@-6.3907592,106.809646,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69e9508de3b925:0xf1901ae7fbf4d254!8m2!3d-6.3907592!4d106.809646!16s%2Fg%2F11b5qx2h68!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D',
+  venueMapsUrl = 'https://www.google.com/maps/place/Gedung+Serbaguna+Depok+Jaya/@-6.3907592,106.809646,17z/data=...',
   onRsvpSubmit,
 }: WeddingJourneyProps) {
   const [gameState, setGameState] = useState<'cover' | 'gender' | 'playing'>('cover');
@@ -113,46 +113,64 @@ export default function WeddingJourneyInvitation({
 
   return (
     <div className={styles.wrapper}>
-      {/* 1. COVER SCREEN (NEW ELEGANT DESIGN) */}
       {gameState === 'cover' && (
-        <div className={styles.cover}>
-          {/* ORNAMENTS (Animated Reveal) */}
-          <img src="/assets/goldenarch.png" alt="" className={styles.goldenArch} />
-          <img src="/assets/bungasudutkiriatas.png" alt="" className={`${styles.flowerCorner} ${styles.flowerTL}`} />
-          <img src="/assets/bungasudutkananatas.png" alt="" className={`${styles.flowerCorner} ${styles.flowerTR}`} />
-          <img src="/assets/bungasudutkiribawah.png" alt="" className={`${styles.flowerCorner} ${styles.flowerBL}`} />
-          <img src="/assets/bungasudutkananbawah.png" alt="" className={`${styles.flowerCorner} ${styles.flowerBR}`} />
+  <div className={styles.cover}>
+    {/* Bunga Sudut */}
+    <img src="/assets/bungasudutkiriatas.png" alt="" className={`${styles.flowerCorner} ${styles.flowerTL}`} />
+    <img src="/assets/bungasudutkananatas.png" alt="" className={`${styles.flowerCorner} ${styles.flowerTR}`} />
+    <img src="/assets/bungasudutkiribawah.png" alt="" className={`${styles.flowerCorner} ${styles.flowerBL}`} />
+    <img src="/assets/bungasudutkananbawah.png" alt="" className={`${styles.flowerCorner} ${styles.flowerBR}`} />
 
-          <div className={styles.coverContent}>
-            <div className={styles.coverHeader}>
-              <p className={styles.coverTagline}>{tagline}</p>
-              <h1 className={styles.coverTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h1>
-              <p className={styles.coverDate}>{weddingDateLabel}</p>
-              {guestName && <p className={styles.coverGuest}>Dear: <span>{guestName}</span></p>}
-              <div className={styles.modalformGroup}>
-                <p className={styles.coverPrayer} > "And among the signs of His power is that He created for you wives of your own kind, so that you would be inclined and feel at ease with them, and He made among you a feeling of love and affection. Indeed, in that there are truly signs for a person who thinks (لِقَوْمٍ يَتَفَكَّرُونَ )."
-                <br></br> (QS. Ar-Rum: 21)</p>
-              </div>
-              
-            </div>
+    {/* Header Atas */}
+    <div className={styles.coverHeader}>
+      <p className={styles.coverTagline}>{tagline}</p>
+      <div className={styles.goldNameBox}>
+        <h1 className={styles.coverTitle}>
+          {groomName} <span className={styles.heart}>♥</span> {brideName}
+        </h1>
+      </div>
+      <p className={styles.coverDate}>{weddingDateLabel}</p>
+    </div>
 
-            <div className={styles.coverCoupleWrapper}>
-              <img src="/assets/mempelai.png" alt="Mempelai" className={styles.coverCoupleImg} />
-            </div>
+    {/* Arch Emas (Dikunci di Tengah sebagai Frame) */}
+    <img src="/assets/goldenarch2.png" alt="" className={styles.goldenArch} />
 
-            <button className={styles.coverOpenBtn} onClick={() => setGameState('gender')}>
-              Open Invitation
-            </button>
-          </div>
-        </div>
+    {/* Mempelai & Nama Tamu (Dikunci Presisi di Dalam Arch) */}
+    <div className={styles.archContent}>
+      {guestName && (
+        <p className={styles.coverGuest}>
+          To the dearest,<br />
+          <span>{guestName}</span>
+        </p>
       )}
+      <img src="/assets/mempelai.png" alt="Mempelai" className={styles.coverCoupleImg} />
+    </div>
+
+    {/* Doa / Ayat (Kanan Bawah) */}
+    <div className={styles.coverPrayerBox}>
+      <p className={styles.coverPrayerText}>
+        "And among the signs of His power is that He created for you wives of your own kind..."
+      </p>
+      <p className={styles.arabicText}>( لِقَوْمٍ يَتَفَكَّرُونَ )</p>
+      <p className={styles.coverPrayerSurah}>(QS. Ar-Rum: 21)</p>
+    </div>
+
+    {/* Amplop (Kiri Bawah) */}
+    <button className={styles.envelopeBtn} onClick={() => setGameState('gender')}>
+      <img src="/assets/open-invitation.png" alt="Open Invitation" className={styles.envelopeImg} />
+      <span className={styles.envelopeText}>OPEN<br />INVITATION</span>
+    </button>
+  </div>
+)}
 
       {/* 2. CHOOSE CHARACTER */}
       {gameState === 'gender' && (
         <div className={styles.genderScreen}>
           <div className={styles.headerInfo}>
             <p className={styles.tagline}>{tagline}</p>
-            <h1 className={styles.mainTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h1>
+            <div className={styles.goldNameBoxSmall}>
+              <h1 className={styles.mainTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h1>
+            </div>
             <p className={styles.dateText}>{weddingDateLabel}</p>
           </div>
 
@@ -292,10 +310,9 @@ export default function WeddingJourneyInvitation({
             {activeModal === 'location' && (
               <div className={styles.modalBody}>
                 <h3>Waktu & Lokasi Acara</h3>
-                <p><strong>Akad Nikah:</strong> 08.00 WIB</p>
-                <p><strong>Resepsi:</strong> 11.00 - Selesai</p>
-                <p>Gedung Grand Ballroom, Jakarta</p>
-                <button className={styles.submitBtn} onClick={() => window.open('https://maps.google.com', '_blank')}>
+                <p><br></br>Wedding Ceremony: <br></br> <strong>Sunday, 22nd November 2026<br></br>08:00 AM - 09:00 AM</strong><br></br>Wedding Reception:<br></br> <strong>Sunday, 22nd November 2026<br></br>10:00 AM -14:30 PM</strong></p>
+                <p>{venueName}</p>
+                <button className={styles.submitBtn} onClick={() => window.open('https://www.google.com/maps/place/Balai+Rakyat+Depok+1,+Jl.+Bangau+Raya+No.192-174,+Depok+Jaya,+Pancoran+Mas,+Depok+City,+West+Java+16432/data=!4m2!3m1!1s0x2e69e9508de3b925:0xf1901ae7fbf4d254!18m1!1e1?utm_source=mstt_1&entry=gps&coh=192189&g_ep=CAESBzI2LjM0LjQYACCenQoqqQEsOTQyNjc3MjcsOTQyOTIxOTUsOTQyOTk1MzIsMTAwNzk2NDk4LDEwMDc5Nzc2MSwxMDA4MjY0NzksMTAwNzk2NTM1LDk0MjgwNTc2LDk0MjA3Mzk0LDk0MjA3NTA2LDk0MjA4NTA2LDk0MjE4NjUzLDk0MjI5ODM5LDk0Mjc1MTY4LDk0Mjc5NjE5LDEwMDgxNTY0MCwxMDA4MjAyMzcsMTAwODIyNDk0QgJJRA%3D%3D&skid=29635fb2-989a-4cea-bba6-90cb3cddad94&g_st=ac', '_blank')}>
                   Buka Peta Google Maps
                 </button>
               </div>
@@ -303,11 +320,12 @@ export default function WeddingJourneyInvitation({
 
             {activeModal === 'gift' && (
               <div className={styles.modalBody}>
-                <h3>Kado Digital & QRIS</h3>
-                <p>Bank BCA: <strong>1234567890</strong><br />a.n {brideName}</p>
+                <h3>Wedding Gift </h3>
+                <p>Your presence is more than enough, but if you wish to send us a gift, you may do so via:</p>                
                 <div className={styles.qrisBox}>
-                  <p>[ QRIS REKENING DIGITAL ]</p>
+                  <p>Bank BCA: <strong>6041336878</strong><br />Elrisa Salsabilla</p>
                 </div>
+                <p> With love and gratitude. </p>
               </div>
             )}
 
@@ -325,9 +343,11 @@ export default function WeddingJourneyInvitation({
 
             {(activeModal === 'thanks' || activeModal === 'welcome') && (
               <div className={styles.modalBody}>
-                <h3>Terima Kasih!</h3>
-                <p>Kehadiran serta doa restu Anda merupakan hadiah terindah bagi pernikahan kami.</p>
-                <p className={styles.coupleSign}><strong>{brideName} & {groomName}</strong></p>
+                <h3>Thank You, Dear Guests!</h3>
+                <p>We look forward to celebrating our special day with you.
+It would be an honor and a joy to have you there to share in our happiness and bless our union.
+</p>
+                <p className={styles.coupleSign}>With love<br></br>The Happy Couple<br></br><strong>Elrisa Salsabilla & Dinar Suherlan</strong></p>
               </div>
             )}
           </div>

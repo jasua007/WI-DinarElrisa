@@ -1,18 +1,14 @@
-/* Import Google Fonts: Cormorant Garamond & Montserrat */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600;700&family=Montserrat:wght@400;600;700&display=swap');
-
 /* ==========================================================================
-   1. CONTAINER & WRAPPER UTAMA + PALET WARNA
+   1. CONTAINER UTAMA & BACKGROUND TEKSTUR KERTAS
    ========================================================================== */
 .wrapper {
-  --color-wheat: #DAC077;
   --color-sage: #A3A78A;
   --color-olive: #696C4D;
   --color-cypress: #4C5C36;
   --color-dusty-blue: #768899;
   --color-lavender: #A9A3AA;
-  --color-ivory: #DFD4C2;
-  --color-light-cream: #F8EFE3; /* Krem background ala watercolor */
+  --color-gold-box: #c9ad6a;
+  --color-text-dark: #3d4035;
 
   position: relative;
   width: 100%;
@@ -21,190 +17,278 @@
   max-height: 850px;
   margin: 0 auto;
   overflow: hidden;
-  background-color: var(--color-light-cream);
-  font-family: 'Montserrat', sans-serif; /* Default Font (Subtitles) */
+  
+  background-image: url('/assets/2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  font-family: 'Montserrat', sans-serif;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   border-radius: 16px;
   user-select: none;
 }
 
 /* ==========================================================================
-   2. COVER SCREEN (NEW ELEGANT & ANIMATED DESIGN)
+   2. COVER SCREEN (PRECISION REVAMP)
    ========================================================================== */
 .cover {
   position: relative;
   height: 100%;
   width: 100%;
-  background: var(--color-light-cream); /* Atau gunakan gambar tekstur kertas bila ada */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  background: transparent;
   overflow: hidden;
 }
 
-/* --- A. ANIMASI ORNAMEN (ARCH & BUNGA) --- */
+/* --- ORNAMEN ARCH & BUNGA (FRAME) --- */
 .goldenArch {
   position: absolute;
-  top: 15px;
-  bottom: 15px;
-  left: 15px;
-  right: 15px;
-  width: calc(100% - 30px);
-  height: calc(100% - 30px);
+  top: 54%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  max-height: 100vh;
   object-fit: contain;
-  opacity: 0;
-  animation: revealArch 2s ease-out 0.2s forwards;
   z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  animation: revealArchCenter 1.2s ease-out 0.8s forwards;
+}
+
+.archContent {
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  opacity: 0;
+  animation: fadeFloatUpCenter 1.2s ease-out 1.2s forwards;
 }
 
 .flowerCorner {
   position: absolute;
-  width: 130px;
+  width: 110px;
   height: auto;
   opacity: 0;
   z-index: 2;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+  pointer-events: none;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
 }
 
-.flowerTL { top: 0px; left: 0px; animation: slideFlowerTL 1.5s ease-out 0.8s forwards; }
-.flowerTR { top: 0px; right: 0px; animation: slideFlowerTR 1.5s ease-out 1s forwards; }
-.flowerBL { bottom: -10px; left: -10px; animation: slideFlowerBL 1.5s ease-out 1.2s forwards; }
-.flowerBR { bottom: -10px; right: -10px; animation: slideFlowerBR 1.5s ease-out 1.4s forwards; }
+.flowerTL { top: 0px; left: 0px; animation: slideFlowerTL 1.2s ease-out 0.2s forwards; }
+.flowerTR { top: 0px; right: 0px; animation: slideFlowerTR 1.2s ease-out 0.3s forwards; }
+.flowerBL { bottom: 0px; left: 0px; animation: slideFlowerBL 1.2s ease-out 0.4s forwards; }
+.flowerBR { bottom: 0px; right: 0px; animation: slideFlowerBR 1.2s ease-out 0.5s forwards; }
 
-/* --- B. KONTEN TEKS & GAMBAR (DI ATAS ORNAMEN) --- */
-.coverContent {
-  position: relative;
+/* --- 1. HEADER ATAS (Tagline, Nama, Tanggal) --- */
+.coverHeader {
+  position: absolute;
+  top: 35px;
+  left: 0;
+  width: 100%;
+  text-align: center;
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  height: 90%;
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.coverHeader {
-  text-align: center;
   opacity: 0;
-  animation: fadeSlideUp 1.2s ease-out 1.8s forwards;
+  animation: fadeFloatUp 1.2s ease-out 0.6s forwards;
 }
 
 .coverTagline {
   font-family: 'Montserrat', sans-serif;
   font-size: 10px;
   letter-spacing: 4px;
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
   font-weight: 600;
   color: var(--color-olive);
   text-transform: uppercase;
+}
+
+.goldNameBox {
+  background: var(--color-gold-box);
+  padding: 4px 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .coverTitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 38px; /* Lebih besar & elegan sesuai referensi */
-  font-weight: 700;
+  font-family: 'Great Vibes', cursive !important; /* Menggunakan Script Font Presisi */
+  font-size: 46px;
+  font-weight: 400;
   margin: 0;
-  color: var(--color-cypress);
+  color: var(--color-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.coverPrayer {
+.heart {
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
-  letter-spacing: 4px;
-  margin: 0 0 8px 0;
-  font-weight: 600;
+  font-size: 16px;
   color: var(--color-olive);
-  text-transform: uppercase;
-  background: var(--color-ivory); width: 100%; max-width: 320px; border-radius: 16px; padding: 24px;
-  position: relative; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2)
 }
 
 .coverDate {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 14px;
-  letter-spacing: 6px;
-  margin: 8px 0 15px 0;
+  letter-spacing: 5px;
+  margin: 10px 0 0 0;
   color: var(--color-olive);
 }
 
+/* --- 2. KONTEN DI DALAM ARCH (Nama & Mempelai) --- */
 .coverGuest {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  color: var(--color-cypress);
-}
-.coverGuest span {
+  text-align: center;
+  font-family: 'Courier Prime', monospace !important; /* Typewriter font seperti referensi */
+  font-size: 13px;
   font-weight: 700;
-  text-decoration: underline;
-  text-decoration-color: var(--color-sage);
+  color: #4C5C36;
+  margin: 0 0 5px 0;
+  letter-spacing: 1px;
 }
 
-.coverCoupleWrapper {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  width: 100%;
-  opacity: 0;
-  animation: fadeSlideUp 1.5s ease-out 2.2s forwards;
+.coverGuest span {
+  font-size: 18px;
+  display: block;
+  margin-top: 4px;
+  color: #3d4035;
 }
 
 .coverCoupleImg {
-  height: 380px; /* Sesuaikan ukuran mempelai agar pas di arch */
+  height: 260px;
+  width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.12));
 }
 
-.coverOpenBtn {
-  font-family: 'Montserrat', sans-serif;
-  background-color: var(--color-cypress);
-  color: white;
-  border: none;
-  padding: 14px 45px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 20px;
-  box-shadow: 0 6px 20px rgba(76, 92, 54, 0.4);
+/* --- 3. DOA / AYAT (Kanan Bawah) --- */
+.coverPrayerBox {
+  position: absolute;
+  bottom: 75px; 
+  right: 20px;
+  width: 175px;
+  text-align: right;
+  z-index: 15;
   opacity: 0;
-  animation: fadeSlideUp 1s ease-out 3s forwards; /* Muncul paling terakhir */
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  animation: fadeFloatUp 1.2s ease-out 1.6s forwards;
 }
-.coverOpenBtn:active { transform: scale(0.95); }
 
-/* --- C. KEYFRAMES ANIMASI REVEAL --- */
-@keyframes revealArch {
-  0% { opacity: 0; transform: scale(0.95); }
-  100% { opacity: 1; transform: scale(1); }
+.coverPrayerText {
+  font-family: 'Great Vibes', cursive; /* Teks Doa Script sesuai referensi */
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0 0 4px 0;
+  color: var(--color-olive);
+}
+
+.arabicText {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: var(--color-text-dark);
+  margin: 2px 0;
+  font-weight: 600;
+}
+
+.coverPrayerSurah {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  color: #7a7d5c;
+  margin: 0;
+}
+
+/* --- 4. TOMBOL AMPLOP (Kiri Bawah) --- */
+.envelopeBtn {
+  position: absolute;
+  bottom: 20px; 
+  left: 15px;   
+  width: 140px;
+  height: auto;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 100;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeFloatUp 1s ease-out 2.0s forwards, envelopeBreathe 3s ease-in-out infinite 3.0s;
+}
+
+.envelopeBtn:hover { transform: scale(1.05); }
+.envelopeBtn:active { transform: scale(0.95); }
+
+.envelopeImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+}
+
+.envelopeText {
+  position: absolute;
+  top: 60%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  font-family: 'Courier Prime', monospace; /* Stempel Typewriter */
+  font-weight: 700;
+  font-size: 10px;
+  color: #2b2b2b;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* --- KEYFRAMES ANIMASI --- */
+@keyframes revealArchCenter {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes fadeFloatUpCenter {
+  0% { opacity: 0; transform: translate(-50%, -45%); } 
+  100% { opacity: 1; transform: translate(-50%, -50%); }
 }
 @keyframes slideFlowerTL {
-  0% { opacity: 0; transform: translate(-20px, -20px); }
+  0% { opacity: 0; transform: translate(-15px, -15px); }
   100% { opacity: 1; transform: translate(0, 0); }
 }
 @keyframes slideFlowerTR {
-  0% { opacity: 0; transform: translate(20px, -20px); }
+  0% { opacity: 0; transform: translate(15px, -15px); }
   100% { opacity: 1; transform: translate(0, 0); }
 }
 @keyframes slideFlowerBL {
-  0% { opacity: 0; transform: translate(-20px, 20px); }
+  0% { opacity: 0; transform: translate(-15px, 15px); }
   100% { opacity: 1; transform: translate(0, 0); }
 }
 @keyframes slideFlowerBR {
-  0% { opacity: 0; transform: translate(20px, 20px); }
+  0% { opacity: 0; transform: translate(15px, 15px); }
   100% { opacity: 1; transform: translate(0, 0); }
 }
-@keyframes fadeSlideUp {
+@keyframes fadeFloatUp {
   0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-
+@keyframes envelopeBreathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 
 /* ==========================================================================
-   3. GENDER SCREEN, HEADER DI GAME & LAINNYA
+   3. GENDER SCREEN, GAMEPLAY & POPUP MODAL
    ========================================================================== */
 .headerInfo, .headerInfoOverlay {
   text-align: center;
@@ -213,30 +297,37 @@
   pointer-events: none;
 }
 .headerInfoOverlay {
-  background: linear-gradient(180deg, rgba(248, 239, 227, 0.95) 0%, rgba(248, 239, 227, 0) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 100%);
   padding: 30px 10px 50px 10px;
   margin-top: 0;
 }
 
-/* Reusable typography classes based on the new fonts */
 .tagline {
+  font-family: 'Montserrat', sans-serif;
   font-size: 11px; letter-spacing: 4px; margin: 0 0 6px 0; font-weight: 600;
   color: var(--color-olive); text-transform: uppercase;
 }
 .mainTitle, .gameTitle {
-  font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700;
-  margin: 0; color: var(--color-cypress);
+  font-family: 'Great Vibes', cursive; font-size: 42px; font-weight: 400;
+  margin: 0; color: var(--color-text-dark);
 }
-.heart { color: var(--color-sage); font-size: 22px; vertical-align: middle; font-family: 'Montserrat', sans-serif;}
+.gameTitle { font-size: 34px; color: var(--color-cypress); }
 .dateText {
-  font-family: 'Cormorant Garamond', serif; font-size: 14px; letter-spacing: 4px;
-  margin: 6px 0 0 0; color: var(--color-olive); font-weight: 600;
+  font-family: 'Montserrat', sans-serif; font-size: 13px; letter-spacing: 4px;
+  margin: 8px 0 0 0; color: var(--color-olive); font-weight: 600;
+}
+
+.goldNameBoxSmall {
+  background: var(--color-gold-box);
+  padding: 4px 20px;
+  display: inline-block;
+  margin: 5px 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
 .genderScreen {
   height: 100%; display: flex; flex-direction: column; justify-content: space-between;
   padding: 0 20px; box-sizing: border-box; align-items: center;
-  background: linear-gradient(180deg, var(--color-light-cream) 0%, var(--color-ivory) 55%, var(--color-wheat) 100%);
 }
 .characterPreviewArea {
   display: flex; align-items: flex-end; justify-content: center; gap: 30px; margin: 15px 0; width: 100%;
@@ -246,21 +337,20 @@
 }
 .characterCard:hover { transform: translateY(-5px); }
 .genderDialogCard {
-  background: rgba(255, 255, 255, 0.9); padding: 15px 25px; border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85); padding: 15px 25px; border-radius: 12px;
   text-align: center; margin-bottom: 40px; color: var(--color-cypress);
-  font-weight: 600; font-size: 13px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 13px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid var(--color-gold-box);
 }
 .selectCharBtn {
+  font-family: 'Montserrat', sans-serif;
   margin-top: 15px; padding: 8px 24px; border: none; border-radius: 20px;
   color: white; font-weight: 600; font-size: 13px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 .manSelectBtn { background-color: var(--color-dusty-blue); }
 .womanSelectBtn { background-color: var(--color-lavender); }
 
-
-/* ==========================================================================
-   4. SPRITE FRAME SYSTEM
-   ========================================================================== */
+/* SPRITE ANIMATION */
 .spriteFrame {
   width: 100px; height: 160px; background-size: 300% 100%; background-position: 50% 0;
 }
@@ -279,12 +369,9 @@
   100% { background-position: 0% 0; }
 }
 
-
-/* ==========================================================================
-   5. GAME STAGE, BACKGROUND KOTA & LAYOUT
-   ========================================================================== */
+/* GAME STAGE */
 .gameStage {
-  position: relative; height: 100%; display: flex; flex-direction: column; background-color: var(--color-wheat);
+  position: relative; height: 100%; display: flex; flex-direction: column;
 }
 .viewport {
   position: relative; flex: 1; width: 100%; overflow: hidden;
@@ -303,7 +390,6 @@
   position: absolute; bottom: 45px; transform: translateX(-50%); display: flex; align-items: flex-end; z-index: 12;
 }
 .npcImg { height: 150px; width: auto; object-fit: contain; }
-
 .venueWorldContainer {
   position: absolute; bottom: 45px; transform: translateX(-50%);
   display: flex; align-items: flex-end; justify-content: center; z-index: 11;
@@ -316,16 +402,14 @@
   position: absolute; bottom: 45px; z-index: 20;
 }
 
-
-/* ==========================================================================
-   6. CONTROLS, INTERACTIVE PILL & MODALS
-   ========================================================================== */
+/* CONTROLS & MODALS */
 .interactivePillWrapper {
   position: absolute; top: 140px; width: 100%; display: flex; justify-content: center; z-index: 25;
 }
 .interactivePill {
-  background: white; border: 2px solid var(--color-sage); padding: 8px 24px; border-radius: 20px;
-  font-weight: 700; color: var(--color-cypress); cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  font-family: 'Montserrat', sans-serif;
+  background: white; border: 2px solid var(--color-gold-box); padding: 8px 24px; border-radius: 20px;
+  font-weight: 700; color: var(--color-text-dark); cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   animation: bouncePill 1.5s infinite;
 }
 @keyframes bouncePill {
@@ -339,36 +423,36 @@
 }
 .arrowBtn {
   width: 50px; height: 50px; border-radius: 50%; background: rgba(255, 255, 255, 0.95);
-  border: none; font-size: 18px; color: var(--color-cypress); cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  border: 1px solid var(--color-gold-box); font-size: 18px; color: var(--color-text-dark); cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 .swapGenderBtn {
   width: 42px; height: 42px; border-radius: 50%; background: var(--color-sage); color: white; border: none; font-size: 18px; cursor: pointer;
 }
 
-/* MODAL / POPUP */
 .modalOverlay {
-  position: absolute; inset: 0; background: rgba(76, 92, 54, 0.4); display: flex; align-items: center; justify-content: center;
+  position: absolute; inset: 0; background: rgba(61, 64, 53, 0.5); display: flex; align-items: center; justify-content: center;
   z-index: 100; padding: 20px; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
 }
 .modalCard {
-  background: var(--color-ivory); width: 100%; max-width: 320px; border-radius: 16px; padding: 24px;
+  background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 320px; border-radius: 16px; padding: 24px;
   position: relative; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 2px solid var(--color-gold-box);
 }
 .closeBtn {
   position: absolute; top: 12px; right: 14px; border: none; background: transparent; font-size: 16px; color: var(--color-olive); cursor: pointer;
 }
-.modalBody h3 { color: var(--color-cypress); margin-top: 5px; margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; font-size: 22px;}
-.modalBody p { color: var(--color-olive); font-size: 14px; }
+.modalBody h3 { color: var(--color-text-dark); margin-top: 5px; margin-bottom: 10px; font-family: 'Great Vibes', cursive; font-size: 32px; font-weight: 400;}
+.modalBody p { font-family: 'Montserrat', sans-serif; color: var(--color-olive); font-size: 13px; line-height: 1.5;}
 .formGroup { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
 .formGroup input, .formGroup select {
-  padding: 10px; border: 1px solid var(--color-sage); border-radius: 8px; color: var(--color-cypress); background: var(--color-light-cream); font-family: 'Montserrat', sans-serif;
+  padding: 10px; border: 1px solid var(--color-sage); border-radius: 8px; color: var(--color-cypress); background: #fff; font-family: 'Montserrat', sans-serif;
 }
 .submitBtn {
-  background: var(--color-cypress); color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 5px; font-family: 'Montserrat', sans-serif;
+  background: var(--color-gold-box); color: var(--color-text-dark); padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 5px; font-family: 'Montserrat', sans-serif;
 }
 .qrisBox {
-  margin-top: 15px; padding: 20px; background: var(--color-light-cream); border: 1px dashed var(--color-sage); border-radius: 8px; color: var(--color-olive);
+  margin-top: 15px; padding: 20px; background: rgba(201, 173, 106, 0.1); border: 1px dashed var(--color-gold-box); border-radius: 8px; color: var(--color-text-dark);
 }
 .coupleSign {
-  margin-top: 20px; font-size: 18px; color: var(--color-cypress); font-family: 'Cormorant Garamond', serif; font-weight: 700;
+  margin-top: 20px; font-size: 32px; color: var(--color-text-dark); font-family: 'Great Vibes', cursive;
 }
