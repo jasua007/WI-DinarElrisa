@@ -54,6 +54,21 @@ export default function WeddingJourneyInvitation({
   const [gameState, setGameState] = useState<'cover' | 'gender' | 'playing'>('cover');
   const [gender, setGender] = useState<'man' | 'woman'>('man');
 
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
+    }
+  };
+
   const [playerX, setPlayerX] = useState(100);
   const [direction, setDirection] = useState<'right' | 'left'>('right');
   const [isWalking, setIsWalking] = useState(false);
@@ -124,14 +139,14 @@ export default function WeddingJourneyInvitation({
           <div className={styles.coverContent}>
             
             {/* Header: Tagline, Nama Mempelai, Tanggal */}
-            <div className={styles.headerGroup}>
+            <div className={styles.headerGroup}><br></br><br></br>
               <p className={styles.taglineText}>THE WEDDING OF</p>
-              <h1 className={styles.titleText}>{groomName} & {brideName}</h1>
+              <h1 className={styles.titleText}>{groomName} & {brideName}</h1><br></br>
               <p className={styles.dateText}>{weddingDateLabel}</p>
             </div>
-
+<br></br><br></br><br></br>
             {/* Ayat QS. Ar-Rum: 21 */}
-            <div className={styles.verseGroup}>
+            {/* <div className={styles.verseGroup}>
               <p className={styles.verseBody}>
                 "And among the signs of His power is that He created for you wives of your own kind,<br/>
                 so that you would be inclined and feel at ease with them,<br/>
@@ -140,12 +155,12 @@ export default function WeddingJourneyInvitation({
                 (لِقَوْمٍ يَتَفَكَّرُونَ )."
               </p>
               <p className={styles.verseRef}>(QS. Ar-Rum: 21)</p>
-            </div>
+            </div> */}
 
             {/* Sapaan Tamu */}
             {guestName && (
               <div className={styles.guestGroup}>
-                <p className={styles.guestLabel}>To the dearest:</p>
+                <p className={styles.guestLabel}>To the dearest,</p>
                 <p className={styles.guestName}>{guestName}</p>
               </div>
             )}
@@ -156,7 +171,19 @@ export default function WeddingJourneyInvitation({
           <img src="/assets/Character.png" alt="Couple Character" className={styles.characterImg} />
 
           {/* Bingkai Tombol Emas Overlay & Tombol Klik */}
-<button className={styles.openBtnHitbox} onClick={() => setGameState('gender')}>
+{/* Tombol Open Invitation */}
+<button
+  className={styles.openBtnHitbox}
+  onClick={() => {
+    setGameState('gender');
+    // Memutar musik otomatis saat tombol diklik
+    if (audioRef.current) {
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch((err) => console.log('Gagal memutar audio:', err));
+    }
+  }}
+>
   <span>Open Invitation</span>
 </button>
 
@@ -353,6 +380,17 @@ It would be an honor and a joy to have you there to share in our happiness and b
           </div>
         </div>
       )}
+      {/* Element Audio MP3 */}
+      <audio ref={audioRef} src="/assets/music.mp3" loop />
+
+      {/* Tombol Melayang Kontrol Musik */}
+      <button 
+        className={styles.musicToggleBtn} 
+        onClick={toggleMusic} 
+        aria-label="Toggle Music"
+      >
+        {isPlaying ? '🎵' : '🔇'}
+      </button>
     </div>
   );
 }
