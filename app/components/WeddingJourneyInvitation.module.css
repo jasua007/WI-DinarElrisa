@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. CONTAINER UTAMA & BACKGROUND TEKSTUR KERTAS
+   1. CONTAINER UTAMA & BACKGROUND TUSCANY
    ========================================================================== */
 .wrapper {
   --color-sage: #A3A78A;
@@ -8,7 +8,7 @@
   --color-dusty-blue: #768899;
   --color-lavender: #A9A3AA;
   --color-gold-box: #c9ad6a;
-  --color-text-dark: #3d4035;
+  --color-text-dark: #2c2d27;
 
   position: relative;
   width: 100%;
@@ -18,8 +18,9 @@
   margin: 0 auto;
   overflow: hidden;
   
-  background-image: url('/assets/2.jpg');
-  background-size: cover;
+  /* Background Utama */
+  background-image: url('/assets/Background.png');
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   
@@ -30,7 +31,7 @@
 }
 
 /* ==========================================================================
-   2. COVER SCREEN (PRECISION REVAMP)
+   2. COVER SCREEN (PURE CLEAN TUSCANY REVAMP)
    ========================================================================== */
 .cover {
   position: relative;
@@ -40,255 +41,229 @@
   overflow: hidden;
 }
 
-/* --- ORNAMEN ARCH & BUNGA (FRAME) --- */
-.goldenArch {
+/* --- ORNAMEN BUNGA MELAYANG --- */
+.flowerOverlay {
   position: absolute;
-  top: 54%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  max-width: 360px;
-  height: auto;
-  max-height: 100vh;
-  object-fit: contain;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-  animation: revealArchCenter 1.2s ease-out 0.8s forwards;
-}
-
-.archContent {
-  position: absolute;
-  top: 54%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 5;
-  opacity: 0;
-  animation: fadeFloatUpCenter 1.2s ease-out 1.2s forwards;
-}
-
-.flowerCorner {
-  position: absolute;
-  width: 110px;
-  height: auto;
-  opacity: 0;
-  z-index: 2;
-  pointer-events: none;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
-}
-
-.flowerTL { top: 0px; left: 0px; animation: slideFlowerTL 1.2s ease-out 0.2s forwards; }
-.flowerTR { top: 0px; right: 0px; animation: slideFlowerTR 1.2s ease-out 0.3s forwards; }
-.flowerBL { bottom: 0px; left: 0px; animation: slideFlowerBL 1.2s ease-out 0.4s forwards; }
-.flowerBR { bottom: 0px; right: 0px; animation: slideFlowerBR 1.2s ease-out 0.5s forwards; }
-
-/* --- 1. HEADER ATAS (Tagline, Nama, Tanggal) --- */
-.coverHeader {
-  position: absolute;
-  top: 35px;
+  top: 0;
   left: 0;
   width: 100%;
-  text-align: center;
-  z-index: 10;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeFloatDown 1.5s ease-out 0.2s forwards;
+}
+
+/* --- CONTAINER TEKS UTAMA --- */
+.coverContent {
+  position: absolute;
+  top: 4%;
+  left: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 10;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+/* 1. Header (Tagline, Nama Mempelai, Tanggal) */
+.headerGroup {
+  text-align: center;
+  margin-bottom: 12px;
   opacity: 0;
   animation: fadeFloatUp 1.2s ease-out 0.6s forwards;
 }
 
-.coverTagline {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
+.taglineText {
+  font-family: 'Special Elite', 'Courier Prime', monospace !important;
+  font-size: 14px !important;
   letter-spacing: 4px;
-  margin: 0 0 6px 0;
-  font-weight: 600;
-  color: var(--color-olive);
-  text-transform: uppercase;
-}
-
-.goldNameBox {
-  background: var(--color-gold-box);
-  padding: 4px 25px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.coverTitle {
-  font-family: 'Great Vibes', cursive !important; /* Menggunakan Script Font Presisi */
-  font-size: 46px;
-  font-weight: 400;
-  margin: 0;
   color: var(--color-text-dark);
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  margin: 0 0 2px 0;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
-.heart {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 16px;
-  color: var(--color-olive);
+.titleText {
+  font-family: 'Beth Ellen', cursive !important;
+  font-size: 38px !important;
+  font-weight: 400;
+  color: #1e1f1a;
+  margin: 6px 0;
+  line-height: 1.3;
 }
 
-.coverDate {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 5px;
-  margin: 10px 0 0 0;
-  color: var(--color-olive);
+.dateText {
+  font-family: 'Special Elite', 'Courier Prime', monospace !important;
+  font-size: 16px !important;
+  letter-spacing: 4px;
+  color: var(--color-text-dark);
+  margin: 2px 0 0 0;
 }
 
-/* --- 2. KONTEN DI DALAM ARCH (Nama & Mempelai) --- */
-.coverGuest {
+/* 2. Ayat QS. Ar-Rum: 21 */
+.verseGroup {
   text-align: center;
-  font-family: 'Courier Prime', monospace !important; /* Typewriter font seperti referensi */
-  font-size: 13px;
-  font-weight: 700;
-  color: #4C5C36;
-  margin: 0 0 5px 0;
-  letter-spacing: 1px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  width: 92%;
+  opacity: 0;
+  animation: fadeFloatUp 1.2s ease-out 1.0s forwards;
 }
 
-.coverGuest span {
-  font-size: 18px;
-  display: block;
-  margin-top: 4px;
-  color: #3d4035;
+.verseBody {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 11px !important;
+  line-height: 1.35;
+  color: #2b2c26;
+  margin: 0 0 2px 0;
+  font-style: italic;
 }
 
-.coverCoupleImg {
-  height: 260px;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.12));
+.verseRef {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 10.5px !important;
+  color: #44463a;
+  margin: 0;
 }
 
-/* --- 3. DOA / AYAT (Kanan Bawah) --- */
-.coverPrayerBox {
+/* 3. Sapaan Tamu */
+.guestGroup {
+  text-align: center;
+  opacity: 0;
+  animation: fadeFloatUp 1.2s ease-out 1.4s forwards;
+}
+
+.guestLabel {
+  font-family: 'Special Elite', 'Courier Prime', monospace !important;
+  font-size: 12px !important;
+  color: var(--color-text-dark);
+  margin: 0 0 1px 0;
+}
+
+.guestName {
+  font-family: 'Beth Ellen', cursive !important;
+  font-size: 19px !important;
+  color: #1e1f1a;
+  margin: 0;
+}
+
+/* --- KARAKTER ILUSTRASI 3D --- */
+.characterImg {
   position: absolute;
-  bottom: 75px; 
-  right: 20px;
-  width: 175px;
-  text-align: right;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  object-fit: contain;
+  z-index: 5;
+  opacity: 0;
+  animation: fadeFloatUpCenter 1.2s ease-out 1.8s forwards;
+}
+
+/* --- OVERLAY BINGKAI EMAS & TOMBOL KLIK --- */
+.buttonBgOverlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
   z-index: 15;
   opacity: 0;
-  animation: fadeFloatUp 1.2s ease-out 1.6s forwards;
+  animation: fadeFloatUp 1s ease-out 2.2s forwards;
 }
 
-.coverPrayerText {
-  font-family: 'Great Vibes', cursive; /* Teks Doa Script sesuai referensi */
-  font-size: 16px;
-  line-height: 1.4;
-  margin: 0 0 4px 0;
-  color: var(--color-olive);
-}
-
-.arabicText {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  color: var(--color-text-dark);
-  margin: 2px 0;
-  font-weight: 600;
-}
-
-.coverPrayerSurah {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
-  color: #7a7d5c;
-  margin: 0;
-}
-
-/* --- 4. TOMBOL AMPLOP (Kiri Bawah) --- */
-.envelopeBtn {
+.openBtnHitbox {
   position: absolute;
-  bottom: 20px; 
-  left: 15px;   
-  width: 140px;
-  height: auto;
-  background: transparent;
+  bottom: 4%; /* Jarak dari batas bawah layar */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 170px;  /* Lebar proporsional bingkai */
+  height: 48px;  /* Tinggi proporsional bingkai */
+  
+  /* Gunakan bingkai emas langsung sebagai latar belakang tombol */
+  background-image: url('/assets/Open Invitation Background.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  
   border: none;
-  padding: 0;
   cursor: pointer;
-  z-index: 100;
-  pointer-events: auto;
+  z-index: 20;
+  
+  /* Flexbox untuk mengunci teks persis di tengah bingkai secara vertikal & horizontal */
   display: flex;
   align-items: center;
   justify-content: center;
+  
   opacity: 0;
-  animation: fadeFloatUp 1s ease-out 2.0s forwards, envelopeBreathe 3s ease-in-out infinite 3.0s;
+  animation: fadeFloatUpCenter 1s ease-out 2.2s forwards, breatheCenter 3s ease-in-out infinite 3.2s;
 }
 
-.envelopeBtn:hover { transform: scale(1.05); }
-.envelopeBtn:active { transform: scale(0.95); }
-
-.envelopeImg {
-  width: 100%;
-  height: auto;
-  display: block;
-  pointer-events: none;
-  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
-}
-
-.envelopeText {
+.openBtnHitbox {
   position: absolute;
-  top: 60%;
-  left: 45%;
-  transform: translate(-50%, -50%);
-  font-family: 'Courier Prime', monospace; /* Stempel Typewriter */
-  font-weight: 700;
-  font-size: 10px;
-  color: #2b2b2b;
-  letter-spacing: 1px;
-  line-height: 1.2;
-  text-align: center;
-  pointer-events: none;
+  bottom: 3.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 175px;
+  height: 48px;
+  
+  /* Panggil bingkai emas langsung sebagai background */
+  background-image: url('/assets/Open Invitation Background.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+  
+  /* Flexbox untuk mengunci teks tepat di tengah bingkai */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  opacity: 0;
+  animation: fadeFloatUpCenter 1s ease-out 2.2s forwards, breatheCenter 3s ease-in-out infinite 3.2s;
 }
 
-/* --- KEYFRAMES ANIMASI --- */
-@keyframes revealArchCenter {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.openBtnHitbox span {
+  font-family: 'Pinyon Script', cursive !important;
+  font-size: 20px !important;
+  color: #3d3b2f;
+  pointer-events: none;
+  margin-top: -1px; /* Penyesuaian posisi optikal teks */
 }
-@keyframes fadeFloatUpCenter {
-  0% { opacity: 0; transform: translate(-50%, -45%); } 
-  100% { opacity: 1; transform: translate(-50%, -50%); }
-}
-@keyframes slideFlowerTL {
-  0% { opacity: 0; transform: translate(-15px, -15px); }
-  100% { opacity: 1; transform: translate(0, 0); }
-}
-@keyframes slideFlowerTR {
-  0% { opacity: 0; transform: translate(15px, -15px); }
-  100% { opacity: 1; transform: translate(0, 0); }
-}
-@keyframes slideFlowerBL {
-  0% { opacity: 0; transform: translate(-15px, 15px); }
-  100% { opacity: 1; transform: translate(0, 0); }
-}
-@keyframes slideFlowerBR {
-  0% { opacity: 0; transform: translate(15px, 15px); }
-  100% { opacity: 1; transform: translate(0, 0); }
-}
-@keyframes fadeFloatUp {
-  0% { opacity: 0; transform: translateY(20px); }
+/* --- ANIMASI FLOATING --- */
+@keyframes fadeFloatDown {
+  0% { opacity: 0; transform: translateY(-15px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-@keyframes envelopeBreathe {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+
+@keyframes fadeFloatUp {
+  0% { opacity: 0; transform: translateY(15px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeFloatUpCenter {
+  0% { opacity: 0; transform: translate(-50%, 15px); } 
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes breatheCenter {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -3px); }
 }
 
 /* ==========================================================================
-   3. GENDER SCREEN, GAMEPLAY & POPUP MODAL
+   3. GENDER SCREEN, GAMEPLAY & POPUP MODAL (RETAINED)
    ========================================================================== */
 .headerInfo, .headerInfoOverlay {
   text-align: center;
@@ -308,12 +283,12 @@
   color: var(--color-olive); text-transform: uppercase;
 }
 .mainTitle, .gameTitle {
-  font-family: 'Great Vibes', cursive; font-size: 42px; font-weight: 400;
+  font-family: 'Beth Ellen', cursive !important; font-size: 36px; font-weight: 400;
   margin: 0; color: var(--color-text-dark);
 }
-.gameTitle { font-size: 34px; color: var(--color-cypress); }
+.gameTitle { font-size: 28px; color: var(--color-cypress); }
 .dateText {
-  font-family: 'Montserrat', sans-serif; font-size: 13px; letter-spacing: 4px;
+  font-family: 'Montserrat', sans-serif; font-size: 12px; letter-spacing: 4px;
   margin: 8px 0 0 0; color: var(--color-olive); font-weight: 600;
 }
 
@@ -441,7 +416,7 @@
 .closeBtn {
   position: absolute; top: 12px; right: 14px; border: none; background: transparent; font-size: 16px; color: var(--color-olive); cursor: pointer;
 }
-.modalBody h3 { color: var(--color-text-dark); margin-top: 5px; margin-bottom: 10px; font-family: 'Great Vibes', cursive; font-size: 32px; font-weight: 400;}
+.modalBody h3 { color: var(--color-text-dark); margin-top: 5px; margin-bottom: 10px; font-family: 'Beth Ellen', cursive !important; font-size: 22px; font-weight: 400;}
 .modalBody p { font-family: 'Montserrat', sans-serif; color: var(--color-olive); font-size: 13px; line-height: 1.5;}
 .formGroup { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
 .formGroup input, .formGroup select {
@@ -454,5 +429,5 @@
   margin-top: 15px; padding: 20px; background: rgba(201, 173, 106, 0.1); border: 1px dashed var(--color-gold-box); border-radius: 8px; color: var(--color-text-dark);
 }
 .coupleSign {
-  margin-top: 20px; font-size: 32px; color: var(--color-text-dark); font-family: 'Great Vibes', cursive;
+  margin-top: 20px; font-size: 22px; color: var(--color-text-dark); font-family: 'Beth Ellen', cursive !important;
 }
