@@ -139,12 +139,16 @@ export default function WeddingJourneyInvitation({
           <div className={styles.coverContent}>
             
             {/* Header: Tagline, Nama Mempelai, Tanggal */}
-            <div className={styles.headerGroup}><br></br><br></br>
-              <p className={styles.taglineText}>THE WEDDING OF</p>
-              <h1 className={styles.titleText}>{groomName} & {brideName}</h1><br></br>
+            <div className={styles.headerGroup}><br></br>
+              <p className={styles.taglineText}>THE WEDDING OF</p><br></br>
+              <div className={styles.coupleNamesContainer}>
+                    <span className={styles.groomName}>{groomName}</span>
+                    <span className={styles.ampersand}>&</span>
+                    <span className={styles.brideName}>{brideName}</span>
+              </div><br></br>
               <p className={styles.dateText}>{weddingDateLabel}</p>
             </div>
-<br></br><br></br><br></br>
+<br></br><br></br>
             {/* Ayat QS. Ar-Rum: 21 */}
             {/* <div className={styles.verseGroup}>
               <p className={styles.verseBody}>
@@ -191,33 +195,67 @@ export default function WeddingJourneyInvitation({
       )}
 
       {/* 2. CHOOSE CHARACTER */}
+      {/* 2. CHOOSE CHARACTER */}
       {gameState === 'gender' && (
         <div className={styles.genderScreen}>
-          <div className={styles.headerInfo}>
-            <p className={styles.tagline}>{tagline}</p>
-            <div className={styles.goldNameBoxSmall}>
-              <h1 className={styles.mainTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h1>
-            </div>
-            <p className={styles.dateText}>{weddingDateLabel}</p>
-          </div>
-
-          <div className={styles.characterPreviewArea}>
-            <div className={styles.characterCard} onClick={() => { setGender('man'); setGameState('playing'); }}>
-              <div className={`${styles.previewSprite} ${styles.manPreview}`} />
-              <button className={`${styles.selectCharBtn} ${styles.manSelectBtn}`}>Pilih Pria</button>
+          
+          {/* Header Bingkai Emas Nama Mempelai */}
+          <div className={styles.characterHeaderContainer}>
+            <p className={styles.charTagline}>THE WEDDING OF</p>
+            
+            <div className={styles.charNamesGroup}>
+              <span className={styles.charGroom}>{groomName}</span>
+              <span className={styles.charAmpersand}>&</span>
+              <span className={styles.charBride}>{brideName}</span>
             </div>
 
-            <div className={styles.characterCard} onClick={() => { setGender('woman'); setGameState('playing'); }}>
-              <div className={`${styles.previewSprite} ${styles.womanPreview}`} />
-              <button className={`${styles.selectCharBtn} ${styles.womanSelectBtn}`}>Pilih Wanita</button>
-            </div>
+            <p className={styles.charDate}>{weddingDateLabel}</p>
           </div>
 
-          <div className={styles.genderDialogCard}>
-            <p>Pilih karaktermu untuk menelusuri lokasi acara</p>
+          {/* Teks Instruksi */}
+          <div className={styles.instructionTextGroup}>
+            <p className={styles.instructionLine1}>Choose your character</p>
+            <p className={styles.instructionLine2}>to discover our wedding details</p>
           </div>
+
+          {/* Area Pilihan Karakter (Man & Woman) */}
+          <div className={styles.characterSelectionRow}>
+            
+            {/* Karakter Pria */}
+            <div 
+              className={styles.characterBox} 
+              onClick={() => { setGender('man'); setGameState('playing'); }}
+            >
+              <img 
+                src="/assets/man character.png" 
+                alt="Man Character" 
+                className={styles.characterPortrait} 
+              />
+              <button className={styles.manSelectButton}>
+                <span>Man</span>
+              </button>
+            </div>
+
+            {/* Karakter Wanita */}
+            <div 
+              className={styles.characterBox} 
+              onClick={() => { setGender('woman'); setGameState('playing'); }}
+            >
+              <img 
+                src="/assets/woman character.png" 
+                alt="Woman Character" 
+                className={styles.characterPortrait} 
+              />
+              <button className={styles.womanSelectButton}>
+                <span>Woman</span>
+              </button>
+            </div>
+
+          </div>
+
         </div>
       )}
+
 
       {/* 3. GAMEPLAY */}
       {gameState === 'playing' && (
