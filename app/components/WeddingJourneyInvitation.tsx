@@ -227,7 +227,7 @@ export default function WeddingJourneyInvitation({
               onClick={() => { setGender('man'); setGameState('playing'); }}
             >
               <img 
-                src="/assets/man character.png" 
+                src="/assets/man characters.png" 
                 alt="Man Character" 
                 className={styles.characterPortrait} 
               />
@@ -242,7 +242,7 @@ export default function WeddingJourneyInvitation({
               onClick={() => { setGender('woman'); setGameState('playing'); }}
             >
               <img 
-                src="/assets/woman character.png" 
+                src="/assets/woman characters.png" 
                 alt="Woman Character" 
                 className={styles.characterPortrait} 
               />
