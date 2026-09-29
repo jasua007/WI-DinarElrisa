@@ -163,7 +163,7 @@
 
 .characterImg {
   position: absolute;
-  bottom: 5%;
+  bottom: 3%;
   left: 50%;
   transform: translateX(-50%);
   width: 130%;
@@ -199,10 +199,11 @@
 
 .openBtnHitbox span {
   font-family: 'Pinyon Script', cursive !important;
-  font-size: 20px !important;
+  font-size: 21px !important;
   color: #3d3b2f;
   pointer-events: none;
   margin-top: -1px; 
+  margin-left: 5px; 
 }
 
 @keyframes fadeFloatDown {
@@ -228,7 +229,7 @@
 /* --- ANIMASI KUCING COVER --- */
 .catCoverImg {
   position: absolute;
-  bottom: 5%;  /* Mengatur posisi vertikal di atas tombol */
+  bottom: 6%;  /* Mengatur posisi vertikal di atas tombol */
   right: 38%;     /* Posisi di sebelah kanan seperti desain NEW LAYOUT */
   width: 110px;    /* Ukuran manis proporsional dengan karakter utama */
   height: auto;
