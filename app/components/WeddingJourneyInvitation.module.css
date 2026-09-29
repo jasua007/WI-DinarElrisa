@@ -178,7 +178,7 @@
 .openBtnHitbox {
   position: absolute;
   bottom: 3.5%;
-  left: 50%;
+  left: 49%;
   transform: translateX(-50%);
   width: 175px;
   height: 48px;
@@ -220,19 +220,15 @@
   100% { opacity: 1; transform: translate(-50%, 0); }
 }
 
-@keyframes breatheCenter {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, -3px); }
-}
 
 /* --- ANIMASI KUCING COVER --- */
 .catCoverImg {
   position: absolute;
-  bottom: 1%;  /* Mengatur posisi vertikal di atas tombol */
-  right: 21%;     /* Posisi di sebelah kanan seperti desain NEW LAYOUT */
-  width: 100px;    /* Ukuran manis proporsional dengan karakter utama */
+  bottom: 0%;  /* Mengatur posisi vertikal di atas tombol */
+  right: 18%;     /* Posisi di sebelah kanan seperti desain NEW LAYOUT */
+  width: 110px;    /* Ukuran manis proporsional dengan karakter utama */
   height: auto;
-  z-index: 15;
+  z-index: 30;
   opacity: 0;
   
   /* Titik tumpu gerakan di bagian bawah/kaki kucing */
