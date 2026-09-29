@@ -163,11 +163,11 @@
 
 .characterImg {
   position: absolute;
-  bottom: 0%;
+  bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
   width: 130%;
-  max-width: 900px;
+  max-width: 250px;
   height: auto;
   object-fit: contain;
   z-index: 5;
@@ -223,6 +223,38 @@
 @keyframes breatheCenter {
   0%, 100% { transform: translate(-50%, 0); }
   50% { transform: translate(-50%, -3px); }
+}
+
+/* --- ANIMASI KUCING COVER --- */
+.catCoverImg {
+  position: absolute;
+  bottom: 1%;  /* Mengatur posisi vertikal di atas tombol */
+  right: 21%;     /* Posisi di sebelah kanan seperti desain NEW LAYOUT */
+  width: 100px;    /* Ukuran manis proporsional dengan karakter utama */
+  height: auto;
+  z-index: 15;
+  opacity: 0;
+  
+  /* Titik tumpu gerakan di bagian bawah/kaki kucing */
+  transform-origin: bottom center;
+  
+  /* Animasi masuk awal + animasi geleng-geleng berulang */
+  animation: 
+    fadeFloatUpCenter 1.2s ease-out 1.8s forwards,
+    catHeadTilt 3.5s ease-in-out infinite 3.0s;
+}
+
+/* Keyframes Rotasi Menggeleng Halus */
+@keyframes catHeadTilt {
+  0% {
+    transform: rotate(-4deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(4deg) translateY(-1px); /* Sedikit terangkat saat mengayun */
+  }
+  100% {
+    transform: rotate(-3deg) translateY(0px);
+  }
 }
 
 /* ==========================================================================

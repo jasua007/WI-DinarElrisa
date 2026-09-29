@@ -172,10 +172,11 @@ export default function WeddingJourneyInvitation({
           </div>
 
           {/* Ilustrasi Pengantin 3D + Kucing */}
-          <img src="/assets/Character.png" alt="Couple Character" className={styles.characterImg} />
+          <img src="/assets/NewGroomBrideCharacter.png" alt="Couple Character" className={styles.characterImg} />
 
           {/* Bingkai Tombol Emas Overlay & Tombol Klik */}
 {/* Tombol Open Invitation */}
+<img src="/assets/cat.png" alt="Cute Cat" className={styles.catCoverImg} />
 <button
   className={styles.openBtnHitbox}
   onClick={() => {
