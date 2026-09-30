@@ -284,9 +284,9 @@
 
 .characterHeaderContainer {
   position: relative;
-  width: 90%;
-  max-width: 320px;
-  height: 140px; 
+  width: 100%;
+  max-width: 520px;
+  height: 210px; 
   margin-top: 15px;
   background-image: url('/assets/text border.png');
   background-size: 100% 100%;
@@ -302,9 +302,9 @@
 
 .charTagline {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 11px !important;
+  font-size: 14px !important;
   letter-spacing: 3px;
-  color: #383930;
+  color: #A3A78A;
   margin: 0 0 2px 0;
   text-transform: uppercase;
 }
@@ -313,13 +313,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 15px;
   margin: 2px 0;
 }
 
 .charGroom, .charBride {
   font-family: 'Pinyon Script', cursive !important;
-  font-size: 32px !important;
+  font-size: 50px !important;
   color: #1e1f1a;
   line-height: 1;
 }
@@ -334,7 +334,7 @@
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
   font-size: 12px !important;
   letter-spacing: 3px;
-  color: #383930;
+  color: #A3A78A;
   margin: 4px 0 0 0;
 }
 
@@ -346,7 +346,7 @@
 
 .instructionLine1, .instructionLine2 {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 12px !important;
+  font-size: 16px !important;
   color: #383930;
   margin: 2px 0;
   letter-spacing: 1px;
