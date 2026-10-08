@@ -75,7 +75,7 @@
 
 .taglineText {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 14px !important;
+  font-size: 80% !important;
   letter-spacing: 4px;
   color: var(--color-text-dark);
   margin: 0 0 2px 0;
@@ -96,7 +96,7 @@
 
 .groomName {
   font-family: 'Pinyon Script', cursive !important;
-  font-size: 63px !important;
+  font-size: 350% !important;
   color: #1e1f1a;
   text-align: left;
   transform: translateX(-70px); 
@@ -114,7 +114,7 @@
 
 .brideName {
   font-family: 'Pinyon Script', cursive !important;
-  font-size: 63px !important;
+  font-size: 350% !important;
   color: #1e1f1a;
   text-align: right;
   transform: translateX(70px); 
@@ -134,10 +134,10 @@
 
 .dateText {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 16px !important;
+  font-size: 80% !important;
   letter-spacing: 4px;
   color: var(--color-text-dark);
-  margin: 2px 0 0 0;
+  margin: -1px 0 0 0;
 }
 
 .guestGroup {
@@ -150,13 +150,13 @@
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
   font-size: 12px !important;
   color: var(--color-text-dark);
-  margin: 0 0 1px 0;
+  margin: -15px 0 1px 0;
   letter-spacing: 2px;
 }
 
 .guestName {
   font-family: 'Beth Ellen', cursive !important;
-  font-size: 19px !important;
+  font-size: 100% !important;
   color: #1e1f1a;
   margin: 0;
 }
@@ -284,9 +284,9 @@
 
 .characterHeaderContainer {
   position: relative;
-  width: 100%;
+  width: 90%;
   max-width: 520px;
-  height: 210px; 
+  height: 30%; 
   margin-top: 15px;
   background-image: url('/assets/text border.png');
   background-size: 100% 100%;
@@ -296,8 +296,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 10%;
   box-sizing: border-box;
+  margin: 0 0 2px 0;
 }
 
 .charTagline {
@@ -340,8 +341,8 @@
 
 .instructionTextGroup {
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 8%;
+  margin: 0 0 2px 0;
 }
 
 .instructionLine1, .instructionLine2 {
@@ -397,6 +398,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 0 2px 0;
 }
 
 .manSelectButton {
@@ -420,12 +422,16 @@
    4. GAMEPLAY STAGE & OVERLAYS
    ========================================================================== */
 .headerInfoOverlay {
+  position: absolute; /* Ditambahkan agar melayang */
+  top: 0;             /* Menempel ke atap layar */
+  left: 0;
+  width: 100%;        /* Lebar penuh */
   text-align: center;
-  z-index: 10;
+  z-index: 80;
   pointer-events: none;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 100%);
   padding: 30px 10px 50px 10px;
-  margin-top: 0;
+  box-sizing: border-box; /* Memastikan padding tidak membuat elemen melebar */
 }
 
 .tagline {
@@ -465,18 +471,20 @@
 }
 .worldTrack {
   position: absolute; top: 0; bottom: 0; left: 0; will-change: transform;
-  background-image: url('/assets/city-bg.png'); background-repeat: repeat-x;
-  background-position: center bottom; background-size: auto 100%;
+  background-image: url('/assets/background3.png'); 
+  background-position: left bottom; /* Mulai rendering dari kiri */
+  background-size: 100% 100%;       /* Paksa gambar ditarik penuh hingga ujung kanan */
 }
+
 .groundBar {
-  position: absolute; bottom: 0; left: 0; height: 60px;
+  position: absolute; bottom: -50; left: 0; height: 130px;
   background-image: url('/assets/ground.png'); background-repeat: repeat-x;
   background-position: top center; background-size: auto 100%; z-index: 10;
 }
 .npcWorldContainer {
   position: absolute; bottom: 45px; transform: translateX(-50%); display: flex; align-items: flex-end; z-index: 12;
 }
-.npcImg { height: 150px; width: auto; object-fit: contain; }
+.npcImg { height: 170px; width: auto; object-fit: contain; }
 .venueWorldContainer {
   position: absolute; bottom: 45px; transform: translateX(-50%);
   display: flex; align-items: flex-end; justify-content: center; z-index: 11;
@@ -523,8 +531,16 @@
 .modalCard {
   background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 320px; border-radius: 16px; padding: 24px;
   position: relative; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  border: 2px solid var(--color-gold-box);
+  border: 2px solid var(--color-gold-box);/* Tambahkan baris ini untuk animasi */
+  animation: floatModal 3s ease-in-out infinite; 
 }
+
+/* Tambahkan keyframes ini tepat di bawah .modalCard */
+@keyframes floatModal {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
 .closeBtn {
   position: absolute; top: 12px; right: 14px; border: none; background: transparent; font-size: 16px; color: var(--color-olive); cursor: pointer;
 }

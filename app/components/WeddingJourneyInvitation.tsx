@@ -32,11 +32,11 @@ interface Checkpoint {
 const WORLD_WIDTH = 2950;
 
 const CHECKPOINTS: Checkpoint[] = [
-  { id: 'welcome', xPos: 350, title: 'Selamat Datang', npcLabel: 'Information', npcImage: '/assets/groom.png' },
-  { id: 'location', xPos: 850, title: 'Waktu & Lokasi', npcLabel: 'Venue', npcImage: '/assets/npc-location.png' },
+  { id: 'welcome', xPos: 350, title: 'Selamat Datang', npcLabel: 'Information', npcImage: '/assets/Message.png' },
+  { id: 'location', xPos: 850, title: 'Waktu & Lokasi', npcLabel: 'Venue', npcImage: '/assets/Groom-Bride-info.png' },
   { id: 'rsvp', xPos: 1350, title: 'Konfirmasi Kehadiran', npcLabel: 'RSVP', npcImage: '/assets/npc-rsvp.png' },
-  { id: 'gift', xPos: 1850, title: 'Kado Digital & QRIS', npcLabel: 'Wedding Gift', npcImage: '/assets/groom.png' },
-  { id: 'thanks', xPos: 2250, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/bride.png' },
+  { id: 'gift', xPos: 1850, title: 'Kado Digital & QRIS', npcLabel: 'Wedding Gift', npcImage: '/assets/Gift.png' },
+  { id: 'thanks', xPos: 2250, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/mempelai.png' },
   { id: 'venue', xPos: 2750, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/clocktower.png' },
 ];
 
@@ -73,12 +73,20 @@ export default function WeddingJourneyInvitation({
   const [direction, setDirection] = useState<'right' | 'left'>('right');
   const [isWalking, setIsWalking] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
-
+const [dismissedCheckpoint, setDismissedCheckpoint] = useState<string | null>(null);
   const walkingStateRef = useRef({ left: false, right: false });
 
   // Game Loop
+// Game Loop
   useEffect(() => {
-    if (gameState !== 'playing' || activeModal) return;
+    // Jika modal sedang terbuka, hentikan status jalan dan reset input tombol
+    if (activeModal) {
+      walkingStateRef.current = { left: false, right: false };
+      setIsWalking(false);
+      return;
+    }
+
+    if (gameState !== 'playing') return;
 
     let animationFrameId: number;
     const gameLoop = () => {
@@ -104,6 +112,25 @@ export default function WeddingJourneyInvitation({
     return () => cancelAnimationFrame(animationFrameId);
   }, [gameState, activeModal]);
 
+
+// Auto-trigger modal saat mendekat & reset saat menjauh
+useEffect(() => {
+  // Sensor jarak yang sama dengan nearbyCheckpoint
+  const currentCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - playerX) < 95);
+
+  if (currentCheckpoint) {
+    // Buka otomatis jika pos belum ditutup oleh tamu
+    if (dismissedCheckpoint !== currentCheckpoint.id) {
+      setActiveModal(currentCheckpoint.id);
+    }
+  } else {
+    // Jika tamu berjalan menjauh, reset penanda
+    setActiveModal(null);
+    setDismissedCheckpoint(null);
+  }
+}, [playerX, dismissedCheckpoint]);
+
+
   // Key Listeners
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -124,11 +151,11 @@ export default function WeddingJourneyInvitation({
   }, [gameState, activeModal]);
 
   const nearbyCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - playerX) < 95);
-  const cameraX = Math.max(0, Math.min(WORLD_WIDTH - 340, playerX - 170));
+  const cameraX = Math.max(0, Math.min(WORLD_WIDTH - 420, playerX - 210));
 
   return (
     <div className={styles.wrapper}>
-      {/* 1. COVER SCREEN TUSCANY REVAMP */}
+      {/* 1. COVER SCREEN */}
       {gameState === 'cover' && (
         <div className={styles.cover}>
           
@@ -142,9 +169,9 @@ export default function WeddingJourneyInvitation({
             <div className={styles.headerGroup}><br></br>
               <p className={styles.taglineText}>THE WEDDING OF</p><br></br>
               <div className={styles.coupleNamesContainer}>
-                    <span className={styles.groomName}>{groomName}</span>
+                    <span className={styles.groomName}>{brideName}</span>
                     <span className={styles.ampersand}>&</span>
-                    <span className={styles.brideName}>{brideName}</span>
+                    <span className={styles.brideName}>{groomName}</span>
               </div><br></br>
               <p className={styles.dateText}>{weddingDateLabel}</p>
             </div>
@@ -205,9 +232,9 @@ export default function WeddingJourneyInvitation({
             <p className={styles.charTagline}>THE WEDDING OF</p>
             
             <div className={styles.charNamesGroup}>
-              <span className={styles.charGroom}>{groomName}</span>
+              <span className={styles.charGroom}>{brideName}</span>
               <span className={styles.charAmpersand}>&</span>
-              <span className={styles.charBride}>{brideName}</span>
+              <span className={styles.charBride}>{groomName}</span>
             </div>
 
             <p className={styles.charDate}>{weddingDateLabel}</p>
@@ -216,7 +243,9 @@ export default function WeddingJourneyInvitation({
           {/* Teks Instruksi */}
           <div className={styles.instructionTextGroup}>
             <p className={styles.instructionLine1}>Choose your character</p>
-            <p className={styles.instructionLine2}>to discover our wedding details</p>
+            <p className={styles.instructionLine2}>⬇️&emsp;&emsp;&emsp;or&emsp;&emsp;&emsp;⬇️</p>
+            
+
           </div>
 
           {/* Area Pilihan Karakter (Man & Woman) */}
@@ -268,14 +297,14 @@ export default function WeddingJourneyInvitation({
             <p className={styles.dateText}>{weddingDateLabel}</p>
           </div>
 
-          {/* Interactive Pill */}
+          {/* Interactive Pill
           {nearbyCheckpoint && (
             <div className={styles.interactivePillWrapper}>
               <button className={styles.interactivePill} onClick={() => setActiveModal(nearbyCheckpoint.id)}>
                 <span>{nearbyCheckpoint.npcLabel}</span>
               </button>
             </div>
-          )}
+          )} */}
 
           <div className={styles.viewport}>
             <div
@@ -319,26 +348,30 @@ export default function WeddingJourneyInvitation({
 
           <div className={styles.controlsBar}>
             <button
-              className={styles.arrowBtn}
-              onMouseDown={() => (walkingStateRef.current.left = true)}
-              onMouseUp={() => (walkingStateRef.current.left = false)}
-              onTouchStart={() => (walkingStateRef.current.left = true)}
-              onTouchEnd={() => (walkingStateRef.current.left = false)}
-            >
-              ◀
-            </button>
+  className={styles.arrowBtn}
+  onMouseDown={() => (walkingStateRef.current.left = true)}
+  onMouseUp={() => (walkingStateRef.current.left = false)}
+  onMouseLeave={() => (walkingStateRef.current.left = false)}
+  onTouchStart={() => (walkingStateRef.current.left = true)}
+  onTouchEnd={() => (walkingStateRef.current.left = false)}
+  onTouchCancel={() => (walkingStateRef.current.left = false)}
+>
+  ◀
+</button>
             <button className={styles.swapGenderBtn} onClick={() => setGender(gender === 'man' ? 'woman' : 'man')}>
               {gender === 'man' ? '♂' : '♀'}
             </button>
-            <button
-              className={styles.arrowBtn}
-              onMouseDown={() => (walkingStateRef.current.right = true)}
-              onMouseUp={() => (walkingStateRef.current.right = false)}
-              onTouchStart={() => (walkingStateRef.current.right = true)}
-              onTouchEnd={() => (walkingStateRef.current.right = false)}
-            >
-              ▶
-            </button>
+<button
+  className={styles.arrowBtn}
+  onMouseDown={() => (walkingStateRef.current.right = true)}
+  onMouseUp={() => (walkingStateRef.current.right = false)}
+  onMouseLeave={() => (walkingStateRef.current.right = false)}
+  onTouchStart={() => (walkingStateRef.current.right = true)}
+  onTouchEnd={() => (walkingStateRef.current.right = false)}
+  onTouchCancel={() => (walkingStateRef.current.right = false)}
+>
+  ▶
+</button>
           </div>
         </div>
       )}
@@ -347,7 +380,16 @@ export default function WeddingJourneyInvitation({
       {activeModal && (
         <div className={styles.modalOverlay} onClick={() => setActiveModal(null)}>
           <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.closeBtn} onClick={() => setActiveModal(null)}>✕</button>
+            <button 
+  className={styles.closeBtn} 
+  onClick={() => {
+    // Tandai pos ini agar tidak terbuka otomatis lagi saat masih berdiri di sini
+    if (nearbyCheckpoint) setDismissedCheckpoint(nearbyCheckpoint.id);
+    setActiveModal(null);
+  }}
+>
+  ✕
+</button>
 
             {activeModal === 'rsvp' && (
               <div className={styles.modalBody}>
