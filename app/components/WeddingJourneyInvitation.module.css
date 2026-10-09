@@ -53,6 +53,37 @@
   animation: fadeFloatDown 1.5s ease-out 0.2s forwards;
 }
 
+.bird {
+  position: absolute;
+  top: 5%;              /* Menyesuaikan posisi terbang di langit */
+  left: 0;
+  width: 50%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 3;
+  
+  /* Animasi meluncur dari kanan ke kiri secara berulang */
+  animation: birdFlyLeft 7s linear infinite;
+}
+
+@keyframes birdFlyLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%); /* Mulai dari luar layar kanan */
+  }
+  10% {
+    opacity: 1;                  /* Tampak jelas saat masuk layar */
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(150%); /* Hilang keluar layar kiri */
+  }
+}
+
 .coverContent {
   position: absolute;
   top: 4%;

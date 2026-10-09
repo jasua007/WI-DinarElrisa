@@ -162,6 +162,9 @@ useEffect(() => {
           {/* Layer Ornamen Bunga Melayang (Flower.png) */}
           <img src="/assets/Flower.png" alt="" className={styles.flowerOverlay} />
 
+          
+          <img src="/assets/bird.png" alt="" className={styles.bird} />
+
           {/* Kontainer Utama Teks */}
           <div className={styles.coverContent}>
             
@@ -293,7 +296,7 @@ useEffect(() => {
           {/* Header Overlay */}
           <div className={styles.headerInfoOverlay}>
             <p className={styles.tagline}>{tagline}</p>
-            <h2 className={styles.gameTitle}>{groomName} <span className={styles.heart}>♥</span> {brideName}</h2>
+            <h2 className={styles.gameTitle}> {brideName}<span className={styles.heart}>♥</span>{groomName} </h2>
             <p className={styles.dateText}>{weddingDateLabel}</p>
           </div>
 
