@@ -27,27 +27,42 @@ interface Checkpoint {
   title: string;
   npcLabel: string;
   npcImage: string;
+  className?: string;
 }
 
-const WORLD_WIDTH = 2950;
-
-interface Checkpoint {
+interface Decoration {
   id: string;
   xPos: number;
-  title: string;
-  npcLabel: string;
-  npcImage: string;
-  className?: string; // Properti opsional untuk penyesuaian ukuran unik
+  image: string;
+  width?: number;
+  bottom?: number;
+  zIndex?: number;
 }
 
+// Lebar total arena permainan
+const WORLD_WIDTH = 3400;
+
+// Daftar Pos Checkpoint
 const CHECKPOINTS: Checkpoint[] = [
   { id: 'welcome', xPos: 350, title: 'Selamat Datang', npcLabel: 'Information', npcImage: '/assets/Message.png', className: styles.checkpoint_welcome },
   { id: 'location', xPos: 850, title: 'Waktu & Lokasi', npcLabel: 'Venue', npcImage: '/assets/Groom-Bride-info.png', className: styles.checkpoint_location },
   { id: 'thanks', xPos: 1350, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/mempelai.png', className: styles.checkpoint_thanks },
   { id: 'rsvp', xPos: 1850, title: 'Konfirmasi Kehadiran', npcLabel: 'RSVP', npcImage: '/assets/npc-rsvp.png', className: styles.checkpoint_rsvp },
-  { id: 'gift', xPos: 2250, title: 'Kado Digital & QRIS', npcLabel: 'Wedding Gift', npcImage: '/assets/Gift.png', className: styles.checkpoint_gift },
-  { id: 'venue', xPos: 2750, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/clocktower.png', className: styles.checkpoint_venue },
+  { id: 'gift', xPos: 2280, title: 'Kado Digital & QRIS', npcLabel: 'Wedding Gift', npcImage: '/assets/Gift.png', className: styles.checkpoint_gift },
+  { id: 'venue', xPos: 2680, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/clocktower.png', className: styles.checkpoint_venue },
+  { id: 'gallery', xPos: 3100, title: 'Galeri Foto', npcLabel: 'Galeri Momen', npcImage: '/assets/gallery.png', className: styles.checkpoint_gallery },
 ];
+
+// Daftar Ornamen / Dekorasi Hiasan Jalanan
+const DECORATIONS: Decoration[] = [
+  { id: 'flower_left', xPos: 120, image: '/assets/pointing.png', width: 100, bottom: 92, zIndex: 15 },
+  // { id: 'flower_bush', xPos: 620, image: '/assets/bungasudutkanan.png', width: 95, bottom: 40, zIndex: 12 },
+  // { id: 'flower_lamp', xPos: 1100, image: '/assets/Flower.png', width: 65, bottom: 48, zIndex: 8 },
+  // { id: 'flower_bush2', xPos: 1600, image: '/assets/bungasudutkiri.png', width: 90, bottom: 40, zIndex: 12 },
+  // { id: 'flower_right', xPos: 2100, image: '/assets/bunga.png', width: 85, bottom: 42, zIndex: 8 },
+  // { id: 'flower_end', xPos: 2950, image: '/assets/bungasudutkanan.png', width: 95, bottom: 40, zIndex: 12 },
+];
+
 export default function WeddingJourneyInvitation({
   groomName = 'Dinar',
   brideName = 'Elrisa',
@@ -56,12 +71,13 @@ export default function WeddingJourneyInvitation({
   weddingDateLabel = '22 . 11 . 2026',
   venueName = 'Gedung Balairakyat Depok I / Gedung Serbaguna',
   venueAddress = 'Jl. Bangau Raya No.192-174, Depok Jaya, Pancoran Mas, Depok City, West Java 16432',
-  venueMapsUrl = 'https://www.google.com/maps/place/Gedung+Serbaguna+Depok+Jaya/@-6.3907592,106.809646,17z/data=...',
+  venueMapsUrl = 'https://www.google.com/maps/place/Gedung+Serbaguna+Depok+Jaya/@-6.3907592,106.809646,17z',
   onRsvpSubmit,
 }: WeddingJourneyProps) {
   const [gameState, setGameState] = useState<'cover' | 'gender' | 'playing'>('cover');
   const [gender, setGender] = useState<'man' | 'woman'>('man');
 
+  // Audio Control
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -77,40 +93,100 @@ export default function WeddingJourneyInvitation({
     }
   };
 
+  // State Preloader Asset
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadProgress, setLoadProgress] = useState(0);
+
+  // Player & Game Loop States
   const [playerX, setPlayerX] = useState(100);
+  const playerXRef = useRef(100); // Ref posisi pemain untuk mencegah lag pada game loop
   const [direction, setDirection] = useState<'right' | 'left'>('right');
   const [isWalking, setIsWalking] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
-const [dismissedCheckpoint, setDismissedCheckpoint] = useState<string | null>(null);
+  const [dismissedCheckpoint, setDismissedCheckpoint] = useState<string | null>(null);
   const walkingStateRef = useRef({ left: false, right: false });
 
-  // Game Loop
-// Game Loop
+  // Sinkronisasi playerX dengan playerXRef
   useEffect(() => {
-    // Jika modal sedang terbuka, hentikan status jalan dan reset input tombol
-    if (activeModal) {
+    playerXRef.current = playerX;
+  }, [playerX]);
+
+  // Preload Aset Gambar Utama
+  const ASSETS_TO_LOAD = [
+    '/assets/Background.png',
+    '/assets/backgroundchosecaharacter.png',
+    '/assets/background3.png',
+    '/assets/man-walk2.png',
+    '/assets/woman-walk.png',
+    '/assets/Flower.png',
+    '/assets/NewGroomBrideCharacter.png',
+    '/assets/cat.png',
+    '/assets/galeri.png',
+  ];
+
+  useEffect(() => {
+    let loadedCount = 0;
+    const totalAssets = ASSETS_TO_LOAD.length;
+
+    ASSETS_TO_LOAD.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loadedCount += 1;
+        setLoadProgress(Math.round((loadedCount / totalAssets) * 100));
+        if (loadedCount === totalAssets) {
+          setTimeout(() => setIsLoading(false), 300);
+        }
+      };
+      img.onerror = () => {
+        loadedCount += 1;
+        setLoadProgress(Math.round((loadedCount / totalAssets) * 100));
+        if (loadedCount === totalAssets) {
+          setTimeout(() => setIsLoading(false), 300);
+        }
+      };
+    });
+  }, []);
+
+  // Optimized Game Loop (Ringan & Tanpa Lag)
+  useEffect(() => {
+    if (gameState !== 'playing' || activeModal) {
       walkingStateRef.current = { left: false, right: false };
       setIsWalking(false);
       return;
     }
 
-    if (gameState !== 'playing') return;
-
     let animationFrameId: number;
+    const speed = 4;
+
     const gameLoop = () => {
       const { left, right } = walkingStateRef.current;
-      const speed = 3.5;
+      let currX = playerXRef.current;
 
       if (left && !right) {
-        setPlayerX((prev) => Math.max(60, prev - speed));
+        const newX = Math.max(60, currX - speed);
+        setPlayerX(newX);
         setDirection('left');
         setIsWalking(true);
+        currX = newX;
       } else if (right && !left) {
-        setPlayerX((prev) => Math.min(WORLD_WIDTH - 120, prev + speed));
+        const newX = Math.min(WORLD_WIDTH - 120, currX + speed);
+        setPlayerX(newX);
         setDirection('right');
         setIsWalking(true);
+        currX = newX;
       } else {
         setIsWalking(false);
+      }
+
+      // Sensor Trigger Checkpoint Ringan
+      const hitCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - currX) < 45);
+      if (hitCheckpoint) {
+        if (dismissedCheckpoint !== hitCheckpoint.id) {
+          setActiveModal(hitCheckpoint.id);
+        }
+      } else {
+        setDismissedCheckpoint(null);
       }
 
       animationFrameId = requestAnimationFrame(gameLoop);
@@ -118,26 +194,7 @@ const [dismissedCheckpoint, setDismissedCheckpoint] = useState<string | null>(nu
 
     animationFrameId = requestAnimationFrame(gameLoop);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [gameState, activeModal]);
-
-
-// Auto-trigger modal saat mendekat & reset saat menjauh
-useEffect(() => {
-  // Sensor jarak yang sama dengan nearbyCheckpoint
-  const currentCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - playerX) < 40);
-
-  if (currentCheckpoint) {
-    // Buka otomatis jika pos belum ditutup oleh tamu
-    if (dismissedCheckpoint !== currentCheckpoint.id) {
-      setActiveModal(currentCheckpoint.id);
-    }
-  } else {
-    // Jika tamu berjalan menjauh, reset penanda
-    setActiveModal(null);
-    setDismissedCheckpoint(null);
-  }
-}, [playerX, dismissedCheckpoint]);
-
+  }, [gameState, activeModal, dismissedCheckpoint]);
 
   // Key Listeners
   useEffect(() => {
@@ -158,56 +215,13 @@ useEffect(() => {
     };
   }, [gameState, activeModal]);
 
-  const [isLoading, setIsLoading] = useState(true);
-const [loadProgress, setLoadProgress] = useState(0);
-
   const nearbyCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - playerX) < 95);
   const cameraX = Math.max(0, Math.min(WORLD_WIDTH - 420, playerX - 210));
-
-// List semua file gambar yang wajib ter-load sebelum aplikasi terbuka
-  const ASSETS_TO_LOAD = [
-    '/assets/Background.png',
-    '/assets/backgroundchosecaharacter.png',
-    '/assets/background3.png',
-    '/assets/man-walk2.png',
-    '/assets/woman-walk.png',
-    '/assets/Flower.png',
-    '/assets/NewGroomBrideCharacter.png',
-    '/assets/cat.png',
-    '/assets/Open Invitation Background.png',
-  ];
-
-  useEffect(() => {
-    let loadedCount = 0;
-    const totalAssets = ASSETS_TO_LOAD.length;
-
-    ASSETS_TO_LOAD.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        loadedCount += 1;
-        setLoadProgress(Math.round((loadedCount / totalAssets) * 100));
-        if (loadedCount === totalAssets) {
-          // Kasih jeda sedikit (400ms) agar transisi terasa mulus
-          setTimeout(() => setIsLoading(false), 400);
-        }
-      };
-      img.onerror = () => {
-        // Tetap hitung walau ada yang gagal agar tidak terjebak stuck loading
-        loadedCount += 1;
-        setLoadProgress(Math.round((loadedCount / totalAssets) * 100));
-        if (loadedCount === totalAssets) {
-          setTimeout(() => setIsLoading(false), 400);
-        }
-      };
-    });
-  }, []);
-
 
   return (
     <div className={styles.wrapper}>
 
-{/* Layar Loading Interaktif */}
+      {/* Layar Loading Interaktif */}
       {isLoading && (
         <div className={styles.loadingScreen}>
           <h2 className={styles.loadingTitle}>{brideName} & {groomName}</h2>
@@ -224,175 +238,149 @@ const [loadProgress, setLoadProgress] = useState(0);
       {/* 1. COVER SCREEN */}
       {gameState === 'cover' && (
         <div className={styles.cover}>
-          
-          {/* Layer Ornamen Bunga Melayang (Flower.png) */}
           <img src="/assets/Flower.png" alt="" className={styles.flowerOverlay} />
-
-          
           <img src="/assets/bird.png" alt="" className={styles.bird} />
 
-          {/* Kontainer Utama Teks */}
           <div className={styles.coverContent}>
-            
-            {/* Header: Tagline, Nama Mempelai, Tanggal */}
-            <div className={styles.headerGroup}><br></br>
-              <p className={styles.taglineText}>THE WEDDING OF</p><br></br>
+            <div className={styles.headerGroup}>
+              <p className={styles.taglineText}>{tagline}</p>
               <div className={styles.coupleNamesContainer}>
-                    <span className={styles.groomName}>{brideName}</span>
-                    <span className={styles.ampersand}>&</span>
-                    <span className={styles.brideName}>{groomName}</span>
-              </div><br></br>
+                <span className={styles.groomName}>{brideName}</span>
+                <span className={styles.ampersand}>&</span>
+                <span className={styles.brideName}>{groomName}</span>
+              </div>
               <p className={styles.dateText}>{weddingDateLabel}</p>
             </div>
-<br></br><br></br>
-            {/* Ayat QS. Ar-Rum: 21 */}
-            {/* <div className={styles.verseGroup}>
-              <p className={styles.verseBody}>
-                "And among the signs of His power is that He created for you wives of your own kind,<br/>
-                so that you would be inclined and feel at ease with them,<br/>
-                and He made among you a feeling of love and affection.<br/>
-                Indeed, in that there are truly signs for a person who thinks<br/>
-                (لِقَوْمٍ يَتَفَكَّرُونَ )."
-              </p>
-              <p className={styles.verseRef}>(QS. Ar-Rum: 21)</p>
-            </div> */}
 
-            {/* Sapaan Tamu */}
             {guestName && (
               <div className={styles.guestGroup}>
                 <p className={styles.guestLabel}>To the dearest,</p>
                 <p className={styles.guestName}>{guestName}</p>
               </div>
             )}
-
           </div>
 
-          {/* Ilustrasi Pengantin 3D + Kucing */}
           <img src="/assets/NewGroomBrideCharacter.png" alt="Couple Character" className={styles.characterImg} />
+          <img src="/assets/cat.png" alt="Cute Cat" className={styles.catCoverImg} />
 
-          {/* Bingkai Tombol Emas Overlay & Tombol Klik */}
-{/* Tombol Open Invitation */}
-<img src="/assets/cat.png" alt="Cute Cat" className={styles.catCoverImg} />
-<button
-  className={styles.openBtnHitbox}
-  onClick={() => {
-    setGameState('gender');
-    // Memutar musik otomatis saat tombol diklik
-    if (audioRef.current) {
-      audioRef.current.play()
-        .then(() => setIsPlaying(true))
-        .catch((err) => console.log('Gagal memutar audio:', err));
-    }
-  }}
->
-  <span>Open Invitation</span>
-</button>
-
+          <button
+            className={styles.openBtnHitbox}
+            onClick={() => {
+              setGameState('gender');
+              if (audioRef.current) {
+                audioRef.current.play()
+                  .then(() => setIsPlaying(true))
+                  .catch((err) => console.log('Gagal memutar audio:', err));
+              }
+            }}
+          >
+            <span>Open Invitation</span>
+          </button>
         </div>
       )}
 
       {/* 2. CHOOSE CHARACTER */}
-      {/* 2. CHOOSE CHARACTER */}
       {gameState === 'gender' && (
         <div className={styles.genderScreen}>
-          
-          {/* Header Bingkai Emas Nama Mempelai */}
           <div className={styles.characterHeaderContainer}>
-            <p className={styles.charTagline}>THE WEDDING OF</p>
-            
+            <p className={styles.charTagline}>{tagline}</p>
             <div className={styles.charNamesGroup}>
               <span className={styles.charGroom}>{brideName}</span>
               <span className={styles.charAmpersand}>&</span>
               <span className={styles.charBride}>{groomName}</span>
             </div>
-
             <p className={styles.charDate}>{weddingDateLabel}</p>
           </div>
 
-          {/* Teks Instruksi */}
           <div className={styles.instructionTextGroup}>
             <p className={styles.instructionLine1}>Choose your character</p>
             <p className={styles.instructionLine2}>⬇️&emsp;&emsp;&emsp;or&emsp;&emsp;&emsp;⬇️</p>
-            
-
           </div>
 
-          {/* Area Pilihan Karakter (Man & Woman) */}
           <div className={styles.characterSelectionRow}>
-            
-            {/* Karakter Pria */}
             <div 
               className={styles.characterBox} 
               onClick={() => { setGender('man'); setGameState('playing'); }}
             >
-              <img 
-                src="/assets/man characters.png" 
-                alt="Man Character" 
-                className={styles.characterPortrait} 
-              />
-              <button className={styles.manSelectButton}>
-                <span>Man</span>
-              </button>
+              <img src="/assets/man characters.png" alt="Man Character" className={styles.characterPortrait} />
+              <button className={styles.manSelectButton}><span>Man</span></button>
             </div>
 
-            {/* Karakter Wanita */}
             <div 
               className={styles.characterBox} 
               onClick={() => { setGender('woman'); setGameState('playing'); }}
             >
-              <img 
-                src="/assets/woman characters.png" 
-                alt="Woman Character" 
-                className={styles.characterPortrait} 
-              />
-              <button className={styles.womanSelectButton}>
-                <span>Woman</span>
-              </button>
+              <img src="/assets/woman characters.png" alt="Woman Character" className={styles.characterPortrait} />
+              <button className={styles.womanSelectButton}><span>Woman</span></button>
             </div>
-
           </div>
-
         </div>
       )}
-
 
       {/* 3. GAMEPLAY */}
       {gameState === 'playing' && (
         <div className={styles.gameStage}>
-          {/* Header Overlay */}
           <div className={styles.headerInfoOverlay}>
             <p className={styles.tagline}>{tagline}</p>
-            <h2 className={styles.gameTitle}> {brideName}<span className={styles.heart}>♥</span>{groomName} </h2>
+            <h2 className={styles.gameTitle}>{brideName}<span className={styles.heart}>♥</span>{groomName}</h2>
             <p className={styles.dateText}>{weddingDateLabel}</p>
           </div>
-
-          {/* Interactive Pill
-          {nearbyCheckpoint && (
-            <div className={styles.interactivePillWrapper}>
-              <button className={styles.interactivePill} onClick={() => setActiveModal(nearbyCheckpoint.id)}>
-                <span>{nearbyCheckpoint.npcLabel}</span>
-              </button>
-            </div>
-          )} */}
 
           <div className={styles.viewport}>
             <div
               className={styles.worldTrack}
               style={{ width: `${WORLD_WIDTH}px`, transform: `translateX(-${cameraX}px)` }}
             >
+              {/* RENDERING ORNAMEN / DEKORASI HIASAN */}
+              {DECORATIONS.map((dec) => (
+                <div
+                  key={dec.id}
+                  style={{
+                    position: 'absolute',
+                    left: `${dec.xPos}px`,
+                    bottom: `${dec.bottom || 45}px`,
+                    zIndex: dec.zIndex || 8,
+                    transform: 'translateX(-50%)',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  <img
+                    src={dec.image}
+                    alt={dec.id}
+                    style={{
+                      width: dec.width ? `${dec.width}px` : 'auto',
+                      height: 'auto',
+                      display: 'block',
+                    }}
+                  />
+                </div>
+              ))}
+
+              {/* RENDERING CHECKPOINTS */}
               {CHECKPOINTS.map((cp) => {
                 const isVenue = cp.id === 'venue';
+                const isPlayerToTheRight = playerX > cp.xPos;
+
                 return (
                   <div
                     key={cp.id}
                     className={isVenue ? styles.venueWorldContainer : styles.npcWorldContainer}
                     style={{ left: `${cp.xPos}px` }}
                   >
-                   <img src={cp.npcImage} alt={cp.title} className={`${isVenue ? styles.venueImg : styles.npcImg} ${cp.className || ''}`}/>
+                    <img
+                      src={cp.npcImage}
+                      alt={cp.title}
+                      className={`${isVenue ? styles.venueImg : styles.npcImg} ${cp.className || ''}`}
+                      style={{
+                        transform: (cp.id === 'rsvp' && isPlayerToTheRight) ? 'scaleX(-1)' : 'scaleX(1)',
+                        transition: 'transform 0.03s ease-out',
+                      }}
+                    />
                   </div>
                 );
               })}
 
+              {/* KARAKTER UTAMA */}
               <div
                 className={styles.playerWorldContainer}
                 style={{
@@ -411,47 +399,49 @@ const [loadProgress, setLoadProgress] = useState(0);
             </div>
           </div>
 
+          {/* TOMBOL KONTROL */}
           <div className={styles.controlsBar}>
             <button
-  className={styles.arrowBtn}
-  onMouseDown={() => (walkingStateRef.current.left = true)}
-  onMouseUp={() => (walkingStateRef.current.left = false)}
-  onMouseLeave={() => (walkingStateRef.current.left = false)}
-  onTouchStart={() => (walkingStateRef.current.left = true)}
-  onTouchEnd={() => (walkingStateRef.current.left = false)}
-  onTouchCancel={() => (walkingStateRef.current.left = false)}
->
-  ◀
-</button>
+              className={styles.arrowBtn}
+              onMouseDown={() => (walkingStateRef.current.left = true)}
+              onMouseUp={() => (walkingStateRef.current.left = false)}
+              onMouseLeave={() => (walkingStateRef.current.left = false)}
+              onTouchStart={() => (walkingStateRef.current.left = true)}
+              onTouchEnd={() => (walkingStateRef.current.left = false)}
+              onTouchCancel={() => (walkingStateRef.current.left = false)}
+            >
+              ◀
+            </button>
             <button className={styles.swapGenderBtn} onClick={() => setGender(gender === 'man' ? 'woman' : 'man')}>
               {gender === 'man' ? '♂' : '♀'}
             </button>
-<button
-  className={styles.arrowBtn}
-  onMouseDown={() => (walkingStateRef.current.right = true)}
-  onMouseUp={() => (walkingStateRef.current.right = false)}
-  onMouseLeave={() => (walkingStateRef.current.right = false)}
-  onTouchStart={() => (walkingStateRef.current.right = true)}
-  onTouchEnd={() => (walkingStateRef.current.right = false)}
-  onTouchCancel={() => (walkingStateRef.current.right = false)}
->
-  ▶
-</button>
+            <button
+              className={styles.arrowBtn}
+              onMouseDown={() => (walkingStateRef.current.right = true)}
+              onMouseUp={() => (walkingStateRef.current.right = false)}
+              onMouseLeave={() => (walkingStateRef.current.right = false)}
+              onTouchStart={() => (walkingStateRef.current.right = true)}
+              onTouchEnd={() => (walkingStateRef.current.right = false)}
+              onTouchCancel={() => (walkingStateRef.current.right = false)}
+            >
+              ▶
+            </button>
           </div>
         </div>
       )}
 
-{/* 4. MODALS */}
+      {/* 4. MODALS */}
       {activeModal && (
         <div className={styles.modalOverlay}>
           <div className={`${styles.modalCard} ${
-  activeModal === 'welcome' ? styles.modalCard_welcome : 
-  activeModal === 'rsvp' ? styles.modalCard_rsvp : 
-  activeModal === 'location' ? styles.modalCard_location : 
-  activeModal === 'venue' ? styles.modalCard_venue : 
-  activeModal === 'gift' ? styles.modalCard_gift : 
-  activeModal === 'thanks' ? styles.modalCard_thanks : ''
-}`}>
+            activeModal === 'welcome' ? styles.modalCard_welcome : 
+            activeModal === 'rsvp' ? styles.modalCard_rsvp : 
+            activeModal === 'location' ? styles.modalCard_location : 
+            activeModal === 'venue' ? styles.modalCard_venue : 
+            activeModal === 'gift' ? styles.modalCard_gift : 
+            activeModal === 'thanks' ? styles.modalCard_thanks : 
+            activeModal === 'gallery' ? styles.modalCard_gallery : ''
+          }`}>
             <button 
               className={styles.closeBtn} 
               onClick={() => {
@@ -517,7 +507,7 @@ const [loadProgress, setLoadProgress] = useState(0);
                 <p className={styles.venueTitle}><strong>Balai Rakyat Depok 1</strong></p>
                 <button 
                   className={styles.submitBtn} 
-                  onClick={() => window.open('https://www.google.com/maps/place/Balai+Rakyat+Depok+1...', '_blank')}
+                  onClick={() => window.open(venueMapsUrl, '_blank')}
                 >
                   📍 Buka Google Maps
                 </button>
@@ -531,11 +521,11 @@ const [loadProgress, setLoadProgress] = useState(0);
                 <p>Inilah tempat kami akan merayakan hari bahagia ini bersama.</p>
                 <div className={styles.venueCard}>
                   <h4>Balai Rakyat Depok 1</h4>
-                  <p>Jl. Bangau Raya No.192-174, Depok Jaya, Pancoran Mas, Depok City, West Java 16432</p>
+                  <p>{venueAddress}</p>
                 </div>
                 <button 
                   className={styles.submitBtn} 
-                  onClick={() => window.open('https://www.google.com/maps/place/Balai+Rakyat+Depok+1...', '_blank')}
+                  onClick={() => window.open(venueMapsUrl, '_blank')}
                 >
                   📍 Buka Peta
                 </button>
@@ -575,10 +565,27 @@ const [loadProgress, setLoadProgress] = useState(0);
               </div>
             )}
 
+            {/* 7. MODAL GALERI FOTO (ENDGAME) */}
+            {activeModal === 'gallery' && (
+              <div className={styles.modalBody}>
+                <h3>Galeri Momen Bahagia</h3>
+                <p>Kumpulan kenangan perjalanan cinta kami:</p>
+                <div className={styles.galleryGrid}>
+                  <img src="/assets/Background.png" alt="Momen 1" className={styles.galleryThumb} />
+                  <img src="/assets/background3.png" alt="Momen 2" className={styles.galleryThumb} />
+                  <img src="/assets/backgroundchosecaharacter.png" alt="Momen 3" className={styles.galleryThumb} />
+                </div>
+                <p className={styles.coupleSign}>
+                  Terima kasih telah berjalan bersama kami hingga akhir!<br />
+                  <strong>Elrisa Salsabilla & Dinar Suherlan</strong>
+                </p>
+              </div>
+            )}
+
           </div>
         </div>
       )}
-  
+
       {/* Element Audio MP3 */}
       <audio ref={audioRef} src="/assets/music.mp3" loop />
 
