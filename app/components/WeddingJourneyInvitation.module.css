@@ -30,6 +30,57 @@
 }
 
 /* ==========================================================================
+   SPLASH SCREEN LOADING
+   ========================================================================== */
+.loadingScreen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #efe6dd; /* Warna krem senada tema Tuscany */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 999; /* Selalu berada di paling depan saat memuat */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.loadingTitle {
+  font-family: 'Pinyon Script', cursive !important;
+  font-size: 38px !important;
+  color: #3d3b2f;
+  margin-bottom: 20px;
+}
+
+.progressBarContainer {
+  width: 70%;
+  height: 8px;
+  background: rgba(201, 173, 106, 0.25);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--color-gold-box);
+}
+
+.progressBarFill {
+  height: 100%;
+  background: var(--color-gold-box);
+  transition: width 0.3s ease-out;
+  border-radius: 10px;
+}
+
+.loadingText {
+  font-family: 'Special Elite', 'Courier Prime', monospace !important;
+  font-size: 11px !important;
+  color: var(--color-olive);
+  margin-top: 12px;
+  letter-spacing: 2px;
+}
+
+
+/* ==========================================================================
    2. COVER SCREEN (PURE CLEAN TUSCANY REVAMP)
    ========================================================================== */
 .cover {
@@ -260,32 +311,32 @@
 /* --- ANIMASI KUCING COVER --- */
 .catCoverImg {
   position: absolute;
-  bottom: 6%;  /* Mengatur posisi vertikal di atas tombol */
-  right: 38%;     /* Posisi di sebelah kanan seperti desain NEW LAYOUT */
-  width: 110px;    /* Ukuran manis proporsional dengan karakter utama */
+  bottom: 3.5%;      /* Disesuaikan posisinya di dekat tombol */
+  right: 38%;        /* Tetap konsisten di posisi samping kanan */
+  width: 110px;
   height: auto;
-  z-index: 15;
+  z-index: 30;       /* Dipastikan berada di atas tombol */
+  pointer-events: none;
   opacity: 0;
   
-  /* Titik tumpu gerakan di bagian bawah/kaki kucing */
   transform-origin: bottom center;
   
-  /* Animasi masuk awal + animasi geleng-geleng berulang */
+  /* Gunakan fadeFloatUp biasa agar tidak dipaksa digeser -50% ke tengah */
   animation: 
-    fadeFloatUpCenter 1.2s ease-out 1.8s forwards,
-    catHeadTilt 1.5s ease-in-out infinite 3.0s;
+    fadeFloatUp 1.2s ease-out 1.8s forwards,
+    catHeadTilt 1s ease-in-out infinite 3.0s;
 }
 
 /* Keyframes Rotasi Menggeleng Halus */
 @keyframes catHeadTilt {
   0% {
-    transform: rotate(-2deg) translateY(0px);
+    transform: rotate(-1deg) translateY(0px);
   }
   50% {
-    transform: rotate(4deg) translateY(-1px); /* Sedikit terangkat saat mengayun */
+    transform: rotate(2deg) translateY(-1px); /* Sedikit terangkat saat mengayun */
   }
   100% {
-    transform: rotate(-2deg) translateY(0px);
+    transform: rotate(-1deg) translateY(0px);
   }
 }
 

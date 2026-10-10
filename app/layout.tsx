@@ -19,6 +19,13 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Beth+Ellen&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Pinyon+Script&family=Special+Elite&display=swap"
           rel="stylesheet"
         />
+        <link rel="preload" href="/assets/Background.png" as="image" />
+        <link rel="preload" href="/assets/backgroundchosecaharacter.png" as="image" />
+        <link rel="preload" href="/assets/background3.png" as="image" />
+        <link rel="preload" href="/assets/man-walk2.png" as="image" />
+        <link rel="preload" href="/assets/woman-walk.png" as="image" />
+        <link rel="preload" href="/assets/Flower.png" as="image" />
+        <link rel="preload" href="/assets/cat.png" as="image" />
       </head>
       <body style={{ margin: 0, padding: 0 }}>{children}</body>
     </html>

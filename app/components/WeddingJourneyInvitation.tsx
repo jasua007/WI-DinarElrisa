@@ -150,11 +150,69 @@ useEffect(() => {
     };
   }, [gameState, activeModal]);
 
+  const [isLoading, setIsLoading] = useState(true);
+const [loadProgress, setLoadProgress] = useState(0);
+
   const nearbyCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - playerX) < 95);
   const cameraX = Math.max(0, Math.min(WORLD_WIDTH - 420, playerX - 210));
 
+// List semua file gambar yang wajib ter-load sebelum aplikasi terbuka
+  const ASSETS_TO_LOAD = [
+    '/assets/Background.png',
+    '/assets/backgroundchosecaharacter.png',
+    '/assets/background3.png',
+    '/assets/man-walk2.png',
+    '/assets/woman-walk.png',
+    '/assets/Flower.png',
+    '/assets/NewGroomBrideCharacter.png',
+    '/assets/cat.png',
+    '/assets/Open Invitation Background.png',
+  ];
+
+  useEffect(() => {
+    let loadedCount = 0;
+    const totalAssets = ASSETS_TO_LOAD.length;
+
+    ASSETS_TO_LOAD.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loadedCount += 1;
+        setLoadProgress(Math.round((loadedCount / totalAssets) * 100));
+        if (loadedCount === totalAssets) {
+          // Kasih jeda sedikit (400ms) agar transisi terasa mulus
+          setTimeout(() => setIsLoading(false), 400);
+        }
+      };
+      img.onerror = () => {
+        // Tetap hitung walau ada yang gagal agar tidak terjebak stuck loading
+        loadedCount += 1;
+        setLoadProgress(Math.round((loadedCount / totalAssets) * 100));
+        if (loadedCount === totalAssets) {
+          setTimeout(() => setIsLoading(false), 400);
+        }
+      };
+    });
+  }, []);
+
+
   return (
     <div className={styles.wrapper}>
+
+{/* Layar Loading Interaktif */}
+      {isLoading && (
+        <div className={styles.loadingScreen}>
+          <h2 className={styles.loadingTitle}>{brideName} & {groomName}</h2>
+          <div className={styles.progressBarContainer}>
+            <div 
+              className={styles.progressBarFill} 
+              style={{ width: `${loadProgress}%` }} 
+            />
+          </div>
+          <p className={styles.loadingText}>LOADING INVITATION... {loadProgress}%</p>
+        </div>
+      )}
+
       {/* 1. COVER SCREEN */}
       {gameState === 'cover' && (
         <div className={styles.cover}>
