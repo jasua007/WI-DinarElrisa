@@ -76,9 +76,17 @@ export default function WeddingJourneyInvitation({
 const [dismissedCheckpoint, setDismissedCheckpoint] = useState<string | null>(null);
   const walkingStateRef = useRef({ left: false, right: false });
 
+  // Game Loop
 // Game Loop
   useEffect(() => {
-    if (gameState !== 'playing') return; // Hapus kondisi activeModal di sini
+    // Jika modal sedang terbuka, hentikan status jalan dan reset input tombol
+    if (activeModal) {
+      walkingStateRef.current = { left: false, right: false };
+      setIsWalking(false);
+      return;
+    }
+
+    if (gameState !== 'playing') return;
 
     let animationFrameId: number;
     const gameLoop = () => {
@@ -102,7 +110,7 @@ const [dismissedCheckpoint, setDismissedCheckpoint] = useState<string | null>(nu
 
     animationFrameId = requestAnimationFrame(gameLoop);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [gameState]); // Hapus activeModal dari dalam kurung siku
+  }, [gameState, activeModal]);
 
 
 // Auto-trigger modal saat mendekat & reset saat menjauh
