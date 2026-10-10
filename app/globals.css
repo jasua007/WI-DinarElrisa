@@ -9,4 +9,7 @@ body {
   margin: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden; /* Mematikan scroll vertikal & horizontal */
+  overscroll-behavior-y: none; /* Mematikan efek bounce/membal saat ditarik di HP (Safari/Chrome) */
+  touch-action: pan-x pan-y; /* Mencegah zoom in/out yang tidak disengaja dengan jari */
 }
