@@ -31,15 +31,23 @@ interface Checkpoint {
 
 const WORLD_WIDTH = 2950;
 
-const CHECKPOINTS: Checkpoint[] = [
-  { id: 'welcome', xPos: 350, title: 'Selamat Datang', npcLabel: 'Information', npcImage: '/assets/Message.png' },
-  { id: 'location', xPos: 850, title: 'Waktu & Lokasi', npcLabel: 'Venue', npcImage: '/assets/Groom-Bride-info.png' },
-  { id: 'rsvp', xPos: 1350, title: 'Konfirmasi Kehadiran', npcLabel: 'RSVP', npcImage: '/assets/npc-rsvp.png' },
-  { id: 'gift', xPos: 1850, title: 'Kado Digital & QRIS', npcLabel: 'Wedding Gift', npcImage: '/assets/Gift.png' },
-  { id: 'thanks', xPos: 2250, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/mempelai.png' },
-  { id: 'venue', xPos: 2750, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/clocktower.png' },
-];
+interface Checkpoint {
+  id: string;
+  xPos: number;
+  title: string;
+  npcLabel: string;
+  npcImage: string;
+  className?: string; // Properti opsional untuk penyesuaian ukuran unik
+}
 
+const CHECKPOINTS: Checkpoint[] = [
+  { id: 'welcome', xPos: 350, title: 'Selamat Datang', npcLabel: 'Information', npcImage: '/assets/Message.png', className: styles.checkpoint_welcome },
+  { id: 'location', xPos: 850, title: 'Waktu & Lokasi', npcLabel: 'Venue', npcImage: '/assets/Groom-Bride-info.png', className: styles.checkpoint_location },
+  { id: 'thanks', xPos: 1350, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/mempelai.png', className: styles.checkpoint_thanks },
+  { id: 'rsvp', xPos: 1850, title: 'Konfirmasi Kehadiran', npcLabel: 'RSVP', npcImage: '/assets/npc-rsvp.png', className: styles.checkpoint_rsvp },
+  { id: 'gift', xPos: 2250, title: 'Kado Digital & QRIS', npcLabel: 'Wedding Gift', npcImage: '/assets/Gift.png', className: styles.checkpoint_gift },
+  { id: 'venue', xPos: 2750, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/clocktower.png', className: styles.checkpoint_venue },
+];
 export default function WeddingJourneyInvitation({
   groomName = 'Dinar',
   brideName = 'Elrisa',
@@ -380,11 +388,7 @@ const [loadProgress, setLoadProgress] = useState(0);
                     className={isVenue ? styles.venueWorldContainer : styles.npcWorldContainer}
                     style={{ left: `${cp.xPos}px` }}
                   >
-                    <img
-                      src={cp.npcImage}
-                      alt={cp.title}
-                      className={isVenue ? styles.venueImg : styles.npcImg}
-                    />
+                   <img src={cp.npcImage} alt={cp.title} className={`${isVenue ? styles.venueImg : styles.npcImg} ${cp.className || ''}`}/>
                   </div>
                 );
               })}
@@ -437,21 +441,38 @@ const [loadProgress, setLoadProgress] = useState(0);
         </div>
       )}
 
-      {/* 4. MODALS */}
+{/* 4. MODALS */}
       {activeModal && (
-        <div className={styles.modalOverlay} onClick={() => setActiveModal(null)}>
-          <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.modalOverlay}>
+          <div className={`${styles.modalCard} ${
+  activeModal === 'welcome' ? styles.modalCard_welcome : 
+  activeModal === 'rsvp' ? styles.modalCard_rsvp : 
+  activeModal === 'location' ? styles.modalCard_location : 
+  activeModal === 'venue' ? styles.modalCard_venue : 
+  activeModal === 'gift' ? styles.modalCard_gift : 
+  activeModal === 'thanks' ? styles.modalCard_thanks : ''
+}`}>
             <button 
-  className={styles.closeBtn} 
-  onClick={() => {
-    // Tandai pos ini agar tidak terbuka otomatis lagi saat masih berdiri di sini
-    if (nearbyCheckpoint) setDismissedCheckpoint(nearbyCheckpoint.id);
-    setActiveModal(null);
-  }}
->
-  ✕
-</button>
+              className={styles.closeBtn} 
+              onClick={() => {
+                if (nearbyCheckpoint) setDismissedCheckpoint(nearbyCheckpoint.id);
+                setActiveModal(null);
+              }}
+            >
+              ✕
+            </button>
 
+            {/* 1. MODAL WELCOME */}
+            {activeModal === 'welcome' && (
+              <div className={styles.modalBody}>
+                <h3>Selamat Datang!</h3>
+                <p>Halo <strong>{guestName || 'Tamu Undangan'}</strong>,</p>
+                <p>Terima kasih telah bergabung dalam perjalanan bahagia kami. Silakan telusuri peta ini untuk melihat detail acara pernikahan kami.</p>
+                <p className={styles.coupleSign}>Dengan kasih,<br /><strong>Elrisa Salsabilla & Dinar Suherlan</strong></p>
+              </div>
+            )}
+
+            {/* 2. MODAL RSVP */}
             {activeModal === 'rsvp' && (
               <div className={styles.modalBody}>
                 <h3>Konfirmasi Kehadiran</h3>
@@ -459,7 +480,6 @@ const [loadProgress, setLoadProgress] = useState(0);
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    if (onRsvpSubmit) onRsvpSubmit({ status: 'attending' });
                     alert('Terima kasih! Konfirmasi Anda telah berhasil disimpan.');
                     setActiveModal(null);
                   }}
@@ -470,58 +490,95 @@ const [loadProgress, setLoadProgress] = useState(0);
                     <option value="">Pilih Kehadiran</option>
                     <option value="1">Hadir (1 Orang)</option>
                     <option value="2">Hadir (2 Orang)</option>
+                    <option value="0">Maaf, Tidak Dapat Hadir</option>
                   </select>
                   <button type="submit" className={styles.submitBtn}>Kirim Konfirmasi</button>
                 </form>
               </div>
             )}
 
+            {/* 3. MODAL LOCATION */}
             {activeModal === 'location' && (
               <div className={styles.modalBody}>
                 <h3>Waktu & Lokasi Acara</h3>
-                <p><br></br>Wedding Ceremony: <br></br> <strong>Sunday, 22nd November 2026<br></br>08:00 AM - 09:00 AM</strong><br></br>Wedding Reception:<br></br> <strong>Sunday, 22nd November 2026<br></br>10:00 AM -14:30 PM</strong></p>
-                <p>{venueName}</p>
-                <button className={styles.submitBtn} onClick={() => window.open('https://www.google.com/maps/place/Balai+Rakyat+Depok+1,+Jl.+Bangau+Raya+No.192-174,+Depok+Jaya,+Pancoran+Mas,+Depok+City,+West+Java+16432/data=!4m2!3m1!1s0x2e69e9508de3b925:0xf1901ae7fbf4d254!18m1!1e1?utm_source=mstt_1&entry=gps&coh=192189&g_ep=CAESBzI2LjM0LjQYACCenQoqqQEsOTQyNjc3MjcsOTQyOTIxOTUsOTQyOTk1MzIsMTAwNzk2NDk4LDEwMDc5Nzc2MSwxMDA4MjY0NzksMTAwNzk2NTM1LDk0MjgwNTc2LDk0MjA3Mzk0LDk0MjA3NTA2LDk0MjA4NTA2LDk0MjE8NjUzLDk0MjI5ODM5LDk0Mjc1MTY4LDk0Mjc5NjE5LDEwMDgxNTY0MCwxMDA4MjAyMzcsMTAwODIyNDk0QgJJRA%3D%3D&skid=29635fb2-989a-4cea-bba6-90cb3cddad94&g_st=ac', '_blank')}>
-                  Buka Peta Google Maps
+                <div className={styles.scheduleBox}>
+                  <div className={styles.scheduleItem}>
+                    <h4>Akad Nikah</h4>
+                    <p>Minggu, 22 November 2026</p>
+                    <p><strong>08.00 - 09.00 WIB</strong></p>
+                  </div>
+                  <hr className={styles.divider} />
+                  <div className={styles.scheduleItem}>
+                    <h4>Resepsi Pernikahan</h4>
+                    <p>Minggu, 22 November 2026</p>
+                    <p><strong>10.00 - 14.30 WIB</strong></p>
+                  </div>
+                </div>
+                <p className={styles.venueTitle}><strong>Balai Rakyat Depok 1</strong></p>
+                <button 
+                  className={styles.submitBtn} 
+                  onClick={() => window.open('https://www.google.com/maps/place/Balai+Rakyat+Depok+1...', '_blank')}
+                >
+                  📍 Buka Google Maps
                 </button>
               </div>
             )}
 
-            {activeModal === 'gift' && (
-              <div className={styles.modalBody}>
-                <h3>Wedding Gift </h3>
-                <p>Your presence is more than enough, but if you wish to send us a gift, you may do so via:</p>                
-                <div className={styles.qrisBox}>
-                  <p>Bank BCA: <strong>6041336878</strong><br />Elrisa Salsabilla</p>
-                </div>
-                <p> With love and gratitude. </p>
-              </div>
-            )}
-
+            {/* 4. MODAL VENUE */}
             {activeModal === 'venue' && (
               <div className={styles.modalBody}>
                 <h3>Kamu Telah Tiba!</h3>
                 <p>Inilah tempat kami akan merayakan hari bahagia ini bersama.</p>
-                <p><strong>{venueName}</strong></p>
-                <p>{venueAddress}</p>
-                <button className={styles.submitBtn} onClick={() => window.open(venueMapsUrl, '_blank')}>
-                  Buka Peta Google Maps
+                <div className={styles.venueCard}>
+                  <h4>Balai Rakyat Depok 1</h4>
+                  <p>Jl. Bangau Raya No.192-174, Depok Jaya, Pancoran Mas, Depok City, West Java 16432</p>
+                </div>
+                <button 
+                  className={styles.submitBtn} 
+                  onClick={() => window.open('https://www.google.com/maps/place/Balai+Rakyat+Depok+1...', '_blank')}
+                >
+                  📍 Buka Peta
                 </button>
               </div>
             )}
 
-            {(activeModal === 'thanks' || activeModal === 'welcome') && (
+            {/* 5. MODAL GIFT */}
+            {activeModal === 'gift' && (
               <div className={styles.modalBody}>
-                <h3>Thank You, Dear Guests!</h3>
-                <p>We look forward to celebrating our special day with you.
-It would be an honor and a joy to have you there to share in our happiness and bless our union.
-</p>
-                <p className={styles.coupleSign}>With love<br></br>The Happy Couple<br></br><strong>Elrisa Salsabilla & Dinar Suherlan</strong></p>
+                <h3>Wedding Gift</h3>
+                <p>Your presence is more than enough, but if you wish to send us a gift, you may do so via:</p>
+                <div className={styles.qrisBox}>
+                  <p className={styles.bankName}>Bank BCA</p>
+                  <p className={styles.accountNumber}><strong>6041336878</strong></p>
+                  <p className={styles.accountName}>a.n. Elrisa Salsabilla</p>
+                  <button 
+                    type="button"
+                    className={styles.copyBtn}
+                    onClick={() => {
+                      navigator.clipboard.writeText('6041336878');
+                      alert('Nomor rekening berhasil disalin!');
+                    }}
+                  >
+                    📋 Salin No. Rekening
+                  </button>
+                </div>
+                <p className={styles.giftThanks}>With love and gratitude.</p>
               </div>
             )}
+
+            {/* 6. MODAL THANKS */}
+            {activeModal === 'thanks' && (
+              <div className={styles.modalBody}>
+                <h3>Thank You, Dear Guests!</h3>
+                <p>We look forward to celebrating our special day with you. It would be an honor and a joy to have you there to share in our happiness.</p>
+                <p className={styles.coupleSign}>With love,<br /><strong>Elrisa Salsabilla & Dinar Suherlan</strong></p>
+              </div>
+            )}
+
           </div>
         </div>
       )}
+  
       {/* Element Audio MP3 */}
       <audio ref={audioRef} src="/assets/music.mp3" loop />
 

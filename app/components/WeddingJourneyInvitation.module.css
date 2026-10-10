@@ -591,20 +591,76 @@
   background-position: top center; background-size: auto 100%; z-index: 10;
 }
 .npcWorldContainer {
-  position: absolute; bottom: 70px; transform: translateX(-50%); display: flex; align-items: flex-end; z-index: 12;
+  position: absolute; bottom: 67px; transform: translateX(-50%); display: flex; align-items: flex-end; z-index: 12;
+  overflow: visible !important; /* Mencegah gambar terpotong saat sangat besar */
 }
-.npcImg { height: 170px; width: auto; object-fit: contain; }
+.npcImg { height: 190px; width: auto; object-fit: contain; }
+
 .venueWorldContainer {
   position: absolute; bottom: 45px; transform: translateX(-50%);
   display: flex; align-items: flex-end; justify-content: center; z-index: 11;
+  overflow: visible !important; /* Mencegah gambar terpotong saat sangat besar */
 }
 .venueImg {
   height: 340px; max-height: 55vh; width: auto; object-fit: contain;
   filter: drop-shadow(0 14px 18px rgba(76, 92, 54, 0.35));
 }
 .playerWorldContainer {
-  position: absolute; bottom: 45px; z-index: 20;
+  position: absolute; bottom: 55px; z-index: 20;
 }
+
+/* ==========================================================================
+   UKURAN & POSISI KUSTOM GAMBAR CHECKPOINT (REVAMP)
+   ========================================================================== */
+
+/* Helper agar gambar bebas membesar sesuai width tanpa terkunci height bawaan */
+.checkpoint_welcome,
+.checkpoint_location,
+.checkpoint_thanks,
+.checkpoint_rsvp,
+.checkpoint_gift,
+.checkpoint_venue {
+  height: auto !important;
+  max-height: none !important;
+  max-width: none !important;
+}
+
+/* 1. Message / Information */
+.checkpoint_welcome {
+  width: 200px !important;
+  bottom: 45px !important;
+}
+
+/* 2. Groom & Bride Info Board */
+.checkpoint_location {
+  width: 320px !important;
+  bottom: 40px !important;
+}
+
+/* 3. Mempelai Character Statue */
+.checkpoint_thanks {
+  width: 500px !important; /* Sekarang bisa membesar hingga 900px */
+  bottom: 40px !important;
+}
+
+/* 4. NPC RSVP Desk */
+.checkpoint_rsvp {
+  width: 180px !important;
+  bottom: 40px !important;
+}
+
+/* 5. Gift Box / QRIS Mailbox */
+.checkpoint_gift {
+  width: 295px !important;
+  bottom: 92px !important;
+}
+
+/* 6. Clocktower / Menara Jam */
+.checkpoint_venue {
+  width: 600px !important; /* Menara jam bebas membesar */
+  bottom: 35px !important;
+}
+
 
 /* CONTROLS & MODALS */
 .interactivePillWrapper {
@@ -643,6 +699,133 @@
   border: 2px solid var(--color-gold-box);/* Tambahkan baris ini untuk animasi */
   animation: floatModal 3s ease-in-out infinite; 
 }
+
+
+/* ==========================================================================
+   UKURAN UNIK MODAL CARD PER CHECKPOINT
+   ========================================================================== */
+
+/* 1. Modal Welcome / Ucapan Selamat Datang */
+.modalCard_welcome {
+  max-width: 290px;
+  padding: 20px 18px;
+}
+
+/* 2. Modal Venue / Lokasi Acara */
+.modalCard_venue,
+.modalCard_location {
+  max-width: 330px;
+  padding: 24px 20px;
+}
+
+/* 3. Modal RSVP / Form Kehadiran (Lebih luas untuk form) */
+.modalCard_rsvp {
+  max-width: 340px;
+  padding: 96px 22px;
+}
+
+/* 4. Modal Gift / Angpao & Rekening */
+.modalCard_gift {
+  max-width: 310px;
+  padding: 22px 18px;
+}
+
+/* 5. Modal Thanks / Ucapan Penutup */
+.modalCard_thanks {
+  max-width: 280px;
+  padding: 20px 16px;
+}
+
+  /* Styling Pembantu Modal Body Revamp */
+.scheduleBox {
+  background: rgba(163, 167, 138, 0.12);
+  border-radius: 12px;
+  padding: 12px;
+  margin: 12px 0;
+}
+
+.scheduleItem h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: var(--color-cypress);
+}
+
+.scheduleItem p {
+  margin: 2px 0;
+  font-size: 12px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px dashed var(--color-gold-box);
+  margin: 8px 0;
+}
+
+.venueTitle {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--color-text-dark);
+}
+
+.venueCard {
+  background: #fdfbf7;
+  border: 1px solid var(--color-gold-box);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 12px 0;
+}
+
+.venueCard h4 {
+  margin: 0 0 4px 0;
+  color: var(--color-cypress);
+}
+
+.venueCard p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.bankName {
+  font-size: 12px;
+  color: var(--color-olive);
+  margin-bottom: 2px;
+}
+
+.accountNumber {
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: var(--color-text-dark);
+  margin: 4px 0;
+}
+
+.accountName {
+  font-size: 12px;
+  margin-top: 0;
+}
+
+.copyBtn {
+  background: var(--color-olive);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: transform 0.2s ease;
+}
+
+.copyBtn:active {
+  transform: scale(0.95);
+}
+
+.giftThanks {
+  font-style: italic;
+  font-size: 100px;
+  margin-top: 10px;
+  color: var(--color-olive);
+}
+
 
 /* Tambahkan keyframes ini tepat di bawah .modalCard */
 @keyframes floatModal {
