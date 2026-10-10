@@ -124,7 +124,7 @@ const [dismissedCheckpoint, setDismissedCheckpoint] = useState<string | null>(nu
 // Auto-trigger modal saat mendekat & reset saat menjauh
 useEffect(() => {
   // Sensor jarak yang sama dengan nearbyCheckpoint
-  const currentCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - playerX) < 95);
+  const currentCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - playerX) < 40);
 
   if (currentCheckpoint) {
     // Buka otomatis jika pos belum ditutup oleh tamu

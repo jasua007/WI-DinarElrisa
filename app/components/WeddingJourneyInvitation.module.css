@@ -586,27 +586,30 @@
 }
 
 .groundBar {
-  position: absolute; bottom: 0; left: 0; height: 130px;
+  position: absolute; bottom: 0; left: 0; height: 180px;
   background-image: url('/assets/ground.png'); background-repeat: repeat-x;
   background-position: top center; background-size: auto 100%; z-index: 10;
 }
 .npcWorldContainer {
-  position: absolute; bottom: 67px; transform: translateX(-50%); display: flex; align-items: flex-end; z-index: 12;
+  position: absolute; bottom: 90px; transform: translateX(-50%); display: flex; align-items: flex-end; z-index: 12;
   overflow: visible !important; /* Mencegah gambar terpotong saat sangat besar */
 }
-.npcImg { height: 190px; width: auto; object-fit: contain; }
+.npcImg { height: 190px; width: auto; object-fit: contain; 
+  animation: glowingPulse 2s infinite ease-in-out;
+}
 
 .venueWorldContainer {
-  position: absolute; bottom: 45px; transform: translateX(-50%);
+  position: absolute; bottom: 80px; transform: translateX(-50%);
   display: flex; align-items: flex-end; justify-content: center; z-index: 11;
   overflow: visible !important; /* Mencegah gambar terpotong saat sangat besar */
 }
 .venueImg {
   height: 340px; max-height: 55vh; width: auto; object-fit: contain;
   filter: drop-shadow(0 14px 18px rgba(76, 92, 54, 0.35));
+  animation: glowingPulse 2s infinite ease-in-out;
 }
 .playerWorldContainer {
-  position: absolute; bottom: 55px; z-index: 20;
+  position: absolute; bottom: 80px; z-index: 20;
 }
 
 /* ==========================================================================
@@ -651,7 +654,7 @@
 
 /* 5. Gift Box / QRIS Mailbox */
 .checkpoint_gift {
-  width: 295px !important;
+  width: 185px !important;
   bottom: 92px !important;
 }
 
@@ -659,6 +662,25 @@
 .checkpoint_venue {
   width: 600px !important; /* Menara jam bebas membesar */
   bottom: 35px !important;
+}
+
+/* ==========================================================================
+   EFEK GLOW / PENDARAN INTERAKTIF CHECKPOINT
+   ========================================================================== */
+@keyframes glowingPulse {
+  0% {
+    /* Redup */
+    filter: drop-shadow(0 0 5px rgba(251, 250, 249, 0.308));
+  }
+  50% {
+    /* Terang benderang di titik puncak */
+    filter: drop-shadow(0 0 3px rgb(255, 255, 255)) 
+            drop-shadow(0 0 3px rgb(254, 254, 254));
+  }
+  100% {
+    /* Kembali redup */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.334));
+  }
 }
 
 
