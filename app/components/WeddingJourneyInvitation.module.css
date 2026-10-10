@@ -479,18 +479,45 @@
   color: var(--color-cypress);
 }
 
-/* SPRITE ANIMATION */
+/* SPRITE ANIMATION *//* ==========================================================================
+   SPRITE ANIMATION (4-Frame Pixel Perfect + Idle Frame 2)
+   ========================================================================== */
 .spriteFrame {
-  width: 100px; height: 160px; background-size: 300% 100%; background-position: 50% 0;
+  width: 100px; 
+  height: 160px; 
+  background-size: 400px 160px; 
+  /* Posisi default saat idle diset ke frame nomor 2 (-100px) */
+  background-position: -100px 0px; 
 }
-.manSprite { background-image: url('/assets/man-walk.png'); }
-.womanSprite { background-image: url('/assets/woman-walk.png'); }
-.animateWalk { animation: playSprite 0.45s steps(1) infinite; }
+
+.manSprite { 
+  background-image: url('/assets/man-walk2.png'); 
+}
+
+.womanSprite { 
+  background-image: url('/assets/woman-walk.png'); 
+}
+
+.animateWalk { 
+  animation: playSprite 0.7s steps(1, end) infinite; 
+}
+
 @keyframes playSprite {
-  0% { background-position: 0% 0; }
-  33% { background-position: 50% 0; }
-  66% { background-position: 100% 0; }
-  100% { background-position: 0% 0; }
+  0% { 
+    background-position: 0px 0px; 
+  }
+  25% { 
+    background-position: -100px 0px; 
+  }
+  50% { 
+    background-position: -200px 0px; 
+  }
+  75% { 
+    background-position: -300px 0px; 
+  }
+  100% { 
+    background-position: 0px 0px; 
+  }
 }
 
 /* GAME STAGE */
