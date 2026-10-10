@@ -586,12 +586,12 @@
 }
 
 .groundBar {
-  position: absolute; bottom: -50; left: 0; height: 130px;
+  position: absolute; bottom: 0; left: 0; height: 130px;
   background-image: url('/assets/ground.png'); background-repeat: repeat-x;
   background-position: top center; background-size: auto 100%; z-index: 10;
 }
 .npcWorldContainer {
-  position: absolute; bottom: 45px; transform: translateX(-50%); display: flex; align-items: flex-end; z-index: 12;
+  position: absolute; bottom: 70px; transform: translateX(-50%); display: flex; align-items: flex-end; z-index: 12;
 }
 .npcImg { height: 170px; width: auto; object-fit: contain; }
 .venueWorldContainer {
