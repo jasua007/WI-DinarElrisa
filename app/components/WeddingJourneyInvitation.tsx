@@ -44,7 +44,7 @@ const WORLD_WIDTH = 3400;
 
 // Daftar Pos Checkpoint
 const CHECKPOINTS: Checkpoint[] = [
-  { id: 'welcome', xPos: 350, title: 'Selamat Datang', npcLabel: 'Information', npcImage: '/assets/Message.png', className: styles.checkpoint_welcome },
+  { id: 'welcome', xPos: 450, title: 'Selamat Datang', npcLabel: 'Information', npcImage: '/assets/Message.png', className: styles.checkpoint_welcome },
   { id: 'location', xPos: 850, title: 'Waktu & Lokasi', npcLabel: 'Venue', npcImage: '/assets/Groom-Bride-info.png', className: styles.checkpoint_location },
   { id: 'thanks', xPos: 1350, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/mempelai.png', className: styles.checkpoint_thanks },
   { id: 'rsvp', xPos: 1850, title: 'Konfirmasi Kehadiran', npcLabel: 'RSVP', npcImage: '/assets/npc-rsvp.png', className: styles.checkpoint_rsvp },
@@ -321,9 +321,13 @@ export default function WeddingJourneyInvitation({
       {gameState === 'playing' && (
         <div className={styles.gameStage}>
           <div className={styles.headerInfoOverlay}>
-            <p className={styles.tagline}>{tagline}</p>
-            <h2 className={styles.gameTitle}>{brideName}<span className={styles.heart}>♥</span>{groomName}</h2>
-            <p className={styles.dateText}>{weddingDateLabel}</p>
+            <p className={styles.charTagline}>{tagline}</p>
+            <div className={styles.charNamesGroup}>
+              <span className={styles.charGroom}>{brideName}</span>
+              <span className={styles.charAmpersand}>&</span>
+              <span className={styles.charBride}>{groomName}</span>
+            </div>
+            <p className={styles.charDate}>{weddingDateLabel}</p>
           </div>
 
           <div className={styles.viewport}>

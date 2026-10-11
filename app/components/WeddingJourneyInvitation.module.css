@@ -387,7 +387,7 @@
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
   font-size: 14px !important;
   letter-spacing: 3px;
-  color: #A3A78A;
+  color: #0b0b0b;
   margin: 0 0 2px 0;
   text-transform: uppercase;
 }
@@ -417,7 +417,7 @@
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
   font-size: 12px !important;
   letter-spacing: 3px;
-  color: #A3A78A;
+  color: #080808;
   margin: 4px 0 0 0;
 }
 
@@ -508,12 +508,25 @@
   top: 0;             /* Menempel ke atap layar */
   left: 0;
   width: 100%;        /* Lebar penuh */
+  height: 28%;
   text-align: center;
   z-index: 80;
   pointer-events: none;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 100%);
   padding: 30px 10px 50px 10px;
   box-sizing: border-box; /* Memastikan padding tidak membuat elemen melebar */
+    margin-top: 45px;
+  background-image: url('/assets/text border2.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  margin: 0 0 2px 0;
 }
 
 .tagline {
@@ -530,7 +543,7 @@
   color: var(--color-cypress);
 }
 
-/* SPRITE ANIMATION *//* ==========================================================================
+/* ==========================================================================
    SPRITE ANIMATION (4-Frame Pixel Perfect + Idle Frame 2)
    ========================================================================== */
 .spriteFrame {
