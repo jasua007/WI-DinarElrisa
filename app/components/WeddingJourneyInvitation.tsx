@@ -606,7 +606,7 @@ export default function WeddingJourneyInvitation({
                       alert('Nomor rekening berhasil disalin!');
                     }}
                   >
-                    📋 Salin No. Rekening
+                    📋 COPY
                   </button>
                 </div>
                 <p className={styles.giftThanks}>With love and gratitude.</p>
