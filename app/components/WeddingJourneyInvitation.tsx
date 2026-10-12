@@ -157,7 +157,7 @@ export default function WeddingJourneyInvitation({
     }
 
     let animationFrameId: number;
-    const speed = 4;
+    const speed = 2.5;
 
     const gameLoop = () => {
       const { left, right } = walkingStateRef.current;
@@ -459,64 +459,117 @@ export default function WeddingJourneyInvitation({
             {/* 1. MODAL WELCOME */}
             {activeModal === 'welcome' && (
               <div className={styles.modalBody}>
-                <h3>Selamat Datang!</h3>
-                <p>Halo <strong>{guestName || 'Tamu Undangan'}</strong>,</p>
-                <p>Terima kasih telah bergabung dalam perjalanan bahagia kami. Silakan telusuri peta ini untuk melihat detail acara pernikahan kami.</p>
-                <p className={styles.coupleSign}>Dengan kasih,<br /><strong>Elrisa Salsabilla & Dinar Suherlan</strong></p>
+                <h3>Allah's Blessings Message</h3>
+                <p> "And among the signs of His power is that He created for you wives of your own kind, so that you would be inclined and feel at ease with them, and He made among you a feeling of love and affection. Indeed, in that there are truly signs for a person who thinks (لِقَوْمٍ يَتَفَكَّرُونَ )."<br></br>(QS. Ar-Rum: 21)</p>
               </div>
             )}
 
             {/* 2. MODAL RSVP */}
+{/* 2. MODAL RSVP */}
             {activeModal === 'rsvp' && (
               <div className={styles.modalBody}>
-                <h3>Konfirmasi Kehadiran</h3>
-                <p>Silakan konfirmasi kehadiran Anda untuk acara kami:</p>
+                <h3>RSVP</h3>
+                <p className={styles.rsvpWelcome}>
+                  Hi, Dear <strong>{guestName || 'Guest'}</strong>!<br />
+                  Kindly confirm your attendance.
+                </p>
+                
                 <form
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
-                    alert('Terima kasih! Konfirmasi Anda telah berhasil disimpan.');
-                    setActiveModal(null);
+                    
+                    // Ambil data dari form yang diisi tamu
+                    const formData = new FormData(e.currentTarget);
+                    const guestNameVal = formData.get('guestName');
+                    const attendanceVal = formData.get('attendance');
+
+                    try {
+                      // Ini adalah URL Google Script Anda yang tadi disalin
+                      const scriptUrl = 'https://script.google.com/macros/s/AKfycbxxF6gvQbH_UWhJTYKJuwEdMG0WR5smIHZG-9zCLY1TRhHqCCjvwRgCb4tOP6pMtgdalQ/exec';
+
+                      // Proses mengirim data ke Google Sheets
+                      await fetch(scriptUrl, {
+                        method: 'POST',
+                        mode: 'no-cors', // Penting agar tidak diblokir oleh browser
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          guestName: guestNameVal,
+                          attendance: attendanceVal
+                        })
+                      });
+
+                      // Munculkan notifikasi sukses dan tutup modal
+                      alert('Thank you! Your confirmation has been successfully saved.');
+                      setActiveModal(null);
+                    } catch (error) {
+                      alert('Oops! Something went wrong. Please try again.');
+                    }
                   }}
                   className={styles.formGroup}
                 >
-                  <input type="text" placeholder="Nama Lengkap" defaultValue={guestName || ''} required />
-                  <select required>
-                    <option value="">Pilih Kehadiran</option>
-                    <option value="1">Hadir (1 Orang)</option>
-                    <option value="2">Hadir (2 Orang)</option>
-                    <option value="0">Maaf, Tidak Dapat Hadir</option>
+                  <input 
+  type="text" 
+  name="guestName" 
+  placeholder="Guest Name" 
+  defaultValue={guestName || ''} 
+  required 
+/>
+                  
+                  <select name="attendance" required defaultValue="">
+                    <option value="" disabled hidden>Attendance Confirmation</option>
+                    <option value="Attending (1 Guest)">Attending (1 Guest)</option>
+                    <option value="Attending (2 Guests)">Attending (2 Guests)</option>
+                    <option value="Not Attending">Not Attending</option>
                   </select>
-                  <button type="submit" className={styles.submitBtn}>Kirim Konfirmasi</button>
+                  
+                  <button type="submit" className={styles.submitBtn}>
+                    Send Your Confirmation
+                  </button>
                 </form>
+
               </div>
             )}
 
-            {/* 3. MODAL LOCATION */}
-            {activeModal === 'location' && (
-              <div className={styles.modalBody}>
-                <h3>Waktu & Lokasi Acara</h3>
-                <div className={styles.scheduleBox}>
-                  <div className={styles.scheduleItem}>
-                    <h4>Akad Nikah</h4>
-                    <p>Minggu, 22 November 2026</p>
-                    <p><strong>08.00 - 09.00 WIB</strong></p>
-                  </div>
-                  <hr className={styles.divider} />
-                  <div className={styles.scheduleItem}>
-                    <h4>Resepsi Pernikahan</h4>
-                    <p>Minggu, 22 November 2026</p>
-                    <p><strong>10.00 - 14.30 WIB</strong></p>
-                  </div>
-                </div>
-                <p className={styles.venueTitle}><strong>Balai Rakyat Depok 1</strong></p>
-                <button 
-                  className={styles.submitBtn} 
-                  onClick={() => window.open(venueMapsUrl, '_blank')}
-                >
-                  📍 Buka Google Maps
-                </button>
-              </div>
-            )}
+            {/* 3. MODAL GROOM & BRIDE (LOCATION CHECKPOINT) */}
+{activeModal === 'location' && (
+  <div className={styles.modalBody}>
+    <h3>Groom & Bride</h3>
+    
+    <div className={styles.coupleProfileContainer}>
+      
+      {/* Profil Mempelai Pria */}
+      <div className={styles.profileCard}>
+        <div className={styles.imagePlaceholder}>
+          {/* Masukkan tag <img> Anda di sini nanti, contoh: */}
+          {/* <img src="/assets/dinar.jpg" alt="Dinar Suherlan" className={styles.profileImg} /> */}
+          <span>Foto Dinar</span>
+        </div>
+        <h4 className={styles.personName}>Dinar Suherlan</h4>
+        <p className={styles.parentText}>
+          Son of Mr. Didih Suherman<br />& Mrs. Marnah
+        </p>
+      </div>
+
+      <div className={styles.profileDivider}>&</div>
+
+      {/* Profil Mempelai Wanita */}
+      <div className={styles.profileCard}>
+        <div className={styles.imagePlaceholder}>
+          {/* Masukkan tag <img> Anda di sini nanti, contoh: */}
+          {/* <img src="/assets/elrisa.jpg" alt="Elrisa Salsabilla" className={styles.profileImg} /> */}
+          <span>Foto Elrisa</span>
+        </div>
+        <h4 className={styles.personName}>Elrisa Salsabilla</h4>
+        <p className={styles.parentText}>
+          Daughter of Mr. Ridarnis<br />& Mrs. Elvi Suryani
+        </p>
+      </div>
+
+    </div>
+  </div>
+)}
 
             {/* 4. MODAL VENUE */}
             {activeModal === 'venue' && (
@@ -560,14 +613,49 @@ export default function WeddingJourneyInvitation({
               </div>
             )}
 
-            {/* 6. MODAL THANKS */}
-            {activeModal === 'thanks' && (
-              <div className={styles.modalBody}>
-                <h3>Thank You, Dear Guests!</h3>
-                <p>We look forward to celebrating our special day with you. It would be an honor and a joy to have you there to share in our happiness.</p>
-                <p className={styles.coupleSign}>With love,<br /><strong>Elrisa Salsabilla & Dinar Suherlan</strong></p>
-              </div>
-            )}
+{/* 6. MODAL WEDDING DETAILS (THANKS CHECKPOINT) */}
+{activeModal === 'thanks' && (
+  <div className={styles.modalBody}>
+    <h3>Wedding Details</h3>
+    
+    <p className={styles.detailWelcome}>
+      Hi, <strong>{guestName || 'Guest'}</strong><br />
+      Welcome to the wedding of <strong>Elrisa & Dinar</strong>
+    </p>
+
+    <div className={styles.scheduleBox}>
+      <div className={styles.scheduleItem}>
+        <h4>Wedding Ceremony</h4>
+        <p>Sunday, 22nd November 2026</p>
+        <p><strong>07:00 AM - 09:00 AM</strong></p>
+      </div>
+
+      <hr className={styles.divider} />
+
+      <div className={styles.scheduleItem}>
+        <h4>Wedding Reception</h4>
+        <p>Sunday, 22nd November 2026</p>
+        <p><strong>10:00 AM - 02:30 PM</strong></p>
+      </div>
+    </div>
+
+    <div className={styles.venueCard}>
+      <h4>Venue</h4>
+      <p className={styles.venueNameText}><strong>Gedung Balai Rakyat Depok I / Gedung Serbaguna</strong></p>
+      <p className={styles.venueAddressText}>
+        Jl. Bangau Raya No.192-174, Depok Jaya, Pancoran Mas, Depok City, West Java 16432
+      </p>
+    </div>
+
+    <button 
+      type="button"
+      className={styles.submitBtn} 
+      onClick={() => window.open('https://maps.app.goo.gl/TZCobjjfrTrV73gA6?g_st=ac', '_blank')}
+    >
+      📍 View Location
+    </button>
+  </div>
+)}
 
             {/* 7. MODAL GALERI FOTO (ENDGAME) */}
             {activeModal === 'gallery' && (

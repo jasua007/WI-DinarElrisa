@@ -219,7 +219,7 @@
   font-size: 80% !important;
   letter-spacing: 4px;
   color: var(--color-text-dark);
-  margin: 50px 0 0 0;
+  margin: 30px 0 0 0;
 }
 
 .guestGroup {
@@ -563,7 +563,7 @@
 }
 
 .animateWalk { 
-  animation: playSprite 0.7s steps(1, end) infinite; 
+  animation: playSprite 0.9s steps(1, end) infinite; 
 }
 
 @keyframes playSprite {
@@ -701,16 +701,6 @@
 /* CONTROLS & MODALS */
 .interactivePillWrapper {
   position: absolute; top: 140px; width: 100%; display: flex; justify-content: center; z-index: 25;
-}
-.interactivePill {
-  font-family: 'Montserrat', sans-serif;
-  background: white; border: 2px solid var(--color-gold-box); padding: 8px 24px; border-radius: 20px;
-  font-weight: 700; color: var(--color-text-dark); cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  animation: bouncePill 1.5s infinite;
-}
-@keyframes bouncePill {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
 }
 
 .controlsBar {
@@ -906,9 +896,180 @@
 .closeBtn {
   position: absolute; top: 12px; right: 14px; border: none; background: transparent; font-size: 16px; color: var(--color-olive); cursor: pointer;
 }
-.modalBody h3 { color: var(--color-text-dark); margin-top: 5px; margin-bottom: 10px; font-family: 'Beth Ellen', cursive !important; font-size: 22px; font-weight: 400;}
-.modalBody p { font-family: 'Montserrat', sans-serif; color: var(--color-olive); font-size: 13px; line-height: 1.5;}
+.modalBody h3 { 
+  color: var(--color-text-dark); 
+  margin-top: 5px; 
+  margin-bottom: 10px; 
+  font-family: 'Brusher', cursive !important; 
+  font-size: 22px; 
+  font-weight: 700 !important; /* Diubah ke Bold */
+}
+
+.modalBody p { 
+  font-family: 'Cormorant Garamond', serif !important; /* Diubah ke Cormorant Garamond */
+  color: var(--color-olive); 
+  font-size: 13px; 
+  font-weight: 400 !important; /* Regular */
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   STYLING MODAL GROOM & BRIDE
+   ========================================================================== */
+
+/* Kontainer pembungkus kedua profil */
+.coupleProfileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+/* Card tiap mempelai */
+.profileCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Container bingkai foto (Placeholder) */
+.imagePlaceholder {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: var(--color-ivory, #DFD4C2);
+  border: 2px solid var(--color-olive, #696C4D);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.imagePlaceholder span {
+  font-size: 11px;
+  color: var(--color-olive, #696C4D);
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Style foto jika nanti tag <img> dimasukkan */
+.profileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Nama Mempelai */
+.personName {
+  font-family: 'Brusher', cursive !important;
+  font-size: 18px;
+  color: var(--color-text-dark, #2d2d2d);
+  margin: 4px 0 2px 0;
+}
+
+/* Keterangan Orang Tua */
+.parentText {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 13px !important;
+  color: var(--color-olive, #696C4D) !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
+}
+
+/* Pembatas ampersand (&) antar profil */
+.profileDivider {
+  font-family: 'Brusher', cursive !important;
+  font-size: 20px;
+  color: var(--color-olive, #696C4D);
+  margin: -4px 0;
+}
+
+/* ==========================================================================
+   STYLING MODAL WEDDING DETAILS
+   ========================================================================== */
+
+/* Penyesuaian ukuran kotak modal details */
+.modalCard_thanks {
+  max-width: 340px !important;
+  padding: 24px 20px !important;
+}
+
+/* Teks Selamat Datang Tamu */
+.detailWelcome {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 15px !important;
+  color: var(--color-olive, #696C4D) !important;
+  text-align: center;
+  margin-bottom: 16px !important;
+  line-height: 1.4 !important;
+}
+
+/* Box Jadwal Acara */
+.scheduleBox {
+  background-color: rgba(223, 212, 194, 0.25);
+  border: 1px solid var(--color-olive, #696C4D);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.scheduleItem h4 {
+  font-family: 'Brusher', cursive !important;
+  font-size: 18px !important;
+  color: var(--color-text-dark, #2d2d2d);
+  margin: 0 0 4px 0;
+}
+
+.scheduleItem p {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 13px !important;
+  color: var(--color-olive, #696C4D) !important;
+  margin: 2px 0 !important;
+}
+
+.divider {
+  border: none;
+  border-top: 1px dashed var(--color-olive, #696C4D);
+  margin: 10px 0;
+  opacity: 0.5;
+}
+
+/* Card Lokasi Gedung */
+.venueCard {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.venueCard h4 {
+  font-family: 'Brusher', cursive !important;
+  font-size: 18px !important;
+  color: var(--color-text-dark, #2d2d2d);
+  margin: 0 0 4px 0;
+}
+
+.venueNameText {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 14px !important;
+  color: var(--color-text-dark, #2d2d2d) !important;
+  margin: 0 0 2px 0 !important;
+}
+
+.venueAddressText {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 12px !important;
+  color: var(--color-olive, #696C4D) !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
+}
+
 .formGroup { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+
+
 .formGroup input, .formGroup select {
   padding: 10px; border: 1px solid var(--color-sage); border-radius: 8px; color: var(--color-cypress); background: #fff; font-family: 'Montserrat', sans-serif;
 }
