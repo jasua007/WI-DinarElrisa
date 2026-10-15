@@ -39,6 +39,12 @@ interface Decoration {
   zIndex?: number;
 }
 
+interface WishItem {
+  timestamp: string;
+  name: string;
+  wish: string;
+}
+
 // Lebar total arena permainan
 const WORLD_WIDTH = 3400;
 
@@ -49,15 +55,15 @@ const CHECKPOINTS: Checkpoint[] = [
   { id: 'thanks', xPos: 1350, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/mempelai.png', className: styles.checkpoint_thanks },
   { id: 'rsvp', xPos: 1850, title: 'Konfirmasi Kehadiran', npcLabel: 'RSVP', npcImage: '/assets/npc-rsvp.png', className: styles.checkpoint_rsvp },
   { id: 'gift', xPos: 2280, title: 'Kado Digital & QRIS', npcLabel: 'Wedding Gift', npcImage: '/assets/Gift.png', className: styles.checkpoint_gift },
-  { id: 'venue', xPos: 2680, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/clocktower.png', className: styles.checkpoint_venue },
-  { id: 'gallery', xPos: 3100, title: 'Galeri Foto', npcLabel: 'Galeri Momen', npcImage: '/assets/gallery.png', className: styles.checkpoint_gallery },
+  { id: 'venue', xPos: 3100, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/Groom & Bride.png', className: styles.checkpoint_venue },
+  { id: 'gallery', xPos: 2680, title: 'Galeri Foto', npcLabel: 'Galeri Momen', npcImage: '/assets/Gallery.png', className: styles.checkpoint_gallery },
 ];
 
 // Daftar Ornamen / Dekorasi Hiasan Jalanan
 const DECORATIONS: Decoration[] = [
-  { id: 'flower_left', xPos: 120, image: '/assets/pointing.png', width: 100, bottom: 92, zIndex: 15 },
-  // { id: 'flower_bush', xPos: 620, image: '/assets/bungasudutkanan.png', width: 95, bottom: 40, zIndex: 12 },
-  // { id: 'flower_lamp', xPos: 1100, image: '/assets/Flower.png', width: 65, bottom: 48, zIndex: 8 },
+  { id: 'flower_left', xPos: 120, image: '/assets/pointing.png', width: 240, bottom: 92, zIndex: 15 },
+  { id: 'flower_bush', xPos: 2280, image: '/assets/Chair.png', width: 200, bottom: 50, zIndex: 12 },
+  { id: 'flower_lamp', xPos: 3100, image: '/assets/rumah.png', width: 600, bottom: 100, zIndex: 11 },
   // { id: 'flower_bush2', xPos: 1600, image: '/assets/bungasudutkiri.png', width: 90, bottom: 40, zIndex: 12 },
   // { id: 'flower_right', xPos: 2100, image: '/assets/bunga.png', width: 85, bottom: 42, zIndex: 8 },
   // { id: 'flower_end', xPos: 2950, image: '/assets/bungasudutkanan.png', width: 95, bottom: 40, zIndex: 12 },
@@ -103,6 +109,28 @@ export default function WeddingJourneyInvitation({
   const [direction, setDirection] = useState<'right' | 'left'>('right');
   const [isWalking, setIsWalking] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  // State untuk menampung daftar doa
+  const [wishesList, setWishesList] = useState<WishItem[]>([]);
+  const [isLoadingWishes, setIsLoadingWishes] = useState(false);
+
+  useEffect(() => {
+    if (activeModal === 'venue') { 
+      setIsLoadingWishes(true);
+      const scriptUrl = 'https://script.google.com/macros/s/AKfycbxxF6gvQbH_UWhJTYKJuwEdMG0WR5smIHZG-9zCLY1TRhHqCCjvwRgCb4tOP6pMtgdalQ/exec';
+      
+      fetch(scriptUrl)
+        .then(res => res.json())
+        .then(data => {
+          setWishesList(data);
+          setIsLoadingWishes(false);
+        })
+        .catch(err => {
+          console.error('Gagal mengambil doa:', err);
+          setIsLoadingWishes(false);
+        });
+    }
+  }, [activeModal]);
+
   const [dismissedCheckpoint, setDismissedCheckpoint] = useState<string | null>(null);
   const walkingStateRef = useRef({ left: false, right: false });
 
@@ -465,7 +493,6 @@ export default function WeddingJourneyInvitation({
             )}
 
             {/* 2. MODAL RSVP */}
-{/* 2. MODAL RSVP */}
             {activeModal === 'rsvp' && (
               <div className={styles.modalBody}>
                 <h3>RSVP</h3>
@@ -543,8 +570,8 @@ export default function WeddingJourneyInvitation({
       <div className={styles.profileCard}>
         <div className={styles.imagePlaceholder}>
           {/* Masukkan tag <img> Anda di sini nanti, contoh: */}
-          {/* <img src="/assets/dinar.jpg" alt="Dinar Suherlan" className={styles.profileImg} /> */}
-          <span>Foto Dinar</span>
+          <img src="/assets/DINAR.jpeg" alt="Dinar Suherlan" className={styles.profileImg} />
+          
         </div>
         <h4 className={styles.personName}>Dinar Suherlan</h4>
         <p className={styles.parentText}>
@@ -558,8 +585,8 @@ export default function WeddingJourneyInvitation({
       <div className={styles.profileCard}>
         <div className={styles.imagePlaceholder}>
           {/* Masukkan tag <img> Anda di sini nanti, contoh: */}
-          {/* <img src="/assets/elrisa.jpg" alt="Elrisa Salsabilla" className={styles.profileImg} /> */}
-          <span>Foto Elrisa</span>
+          <img src="/assets/EL.jpeg" alt="Elrisa Salsabilla" className={styles.profileImg} />
+          
         </div>
         <h4 className={styles.personName}>Elrisa Salsabilla</h4>
         <p className={styles.parentText}>
@@ -571,21 +598,89 @@ export default function WeddingJourneyInvitation({
   </div>
 )}
 
-            {/* 4. MODAL VENUE */}
+{/* 4. MODAL WISHES (Sebelumnya Venue) */}
             {activeModal === 'venue' && (
               <div className={styles.modalBody}>
-                <h3>Kamu Telah Tiba!</h3>
-                <p>Inilah tempat kami akan merayakan hari bahagia ini bersama.</p>
-                <div className={styles.venueCard}>
-                  <h4>Balai Rakyat Depok 1</h4>
-                  <p>{venueAddress}</p>
-                </div>
-                <button 
-                  className={styles.submitBtn} 
-                  onClick={() => window.open(venueMapsUrl, '_blank')}
+                <h3>Thank You!</h3>
+                <p>
+                  We look forward to celebrating our special day with you. It would be an honor and a joy to have you there to share in our happiness and bless our union.
+                </p>
+                <p className={styles.coupleSign}>
+                  With love,<br />
+                  <strong>Elrisa Salsabilla & Dinar Suherlan</strong>
+                </p>
+
+                <hr className={styles.divider} />
+
+                {/* FORM KIRIM WISHES */}
+                <h4>Send Your Wishes</h4>
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.currentTarget);
+                    const nameVal = formData.get('wishName') as string;
+                    const wishVal = formData.get('wishMessage') as string;
+
+                    try {
+                      const scriptUrl = 'https://script.google.com/macros/s/AKfycbxxF6gvQbH_UWhJTYKJuwEdMG0WR5smIHZG-9zCLY1TRhHqCCjvwRgCb4tOP6pMtgdalQ/exec';
+                      
+                      await fetch(scriptUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          action: 'wish',
+                          name: nameVal,
+                          wish: wishVal
+                        })
+                      });
+
+                      alert('Thank you for your wishes!');
+                      (e.target as HTMLFormElement).reset();
+
+                      // Langsung tampilkan doa yang baru dikirim ke layar tanpa harus refresh
+                      setWishesList([{ timestamp: new Date().toISOString(), name: nameVal, wish: wishVal }, ...wishesList]);
+                    } catch (error) {
+                      alert('Oops! Something went wrong. Please try again.');
+                    }
+                  }}
+                  className={styles.formGroup}
                 >
-                  📍 Buka Peta
-                </button>
+                  <input 
+                    type="text" 
+                    name="wishName" 
+                    placeholder="Full Name" 
+                    defaultValue={guestName || ''} 
+                    required 
+                  />
+                  <textarea 
+                    name="wishMessage" 
+                    placeholder="Your Wishes" 
+                    rows={3} 
+                    required 
+                    className={styles.wishTextArea}
+                  ></textarea>
+                  <button type="submit" className={styles.submitBtn}>Submit</button>
+                </form>
+
+                {/* AREA DAFTAR WISHES */}
+                <div className={styles.wishesContainer}>
+                  <h4>Your Wishes</h4>
+                  {isLoadingWishes ? (
+                    <p className={styles.loadingText}>Loading wishes...</p>
+                  ) : wishesList.length === 0 ? (
+                    <p className={styles.loadingText}>Be the first to send a wish!</p>
+                  ) : (
+                    <div className={styles.wishesList}>
+                      {wishesList.map((item, index) => (
+                        <div key={index} className={styles.wishItem}>
+                          <strong>{item.name}</strong>
+                          <p>{item.wish}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
@@ -660,12 +755,17 @@ export default function WeddingJourneyInvitation({
             {/* 7. MODAL GALERI FOTO (ENDGAME) */}
             {activeModal === 'gallery' && (
               <div className={styles.modalBody}>
-                <h3>Galeri Momen Bahagia</h3>
-                <p>Kumpulan kenangan perjalanan cinta kami:</p>
+                <h3>Our Gallery</h3>
+                <p>A Glimpse of Our Happiness:</p>
                 <div className={styles.galleryGrid}>
-                  <img src="/assets/Background.png" alt="Momen 1" className={styles.galleryThumb} />
-                  <img src="/assets/background3.png" alt="Momen 2" className={styles.galleryThumb} />
-                  <img src="/assets/backgroundchosecaharacter.png" alt="Momen 3" className={styles.galleryThumb} />
+                  <img src="/assets/1.jpeg" alt="Momen 1" className={styles.galleryThumb} />
+                  <img src="/assets/2.jpeg" alt="Momen 2" className={styles.galleryThumb} />
+                  <img src="/assets/3.jpeg" alt="Momen 3" className={styles.galleryThumb} />
+                  <img src="/assets/11.jpeg" alt="Momen 1" className={styles.galleryThumb} />
+                  <img src="/assets/12.png" alt="Momen 2" className={styles.galleryThumb} />
+                  <img src="/assets/13.jpeg" alt="Momen 3" className={styles.galleryThumb} />
+                  <img src="/assets/14.jpeg" alt="Momen 1" className={styles.galleryThumb} />
+                  <img src="/assets/15.jpeg" alt="Momen 2" className={styles.galleryThumb} />
                 </div>
                 <p className={styles.coupleSign}>
                   Terima kasih telah berjalan bersama kami hingga akhir!<br />
