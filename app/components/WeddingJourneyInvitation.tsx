@@ -64,9 +64,54 @@ const DECORATIONS: Decoration[] = [
   { id: 'flower_left', xPos: 120, image: '/assets/pointing.png', width: 240, bottom: 92, zIndex: 15 },
   { id: 'flower_bush', xPos: 2280, image: '/assets/Chair.png', width: 200, bottom: 50, zIndex: 12 },
   { id: 'flower_lamp', xPos: 3100, image: '/assets/rumah.png', width: 600, bottom: 100, zIndex: 11 },
-  // { id: 'flower_bush2', xPos: 1600, image: '/assets/bungasudutkiri.png', width: 90, bottom: 40, zIndex: 12 },
-  // { id: 'flower_right', xPos: 2100, image: '/assets/bunga.png', width: 85, bottom: 42, zIndex: 8 },
-  // { id: 'flower_end', xPos: 2950, image: '/assets/bungasudutkanan.png', width: 95, bottom: 40, zIndex: 12 },
+];
+
+// DAFTAR SELURUH ASET GAMBAR UNTUK DI-PRELOAD LENGKAP
+const ASSETS_TO_LOAD = [
+  // Background & UI Utama
+  '/assets/Background.png',
+  '/assets/backgroundchosecaharacter.png',
+  '/assets/background3.png',
+  '/assets/ground.png',
+  '/assets/text border.png',
+  '/assets/text border2.png',
+  '/assets/Flower.png',
+  '/assets/bird.png',
+  '/assets/Open Invitation Background.png',
+  '/assets/cat.png',
+
+  // Karakter & Sprite
+  '/assets/man-walk2.png',
+  '/assets/woman-walk.png',
+  '/assets/NewGroomBrideCharacter.png',
+  '/assets/man characters.png',
+  '/assets/woman characters.png',
+  '/assets/man background.png',
+  '/assets/woman background.png',
+
+  // Checkpoints & Ornamen
+  '/assets/Message.png',
+  '/assets/Groom-Bride-info.png',
+  '/assets/mempelai.png',
+  '/assets/npc-rsvp.png',
+  '/assets/Gift.png',
+  '/assets/Groom & Bride.png',
+  '/assets/Gallery.png',
+  '/assets/pointing.png',
+  '/assets/Chair.png',
+  '/assets/rumah.png',
+
+  // Foto Mempelai & Galeri
+  '/assets/DINAR.jpeg',
+  '/assets/EL.jpeg',
+  '/assets/1.jpeg',
+  '/assets/2.jpeg',
+  '/assets/3.jpeg',
+  '/assets/11.jpeg',
+  '/assets/12.png',
+  '/assets/13.jpeg',
+  '/assets/14.jpeg',
+  '/assets/15.jpeg',
 ];
 
 export default function WeddingJourneyInvitation({
@@ -103,12 +148,17 @@ export default function WeddingJourneyInvitation({
   const [isLoading, setIsLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
 
+  // State Loading Submit Form (UX Feedback)
+  const [isSubmittingRsvp, setIsSubmittingRsvp] = useState(false);
+  const [isSubmittingWish, setIsSubmittingWish] = useState(false);
+
   // Player & Game Loop States
   const [playerX, setPlayerX] = useState(100);
-  const playerXRef = useRef(100); // Ref posisi pemain untuk mencegah lag pada game loop
+  const playerXRef = useRef(100);
   const [direction, setDirection] = useState<'right' | 'left'>('right');
   const [isWalking, setIsWalking] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
+
   // State untuk menampung daftar doa
   const [wishesList, setWishesList] = useState<WishItem[]>([]);
   const [isLoadingWishes, setIsLoadingWishes] = useState(false);
@@ -139,57 +189,48 @@ export default function WeddingJourneyInvitation({
     playerXRef.current = playerX;
   }, [playerX]);
 
-  // Preload Aset Gambar Utama
-  const ASSETS_TO_LOAD = [
-    '/assets/Background.png',
-    '/assets/backgroundchosecaharacter.png',
-    '/assets/background3.png',
-    '/assets/man-walk2.png',
-    '/assets/woman-walk.png',
-    '/assets/Flower.png',
-    '/assets/NewGroomBrideCharacter.png',
-    '/assets/cat.png',
-    '/assets/Gallery.png',
-    '/assets/ground.png',
-    '/assets/mempelai.png',
-    '/assets/rumah.png',
-    '/assets/DINAR.jpeg',
-    '/assets/EL.jpeg',
-    '/assets/1.jpeg',
-    '/assets/2.jpeg',
-    '/assets/3.jpeg',
-    '/assets/11.jpeg',
-    '/assets/12.png',
-    '/assets/13.jpeg',
-    '/assets/14.jpeg',
-    '/assets/15.jpeg',
-  ];
-
+  // Preload Aset Gambar Utama dengan GPU Async Decoding
   useEffect(() => {
+    let isMounted = true;
     let loadedCount = 0;
     const totalAssets = ASSETS_TO_LOAD.length;
 
-    ASSETS_TO_LOAD.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        loadedCount += 1;
-        setLoadProgress(Math.round((loadedCount / totalAssets) * 100));
-        if (loadedCount === totalAssets) {
-          setTimeout(() => setIsLoading(false), 300);
-        }
-      };
-      img.onerror = () => {
-        loadedCount += 1;
-        setLoadProgress(Math.round((loadedCount / totalAssets) * 100));
-        if (loadedCount === totalAssets) {
-          setTimeout(() => setIsLoading(false), 300);
-        }
-      };
+    const loadSingleAsset = (src: string) => {
+      return new Promise<void>((resolve) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+          if ('decode' in img) {
+            img.decode().then(() => resolve()).catch(() => resolve());
+          } else {
+            resolve();
+          }
+        };
+        img.onerror = () => resolve();
+      });
+    };
+
+    Promise.all(
+      ASSETS_TO_LOAD.map((src) =>
+        loadSingleAsset(src).then(() => {
+          if (isMounted) {
+            loadedCount += 1;
+            setLoadProgress(Math.round((loadedCount / totalAssets) * 100));
+          }
+        })
+      )
+    ).then(() => {
+      if (isMounted) {
+        setTimeout(() => setIsLoading(false), 300);
+      }
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  // Optimized Game Loop (Ringan & Tanpa Lag)
+  // Optimized Game Loop
   useEffect(() => {
     if (gameState !== 'playing' || activeModal) {
       walkingStateRef.current = { left: false, right: false };
@@ -220,7 +261,7 @@ export default function WeddingJourneyInvitation({
         setIsWalking(false);
       }
 
-      // Sensor Trigger Checkpoint Ringan
+      // Sensor Trigger Checkpoint
       const hitCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - currX) < 45);
       if (hitCheckpoint) {
         if (dismissedCheckpoint !== hitCheckpoint.id) {
@@ -374,9 +415,9 @@ export default function WeddingJourneyInvitation({
           <div className={styles.viewport}>
             <div
               className={styles.worldTrack}
-              style={{ width: `${WORLD_WIDTH}px`, transform: `translateX(-${cameraX}px)` }}
+              style={{ width: `${WORLD_WIDTH}px`, transform: `translate3d(-${cameraX}px, 0, 0)` }}
             >
-              {/* RENDERING ORNAMEN / DEKORASI HIASAN */}
+              {/* RENDERING ORNAMEN / DEKORASI */}
               {DECORATIONS.map((dec) => (
                 <div
                   key={dec.id}
@@ -517,20 +558,19 @@ export default function WeddingJourneyInvitation({
                 <form
                   onSubmit={async (e) => {
                     e.preventDefault();
+                    if (isSubmittingRsvp) return;
+                    setIsSubmittingRsvp(true);
                     
-                    // Ambil data dari form yang diisi tamu
                     const formData = new FormData(e.currentTarget);
                     const guestNameVal = formData.get('guestName');
                     const attendanceVal = formData.get('attendance');
 
                     try {
-                      // Ini adalah URL Google Script Anda yang tadi disalin
                       const scriptUrl = 'https://script.google.com/macros/s/AKfycbxxF6gvQbH_UWhJTYKJuwEdMG0WR5smIHZG-9zCLY1TRhHqCCjvwRgCb4tOP6pMtgdalQ/exec';
 
-                      // Proses mengirim data ke Google Sheets
                       await fetch(scriptUrl, {
                         method: 'POST',
-                        mode: 'no-cors', // Penting agar tidak diblokir oleh browser
+                        mode: 'no-cors',
                         headers: {
                           'Content-Type': 'application/json',
                         },
@@ -540,22 +580,23 @@ export default function WeddingJourneyInvitation({
                         })
                       });
 
-                      // Munculkan notifikasi sukses dan tutup modal
                       alert('Thank you! Your confirmation has been successfully saved.');
                       setActiveModal(null);
                     } catch (error) {
                       alert('Oops! Something went wrong. Please try again.');
+                    } finally {
+                      setIsSubmittingRsvp(false);
                     }
                   }}
                   className={styles.formGroup}
                 >
                   <input 
-  type="text" 
-  name="guestName" 
-  placeholder="Guest Name" 
-  defaultValue={guestName || ''} 
-  required 
-/>
+                    type="text" 
+                    name="guestName" 
+                    placeholder="Guest Name" 
+                    defaultValue={guestName || ''} 
+                    required 
+                  />
                   
                   <select name="attendance" required defaultValue="">
                     <option value="" disabled hidden>Attendance Confirmation</option>
@@ -564,54 +605,46 @@ export default function WeddingJourneyInvitation({
                     <option value="Not Attending">Not Attending</option>
                   </select>
                   
-                  <button type="submit" className={styles.submitBtn}>
-                    Send Your Confirmation
+                  <button type="submit" className={styles.submitBtn} disabled={isSubmittingRsvp}>
+                    {isSubmittingRsvp ? 'Sending...' : 'Send Your Confirmation'}
                   </button>
                 </form>
 
               </div>
             )}
 
-            {/* 3. MODAL GROOM & BRIDE (LOCATION CHECKPOINT) */}
-{activeModal === 'location' && (
-  <div className={styles.modalBody}>
-    <h3>Groom & Bride</h3>
-    
-    <div className={styles.coupleProfileContainer}>
-      
-      {/* Profil Mempelai Pria */}
-      <div className={styles.profileCard}>
-        <div className={styles.imagePlaceholder}>
-          {/* Masukkan tag <img> Anda di sini nanti, contoh: */}
-          <img src="/assets/DINAR.jpeg" alt="Dinar Suherlan" className={styles.profileImg} />
-          
-        </div>
-        <h4 className={styles.personName}>Dinar Suherlan</h4>
-        <p className={styles.parentText}>
-          Son of Mr. Didih Suherman<br />& Mrs. Marnah
-        </p>
-      </div>
+            {/* 3. MODAL GROOM & BRIDE */}
+            {activeModal === 'location' && (
+              <div className={styles.modalBody}>
+                <h3>Groom & Bride</h3>
+                
+                <div className={styles.coupleProfileContainer}>
+                  <div className={styles.profileCard}>
+                    <div className={styles.imagePlaceholder}>
+                      <img src="/assets/DINAR.jpeg" alt="Dinar Suherlan" className={styles.profileImg} />
+                    </div>
+                    <h4 className={styles.personName}>Dinar Suherlan</h4>
+                    <p className={styles.parentText}>
+                      Son of Mr. Didih Suherman<br />& Mrs. Marnah
+                    </p>
+                  </div>
 
-      <div className={styles.profileDivider}>&</div>
+                  <div className={styles.profileDivider}>&</div>
 
-      {/* Profil Mempelai Wanita */}
-      <div className={styles.profileCard}>
-        <div className={styles.imagePlaceholder}>
-          {/* Masukkan tag <img> Anda di sini nanti, contoh: */}
-          <img src="/assets/EL.jpeg" alt="Elrisa Salsabilla" className={styles.profileImg} />
-          
-        </div>
-        <h4 className={styles.personName}>Elrisa Salsabilla</h4>
-        <p className={styles.parentText}>
-          Daughter of Mr. Ridarnis<br />& Mrs. Elvi Suryani
-        </p>
-      </div>
+                  <div className={styles.profileCard}>
+                    <div className={styles.imagePlaceholder}>
+                      <img src="/assets/EL.jpeg" alt="Elrisa Salsabilla" className={styles.profileImg} />
+                    </div>
+                    <h4 className={styles.personName}>Elrisa Salsabilla</h4>
+                    <p className={styles.parentText}>
+                      Daughter of Mr. Ridarnis<br />& Mrs. Elvi Suryani
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
-    </div>
-  </div>
-)}
-
-{/* 4. MODAL WISHES (Sebelumnya Venue) */}
+            {/* 4. MODAL WISHES */}
             {activeModal === 'venue' && (
               <div className={styles.modalBody}>
                 <h3>Thank You!</h3>
@@ -630,7 +663,11 @@ export default function WeddingJourneyInvitation({
                 <form
                   onSubmit={async (e) => {
                     e.preventDefault();
-                    const formData = new FormData(e.currentTarget);
+                    if (isSubmittingWish) return;
+                    setIsSubmittingWish(true);
+
+                    const formTarget = e.currentTarget;
+                    const formData = new FormData(formTarget);
                     const nameVal = formData.get('wishName') as string;
                     const wishVal = formData.get('wishMessage') as string;
 
@@ -649,12 +686,13 @@ export default function WeddingJourneyInvitation({
                       });
 
                       alert('Thank you for your wishes!');
-                      (e.target as HTMLFormElement).reset();
+                      formTarget.reset();
 
-                      // Langsung tampilkan doa yang baru dikirim ke layar tanpa harus refresh
                       setWishesList([{ timestamp: new Date().toISOString(), name: nameVal, wish: wishVal }, ...wishesList]);
                     } catch (error) {
                       alert('Oops! Something went wrong. Please try again.');
+                    } finally {
+                      setIsSubmittingWish(false);
                     }
                   }}
                   className={styles.formGroup}
@@ -673,7 +711,9 @@ export default function WeddingJourneyInvitation({
                     required 
                     className={styles.wishTextArea}
                   ></textarea>
-                  <button type="submit" className={styles.submitBtn}>Submit</button>
+                  <button type="submit" className={styles.submitBtn} disabled={isSubmittingWish}>
+                    {isSubmittingWish ? 'Submitting...' : 'Submit'}
+                  </button>
                 </form>
 
                 {/* AREA DAFTAR WISHES */}
@@ -721,51 +761,51 @@ export default function WeddingJourneyInvitation({
               </div>
             )}
 
-{/* 6. MODAL WEDDING DETAILS (THANKS CHECKPOINT) */}
-{activeModal === 'thanks' && (
-  <div className={styles.modalBody}>
-    <h3>Wedding Details</h3>
-    
-    <p className={styles.detailWelcome}>
-      Hi, <strong>{guestName || 'Guest'}</strong><br />
-      Welcome to the wedding of <strong>Elrisa & Dinar</strong>
-    </p>
+            {/* 6. MODAL WEDDING DETAILS */}
+            {activeModal === 'thanks' && (
+              <div className={styles.modalBody}>
+                <h3>Wedding Details</h3>
+                
+                <p className={styles.detailWelcome}>
+                  Hi, <strong>{guestName || 'Guest'}</strong><br />
+                  Welcome to the wedding of <strong>Elrisa & Dinar</strong>
+                </p>
 
-    <div className={styles.scheduleBox}>
-      <div className={styles.scheduleItem}>
-        <h4>Wedding Ceremony</h4>
-        <p>Sunday, 22nd November 2026</p>
-        <p><strong>07:00 AM - 09:00 AM</strong></p>
-      </div>
+                <div className={styles.scheduleBox}>
+                  <div className={styles.scheduleItem}>
+                    <h4>Wedding Ceremony</h4>
+                    <p>Sunday, 22nd November 2026</p>
+                    <p><strong>07:00 AM - 09:00 AM</strong></p>
+                  </div>
 
-      <hr className={styles.divider} />
+                  <hr className={styles.divider} />
 
-      <div className={styles.scheduleItem}>
-        <h4>Wedding Reception</h4>
-        <p>Sunday, 22nd November 2026</p>
-        <p><strong>10:00 AM - 02:30 PM</strong></p>
-      </div>
-    </div>
+                  <div className={styles.scheduleItem}>
+                    <h4>Wedding Reception</h4>
+                    <p>Sunday, 22nd November 2026</p>
+                    <p><strong>10:00 AM - 02:30 PM</strong></p>
+                  </div>
+                </div>
 
-    <div className={styles.venueCard}>
-      <h4>Venue</h4>
-      <p className={styles.venueNameText}><strong>Gedung Balai Rakyat Depok I / Gedung Serbaguna</strong></p>
-      <p className={styles.venueAddressText}>
-        Jl. Bangau Raya No.192-174, Depok Jaya, Pancoran Mas, Depok City, West Java 16432
-      </p>
-    </div>
+                <div className={styles.venueCard}>
+                  <h4>Venue</h4>
+                  <p className={styles.venueNameText}><strong>Gedung Balai Rakyat Depok I / Gedung Serbaguna</strong></p>
+                  <p className={styles.venueAddressText}>
+                    Jl. Bangau Raya No.192-174, Depok Jaya, Pancoran Mas, Depok City, West Java 16432
+                  </p>
+                </div>
 
-    <button 
-      type="button"
-      className={styles.submitBtn} 
-      onClick={() => window.open('https://maps.app.goo.gl/TZCobjjfrTrV73gA6?g_st=ac', '_blank')}
-    >
-      📍 View Location
-    </button>
-  </div>
-)}
+                <button 
+                  type="button"
+                  className={styles.submitBtn} 
+                  onClick={() => window.open('https://maps.app.goo.gl/TZCobjjfrTrV73gA6?g_st=ac', '_blank')}
+                >
+                  📍 View Location
+                </button>
+              </div>
+            )}
 
-            {/* 7. MODAL GALERI FOTO (ENDGAME) */}
+            {/* 7. MODAL GALERI FOTO */}
             {activeModal === 'gallery' && (
               <div className={styles.modalBody}>
                 <h3>Our Gallery</h3>
@@ -774,11 +814,11 @@ export default function WeddingJourneyInvitation({
                   <img src="/assets/1.jpeg" alt="Momen 1" className={styles.galleryThumb} />
                   <img src="/assets/2.jpeg" alt="Momen 2" className={styles.galleryThumb} />
                   <img src="/assets/3.jpeg" alt="Momen 3" className={styles.galleryThumb} />
-                  <img src="/assets/11.jpeg" alt="Momen 1" className={styles.galleryThumb} />
-                  <img src="/assets/12.png" alt="Momen 2" className={styles.galleryThumb} />
-                  <img src="/assets/13.jpeg" alt="Momen 3" className={styles.galleryThumb} />
-                  <img src="/assets/14.jpeg" alt="Momen 1" className={styles.galleryThumb} />
-                  <img src="/assets/15.jpeg" alt="Momen 2" className={styles.galleryThumb} />
+                  <img src="/assets/11.jpeg" alt="Momen 4" className={styles.galleryThumb} />
+                  <img src="/assets/12.png" alt="Momen 5" className={styles.galleryThumb} />
+                  <img src="/assets/13.jpeg" alt="Momen 6" className={styles.galleryThumb} />
+                  <img src="/assets/14.jpeg" alt="Momen 7" className={styles.galleryThumb} />
+                  <img src="/assets/15.jpeg" alt="Momen 8" className={styles.galleryThumb} />
                 </div>
                 <p className={styles.coupleSign}>
                   Terima kasih telah berjalan bersama kami hingga akhir!<br />

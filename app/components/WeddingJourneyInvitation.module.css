@@ -938,7 +938,7 @@
 /* Container bingkai foto (Placeholder) */
 .imagePlaceholder {
   width: 180px;
-  height: 170px;
+  height: 17 0px;
   border-radius: 50%;
   background-color: var(--color-ivory, #DFD4C2);
   border: 2px solid var(--color-olive, #696C4D);
@@ -1109,4 +1109,129 @@
 
 .musicToggleBtn:active {
   transform: scale(0.95);
+}
+
+/* ==========================================================================
+   STYLING MODAL WISHES
+   ========================================================================== */
+
+/* Area teks untuk input doa */
+.wishTextArea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-olive, #696C4D);
+  border-radius: 8px;
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 14px;
+  background-color: var(--color-ivory, #DFD4C2); /* Menggunakan tema Ivory kamu */
+  color: var(--color-text-dark, #2d2d2d);
+  resize: vertical;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.wishTextArea:focus {
+  outline: none;
+  border-color: var(--color-text-dark, #2d2d2d);
+}
+
+/* Container utama untuk daftar doa */
+.wishesContainer {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.wishesContainer h4 {
+  font-family: 'Brusher', cursive !important;
+  font-size: 18px !important;
+  color: var(--color-text-dark, #2d2d2d);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Area daftar doa yang bisa di-scroll */
+.wishesList {
+  max-height: 180px; /* Batas tinggi sebelum bisa di-scroll */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 5px;
+}
+
+/* Styling scrollbar untuk list doa agar elegan */
+.wishesList::-webkit-scrollbar {
+  width: 4px;
+}
+.wishesList::-webkit-scrollbar-thumb {
+  background-color: var(--color-olive, #696C4D);
+  border-radius: 4px;
+}
+
+/* Kartu / Item masing-masing doa */
+.wishItem {
+  background-color: rgba(223, 212, 194, 0.4);
+  border: 1px solid rgba(105, 108, 77, 0.3);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.wishItem strong {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 15px;
+  color: var(--color-text-dark, #2d2d2d);
+  display: block;
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+
+.wishItem p {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 13px !important;
+  color: var(--color-olive, #696C4D) !important;
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.loadingText {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 13px !important;
+  color: var(--color-olive, #696C4D) !important;
+  text-align: center;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   OPTIMASI GPU & STYLING TOMBOL LOADING (SUBMIT)
+   ========================================================================== */
+
+/* Animasi Pergerakan Kamera GPU Multi-Thread */
+.worldTrack {
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.playerWorldContainer {
+  will-change: transform, left;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Styling Tombol Submit saat Status Sending / Submitting (Disabled) */
+.submitBtn:disabled {
+  background-color: var(--color-sage, #A3A78A) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  cursor: not-allowed !important;
+  opacity: 0.75;
+  transform: none !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease;
+}
+
+/* Efek Bintang / Indikator Halus saat Disabled */
+.submitBtn:disabled::after {
+  content: ' ⏳';
+  display: inline-block;
 }
