@@ -149,7 +149,20 @@ export default function WeddingJourneyInvitation({
     '/assets/Flower.png',
     '/assets/NewGroomBrideCharacter.png',
     '/assets/cat.png',
-    '/assets/galeri.png',
+    '/assets/Gallery.png',
+    '/assets/ground.png',
+    '/assets/mempelai.png',
+    '/assets/rumah.png',
+    '/assets/DINAR.jpeg',
+    '/assets/EL.jpeg',
+    '/assets/1.jpeg',
+    '/assets/2.jpeg',
+    '/assets/3.jpeg',
+    '/assets/11.jpeg',
+    '/assets/12.png',
+    '/assets/13.jpeg',
+    '/assets/14.jpeg',
+    '/assets/15.jpeg',
   ];
 
   useEffect(() => {
