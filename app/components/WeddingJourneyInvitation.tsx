@@ -808,7 +808,7 @@ export default function WeddingJourneyInvitation({
             {/* 7. MODAL GALERI FOTO */}
             {activeModal === 'gallery' && (
               <div className={styles.modalBody}>
-                <h3>Our Gallery</h3>
+                <h3>Our moments</h3>
                 <p>A Glimpse of Our Happiness:</p>
                 <div className={styles.galleryGrid}>
                   <img src="/assets/1.jpeg" alt="Momen 1" className={styles.galleryThumb} />
@@ -821,7 +821,7 @@ export default function WeddingJourneyInvitation({
                   <img src="/assets/15.jpeg" alt="Momen 8" className={styles.galleryThumb} />
                 </div>
                 <p className={styles.coupleSign}>
-                  Terima kasih telah berjalan bersama kami hingga akhir!<br />
+                  Our forever begins with you by our side<br />
                   <strong>Elrisa Salsabilla & Dinar Suherlan</strong>
                 </p>
               </div>

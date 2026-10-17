@@ -1235,3 +1235,110 @@
   content: ' ⏳';
   display: inline-block;
 }
+
+/* ==========================================================================
+   PERBAIKAN SYSTEM MODAL FLEXIBLE & SAFE ZONE
+   ========================================================================== */
+
+/* 1. Overlay dengan Top Safe Area agar tidak menabrak tombol musik */
+.modalOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(61, 64, 53, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 60px 16px 20px 16px; /* Top 60px memberi ruang aman dari tombol musik */
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  box-sizing: border-box;
+}
+
+/* 2. Modal Card Fleksibel (Auto-Scroll jika layar pendek) */
+.modalCard {
+  background: rgba(255, 255, 255, 0.96);
+  width: 100%;
+  max-width: 340px;
+  max-height: 80dvh; /* KUNCI FLEXIBEL: Maksimal 80% dari tinggi viewport device */
+  overflow-y: auto;  /* KUNCI FLEXIBEL: Otomatis scroll internal jika konten panjang */
+  border-radius: 16px;
+  padding: 28px 18px 20px 18px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+  border: 2px solid var(--color-gold-box);
+  animation: floatModal 3s ease-in-out infinite;
+  box-sizing: border-box;
+}
+
+/* Scrollbar halus untuk modal card */
+.modalCard::-webkit-scrollbar {
+  width: 4px;
+}
+.modalCard::-webkit-scrollbar-thumb {
+  background-color: var(--color-olive, #696C4D);
+  border-radius: 4px;
+}
+
+/* 3. Tombol X (Close Button) yang Jelas & Selalu Terlihat */
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: rgba(239, 230, 221, 0.9);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--color-text-dark, #2c2d27);
+  cursor: pointer;
+  z-index: 50;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.closeBtn:hover {
+  background: #ffffff;
+  transform: scale(1.1);
+}
+
+/* 4. Pembersihan Padding Kaku Per-Modal */
+.modalCard_welcome,
+.modalCard_venue,
+.modalCard_location,
+.modalCard_rsvp,
+.modalCard_gift,
+.modalCard_thanks,
+.modalCard_gallery {
+  max-width: 340px !important;
+  padding: 28px 18px 20px 18px !important; /* Standarisasi padding fleksibel */
+}
+
+/* 5. Optimization Foto Profil Mempelai (Groom & Bride) */
+.coupleProfileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.imagePlaceholder {
+  width: 135px; /* Disesuaikan agar proporsional dan tidak memakan seluruh layar */
+  height: 135px;
+  border-radius: 50%;
+  background-color: var(--color-ivory, #DFD4C2);
+  border: 2px solid var(--color-olive, #696C4D);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
