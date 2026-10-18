@@ -341,7 +341,7 @@
 }
 
 /* ==========================================================================
-   3. GENDER / CHOOSE CHARACTER SCREEN
+   3. GENDER / CHOOSE CHARACTER SCREEN (REVAMP LAYOUT)
    ========================================================================== */
 .genderScreen {
   position: absolute;
@@ -352,43 +352,32 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 20px 10px;
+  padding: 35px 15px 20px 15px;
   box-sizing: border-box;
-  
-  /* Panggil Background Choose Character dengan z-index cukup */
   background-image: url('/assets/backgroundchosecaharacter.png') !important;
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 10;
   overflow: hidden;
-} 
+}
 
+/* Header Tanpa Border Frame */
 .characterHeaderContainer {
-  position: relative;
-  width: 90%;
-  max-width: 520px;
-  height: 30%; 
-  margin-top: 15px;
-  background-image: url('/assets/text border.png');
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 10%;
-  box-sizing: border-box;
-  margin: 0 0 2px 0;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 25px;
 }
 
 .charTagline {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 14px !important;
-  letter-spacing: 3px;
-  color: #0b0b0b;
-  margin: 0 0 2px 0;
+  font-size: 11px !important;
+  letter-spacing: 4px;
+  color: var(--color-olive, #696C4D);
+  margin: 0 0 6px 0;
   text-transform: uppercase;
 }
 
@@ -396,56 +385,100 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 10px;
   margin: 2px 0;
 }
 
 .charGroom, .charBride {
-  font-family: 'Pinyon Script', cursive !important;
-  font-size: 50px !important;
-  color: #1e1f1a;
+  font-family: 'Brusher', cursive !important;
+  font-size: 38px !important;
+  color: var(--color-cypress, #4C5C36);
+  font-weight: normal !important;
   line-height: 1;
 }
 
 .charAmpersand {
-  font-family: 'Pinyon Script', cursive !important;
-  font-size: 22px !important;
-  color: #1e1f1a;
+  font-family: 'Brusher', cursive !important;
+  font-size: 24px !important;
+  color: var(--color-cypress, #4C5C36);
+  font-weight: normal !important;
 }
 
 .charDate {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 12px !important;
+  font-size: 11px !important;
   letter-spacing: 3px;
-  color: #080808;
-  margin: 4px 0 0 0;
+  color: var(--color-olive, #696C4D);
+  margin: 6px 0 0 0;
 }
 
-.instructionTextGroup {
-  text-align: center;
-  margin-top: 8%;
-  margin: 0 0 2px 0;
+/* Card Melayang Choose Your Character */
+.chooseCardContainer {
+  background: rgba(253, 251, 247, 0.88);
+  border: 1.5px solid var(--color-gold-box, #c9ad6a);
+  border-radius: 20px;
+  padding: 12px 28px 14px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(4px);
+  z-index: 20;
 }
 
-.instructionLine1, .instructionLine2 {
-  font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 16px !important;
-  color: #383930;
-  margin: 2px 0;
-  letter-spacing: 1px;
+.chooseTitle {
+  font-family: 'Brusher', cursive !important;
+  font-size: 22px !important;
+  color: var(--color-cypress, #4C5C36) !important;
+  margin: 0 0 8px 0 !important;
+  font-weight: normal !important;
 }
 
+.pillButtonRow {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.pillBtnMan, .pillBtnWoman {
+  border: none;
+  padding: 6px 22px;
+  border-radius: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.pillBtnMan {
+  background-color: var(--color-olive, #696C4D);
+}
+
+.pillBtnWoman {
+  background-color: var(--color-gold-box, #c9ad6a);
+}
+
+.pillBtnMan:hover, .pillBtnWoman:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Standee Karakter */
 .characterSelectionRow {
   position: absolute;
-  bottom: 2px; 
+  bottom: 35px;
   left: 0;
   width: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   gap: 20px;
-  padding: 0 10px;
+  padding: 0 20px;
   box-sizing: border-box;
+  z-index: 15;
 }
 
 .characterBox {
@@ -461,43 +494,10 @@
 }
 
 .characterPortrait {
-  height: 300px;
-  width: 100%;
+  height: 270px;
+  width: auto;
   object-fit: contain;
-  margin-bottom: 50px;
-  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
-}
-
-.manSelectButton, .womanSelectButton {
-  width: 140px;
-  height: 50px;
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: -50 0 40px 0;
-}
-
-.manSelectButton {
-  background-image: url('/assets/man background.png');
-}
-
-.womanSelectButton {
-  background-image: url('/assets/woman background.png');
-}
-
-.manSelectButton span, .womanSelectButton span {
-  font-family: 'Pinyon Script', cursive !important;
-  font-size: 20px !important;
-  color: #ffffff;
-  letter-spacing: 1px;
-  pointer-events: none;
-  margin-top: 6px; 
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.12));
 }
 
 /* ==========================================================================

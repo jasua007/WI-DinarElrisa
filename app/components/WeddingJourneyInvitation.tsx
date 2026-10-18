@@ -376,31 +376,46 @@ export default function WeddingJourneyInvitation({
         </div>
       )}
 
-      {/* 2. CHOOSE CHARACTER */}
+     {/* 2. CHOOSE CHARACTER */}
       {gameState === 'gender' && (
         <div className={styles.genderScreen}>
+          {/* Header Clean (Tanpa text border) */}
           <div className={styles.characterHeaderContainer}>
             <p className={styles.charTagline}>{tagline}</p>
             <div className={styles.charNamesGroup}>
-              <span className={styles.charGroom}>{brideName}</span>
+              <span className={styles.charGroom}>{groomName}</span>
               <span className={styles.charAmpersand}>&</span>
-              <span className={styles.charBride}>{groomName}</span>
+              <span className={styles.charBride}>{brideName}</span>
             </div>
             <p className={styles.charDate}>{weddingDateLabel}</p>
           </div>
 
-          <div className={styles.instructionTextGroup}>
-            <p className={styles.instructionLine1}>Choose your character</p>
-            <p className={styles.instructionLine2}>⬇️&emsp;&emsp;&emsp;or&emsp;&emsp;&emsp;⬇️</p>
+          {/* Card Melayang Instruksi & Tombol Pill */}
+          <div className={styles.chooseCardContainer}>
+            <h3 className={styles.chooseTitle}>Choose Your Character</h3>
+            <div className={styles.pillButtonRow}>
+              <button 
+                className={styles.pillBtnMan}
+                onClick={() => { setGender('man'); setGameState('playing'); }}
+              >
+                Man
+              </button>
+              <button 
+                className={styles.pillBtnWoman}
+                onClick={() => { setGender('woman'); setGameState('playing'); }}
+              >
+                Woman
+              </button>
+            </div>
           </div>
 
+          {/* Standee Karakter */}
           <div className={styles.characterSelectionRow}>
             <div 
               className={styles.characterBox} 
               onClick={() => { setGender('man'); setGameState('playing'); }}
             >
               <img src="/assets/man characters.png" alt="Man Character" className={styles.characterPortrait} />
-              <button className={styles.manSelectButton}><span>Man</span></button>
             </div>
 
             <div 
@@ -408,7 +423,6 @@ export default function WeddingJourneyInvitation({
               onClick={() => { setGender('woman'); setGameState('playing'); }}
             >
               <img src="/assets/woman characters.png" alt="Woman Character" className={styles.characterPortrait} />
-              <button className={styles.womanSelectButton}><span>Woman</span></button>
             </div>
           </div>
         </div>
