@@ -11,14 +11,9 @@ interface WeddingJourneyProps {
   weddingDateISO?: string;
   weddingDateLabel?: string;
   openingMessage?: string;
-  story?: Array<{ year: string; title: string; text: string }>;
-  events?: any;
-  gifts?: any;
-  musicUrl?: string;
   venueName?: string;
   venueAddress?: string;
   venueMapsUrl?: string;
-  onRsvpSubmit?: (data: any) => Promise<any> | void;
 }
 
 interface Checkpoint {
@@ -68,7 +63,6 @@ const DECORATIONS: Decoration[] = [
 
 // DAFTAR SELURUH ASET GAMBAR UNTUK DI-PRELOAD LENGKAP
 const ASSETS_TO_LOAD = [
-  // Background & UI Utama
   '/assets/Background.png',
   '/assets/backgroundchosecaharacter.png',
   '/assets/background3.png',
@@ -79,6 +73,7 @@ const ASSETS_TO_LOAD = [
   '/assets/bird.png',
   '/assets/Open Invitation Background.png',
   '/assets/cat.png',
+  '/assets/Frame.png',
 
   // Karakter & Sprite
   '/assets/man-walk2.png',
@@ -114,16 +109,26 @@ const ASSETS_TO_LOAD = [
   '/assets/15.jpeg',
 ];
 
+// Daftar foto sesuai urutan grid pada Layout.jpg
+const galleryImages = [
+  '/assets/14.jpeg',    // 0: Kiri Atas
+  '/assets/15.jpeg',    // 1: Tengah Atas
+  '/assets/13.jpeg',    // 2: Kanan Atas
+  '/assets/12.png',     // 3: Kiri Tengah
+  '/assets/DINAR.jpeg', // 4: Tengah (Atas kecil)
+  '/assets/EL.jpeg',    // 5: Tengah (Bawah kecil)
+  '/assets/11.jpeg',    // 6: Kanan Tengah
+  '/assets/1.jpeg',     // 7: Kiri Bawah
+  '/assets/3.jpeg',     // 8: Tengah Bawah
+  '/assets/2.jpeg',     // 9: Kanan Bawah
+];
+
 export default function WeddingJourneyInvitation({
   groomName = 'Dinar',
   brideName = 'Elrisa',
   guestName = 'Jojo & Jeje',
   tagline = 'THE WEDDING OF',
   weddingDateLabel = '22 . 11 . 2026',
-  venueName = 'Gedung Balairakyat Depok I / Gedung Serbaguna',
-  venueAddress = 'Jl. Bangau Raya No.192-174, Depok Jaya, Pancoran Mas, Depok City, West Java 16432',
-  venueMapsUrl = 'https://www.google.com/maps/place/Gedung+Serbaguna+Depok+Jaya/@-6.3907592,106.809646,17z',
-  onRsvpSubmit,
 }: WeddingJourneyProps) {
   const [gameState, setGameState] = useState<'cover' | 'gender' | 'playing'>('cover');
   const [gender, setGender] = useState<'man' | 'woman'>('man');
@@ -159,9 +164,10 @@ export default function WeddingJourneyInvitation({
   const [isWalking, setIsWalking] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  // State untuk menampung daftar doa
+  // State untuk menampung daftar doa & Lightbox
   const [wishesList, setWishesList] = useState<WishItem[]>([]);
   const [isLoadingWishes, setIsLoadingWishes] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (activeModal === 'venue') { 
@@ -296,6 +302,15 @@ export default function WeddingJourneyInvitation({
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, [gameState, activeModal]);
+
+  // Handlers Navigasi Lightbox (Aman Parser TSX)
+  const handlePrevImage = () => {
+    setSelectedImageIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : galleryImages.length - 1));
+  };
+
+  const handleNextImage = () => {
+    setSelectedImageIndex((prev) => (prev !== null && prev < galleryImages.length - 1 ? prev + 1 : 0));
+  };
 
   const nearbyCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - playerX) < 95);
   const cameraX = Math.max(0, Math.min(WORLD_WIDTH - 420, playerX - 210));
@@ -542,7 +557,7 @@ export default function WeddingJourneyInvitation({
             {activeModal === 'welcome' && (
               <div className={styles.modalBody}>
                 <h3>Allah's Blessings Message</h3>
-                <p> "And among the signs of His power is that He created for you wives of your own kind, so that you would be inclined and feel at ease with them, and He made among you a feeling of love and affection. Indeed, in that there are truly signs for a person who thinks (لِقَوْمٍ يَتَفَكَّرُونَ )."<br></br>(QS. Ar-Rum: 21)</p>
+                <p> "And among the signs of His power is that He created for you wives of your own kind, so that you would be inclined and feel at ease with them, and He made among you a feeling of love and affection. Indeed, in that there are truly signs for a person who thinks (لِقَوْمٍ يَتَفَكَّرُونَ )."<br />(QS. Ar-Rum: 21)</p>
               </div>
             )}
 
@@ -807,27 +822,71 @@ export default function WeddingJourneyInvitation({
 
             {/* 7. MODAL GALERI FOTO */}
             {activeModal === 'gallery' && (
-              <div className={styles.modalBody}>
-                <h3>Our moments</h3>
-                <p>A Glimpse of Our Happiness:</p>
-                <div className={styles.galleryGrid}>
-                  <img src="/assets/1.jpeg" alt="Momen 1" className={styles.galleryThumb} />
-                  <img src="/assets/2.jpeg" alt="Momen 2" className={styles.galleryThumb} />
-                  <img src="/assets/3.jpeg" alt="Momen 3" className={styles.galleryThumb} />
-                  <img src="/assets/11.jpeg" alt="Momen 4" className={styles.galleryThumb} />
-                  <img src="/assets/12.png" alt="Momen 5" className={styles.galleryThumb} />
-                  <img src="/assets/13.jpeg" alt="Momen 6" className={styles.galleryThumb} />
-                  <img src="/assets/14.jpeg" alt="Momen 7" className={styles.galleryThumb} />
-                  <img src="/assets/15.jpeg" alt="Momen 8" className={styles.galleryThumb} />
+              <div className={styles.modalBodyGallery}>
+                <h3 className={styles.galleryHeaderTitle}>Our Precious Moments</h3>
+                
+                <div className={styles.galleryFrameContainer}>
+                  <div className={styles.galleryGridBento}>
+                    {/* Baris 1 */}
+                    <img src={galleryImages[0]} onClick={() => setSelectedImageIndex(0)} className={styles.gridImg_tall} alt="Moment 14" />
+                    <img src={galleryImages[1]} onClick={() => setSelectedImageIndex(1)} className={styles.gridImg_tall} alt="Moment 15" />
+                    <img src={galleryImages[2]} onClick={() => setSelectedImageIndex(2)} className={styles.gridImg_tall} alt="Moment 13" />
+                    
+                    {/* Baris 2 */}
+                    <img src={galleryImages[3]} onClick={() => setSelectedImageIndex(3)} className={styles.gridImg_tall} alt="Moment 12" />
+                    <div className={styles.gridImg_stackedCol}>
+                      <img src={galleryImages[4]} onClick={() => setSelectedImageIndex(4)} className={styles.gridImg_small} alt="Dinar" />
+                      <img src={galleryImages[5]} onClick={() => setSelectedImageIndex(5)} className={styles.gridImg_small} alt="Elrisa" />
+                    </div>
+                    <img src={galleryImages[6]} onClick={() => setSelectedImageIndex(6)} className={styles.gridImg_tall} alt="Moment 11" />
+                    
+                    {/* Baris 3 */}
+                    <img src={galleryImages[7]} onClick={() => setSelectedImageIndex(7)} className={styles.gridImg_tall} alt="Moment 1" />
+                    <img src={galleryImages[8]} onClick={() => setSelectedImageIndex(8)} className={styles.gridImg_tall} alt="Moment 3" />
+                    <img src={galleryImages[9]} onClick={() => setSelectedImageIndex(9)} className={styles.gridImg_tall} alt="Moment 2" />
+                  </div>
                 </div>
-                <p className={styles.coupleSign}>
-                  Our forever begins with you by our side<br />
-                  <strong>Elrisa Salsabilla & Dinar Suherlan</strong>
+
+                <p className={styles.galleryQuote}>
+                  "Our forever begins with you by our side"<br />
+                  <span>- Elrisa & Dinar -</span>
                 </p>
               </div>
             )}
 
           </div>
+        </div>
+      )}
+
+      {/* 5. LIGHTBOX OVERLAY PERBESAR GAMBAR */}
+      {selectedImageIndex !== null && (
+        <div className={styles.lightboxOverlay}>
+          <button 
+            className={styles.lightboxCloseBtn} 
+            onClick={() => setSelectedImageIndex(null)}
+          >
+            ✕
+          </button>
+          
+          <button 
+            className={styles.lightboxNavBtnLeft} 
+            onClick={handlePrevImage}
+          >
+            ◀
+          </button>
+          
+          <img 
+            src={galleryImages[selectedImageIndex]} 
+            alt="Enlarged Moment" 
+            className={styles.lightboxImage} 
+          />
+          
+          <button 
+            className={styles.lightboxNavBtnRight} 
+            onClick={handleNextImage}
+          >
+            ▶
+          </button>
         </div>
       )}
 

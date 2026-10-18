@@ -726,38 +726,173 @@
   animation: floatModal 3s ease-in-out infinite; 
 }
 
-/* 7. Gallery Checkpoint (Endgame) */
-.checkpoint_gallery {
-  width: 220px !important; /* Disesuaikan ukurannya */
-  bottom: 40px !important;
-}
+/* ==========================================================================
+   STYLING MODAL GALERI & LIGHTBOX (BENTO GRID)
+   ========================================================================== */
 
-/* Styling Modal Card Khusus Galeri */
+/* Pengaturan padding khusus Galeri */
 .modalCard_gallery {
-  max-width: 360px !important;
-  padding: 24px 18px !important;
+  max-width: 380px !important; /* Sedikit lebih lebar untuk memuat grid 3 kolom */
+  padding: 0 !important;
 }
 
-/* Layout Grid Foto Galeri */
-.galleryGrid {
+.modalBodyGallery {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px 15px 25px 15px;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header Galeri */
+.galleryHeaderTitle {
+  font-family: 'Brusher', cursive !important;
+  font-size: 28px !important;
+  color: var(--color-cypress, #4C5C36) !important;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Kontainer dengan Background Frame.png */
+.galleryFrameContainer {
+  position: relative;
+  width: 100%;
+  padding: 28px 14px; /* Ruang agar foto tidak menutupi bunga di sudut frame */
+  background-image: url('/assets/Frame.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+/* Susunan Bento Grid Khusus (Sesuai Layout.jpg) */
+.galleryGridBento {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin: 14px 0;
+  gap: 6px;
+  width: 100%;
 }
 
-.galleryThumb {
+/* Gambar Portrait Umum (Tinggi) */
+.gridImg_tall {
   width: 100%;
-  height: 70px;
+  height: 140px; /* Menentukan tinggi gambar landscape */
   object-fit: cover;
   border-radius: 8px;
-  border: 1px solid var(--color-gold-box);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.galleryThumb:hover {
-  transform: scale(1.05);
+.gridImg_tall:hover {
+  transform: scale(1.03);
+  filter: brightness(1.05);
+}
+
+/* Kolom Bertumpuk Khusus (Tengah Baris 2) */
+.gridImg_stackedCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  height: 140px; /* Tinggi total disamakan dengan gambar portrait di sebelahnya */
+}
+
+/* Gambar Kecil Bertumpuk (Dinar & Elrisa) */
+.gridImg_small {
+  width: 100%;
+  height: calc(50% - 3px); /* Setengah tinggi dari container dikurangi jarak gap */
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.gridImg_small:hover { transform: scale(1.03); }
+
+/* Teks Penutup Galeri */
+.galleryQuote {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 16px !important;
+  color: var(--color-olive, #696C4D) !important;
+  text-align: center;
+  margin: 0 !important;
+}
+
+.galleryQuote span {
+  font-family: 'Brusher', cursive !important;
+  font-size: 20px !important;
+  color: var(--color-cypress, #4C5C36) !important;
+  display: block;
+  margin-top: 6px;
+}
+
+/* --- LIGHTBOX (OVERLAY PERBESAR FOTO) --- */
+.lightboxOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 8, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.lightboxImage {
+  max-width: 90%;
+  max-height: 85%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  animation: zoomIn 0.3s ease-out;
+}
+
+.lightboxCloseBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+.lightboxNavBtnLeft, .lightboxNavBtnRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: white;
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightboxNavBtnLeft { left: 10px; }
+.lightboxNavBtnRight { right: 10px; }
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 
@@ -896,14 +1031,20 @@
 .closeBtn {
   position: absolute; top: 12px; right: 14px; border: none; background: transparent; font-size: 16px; color: var(--color-olive); cursor: pointer;
 }
+/* ==========================================================================
+   PERBAIKAN FONT JUDUL MODAL H3
+   ========================================================================== */
+
 .modalBody h3 { 
-  color: var(--color-text-dark); 
+  color: var(--color-text-dark, #2c2d27); 
   margin-top: 5px; 
   margin-bottom: 10px; 
   font-family: 'Brusher', cursive !important; 
-  font-size: 22px; 
-  font-weight: 700 !important; /* Diubah ke Bold */
+  font-size: 24px; 
+  font-weight: normal !important; /* WAJIB normal agar font Brusher tidak fallback ke font standar */
+  text-align: center;
 }
+
 
 .modalBody p { 
   font-family: 'Cormorant Garamond', serif !important; /* Diubah ke Cormorant Garamond */
@@ -1235,12 +1376,11 @@
   content: ' ⏳';
   display: inline-block;
 }
-
 /* ==========================================================================
-   PERBAIKAN SYSTEM MODAL FLEXIBLE & SAFE ZONE
+   PERBAIKAN STICKY/FIXED CLOSE BUTTON & MODAL SCROLL
    ========================================================================== */
 
-/* 1. Overlay dengan Top Safe Area agar tidak menabrak tombol musik */
+/* 1. Overlay Utama */
 .modalOverlay {
   position: absolute;
   inset: 0;
@@ -1255,51 +1395,43 @@
   box-sizing: border-box;
 }
 
-/* 2. Modal Card Fleksibel (Auto-Scroll jika layar pendek) */
+/* 2. Bingkai Modal Card (Kaku & Pembungkus Utama) */
 .modalCard {
+  position: relative; /* Kunci penempatan tombol X agar selalu mengacu ke bingkai ini */
   background: rgba(255, 255, 255, 0.96);
   width: 100%;
   max-width: 340px;
-  max-height: 80dvh; /* KUNCI FLEXIBEL: Maksimal 80% dari tinggi viewport device */
-  overflow-y: auto;  /* KUNCI FLEXIBEL: Otomatis scroll internal jika konten panjang */
+  max-height: 80dvh; /* Maksimal tinggi modal 80% layar */
+  display: flex;
+  flex-direction: column;
   border-radius: 16px;
-  padding: 28px 18px 20px 18px;
-  position: relative;
-  text-align: center;
+  padding: 0 !important; /* Padding dipindah ke modalBody agar tombol X melayang bersih */
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
   border: 2px solid var(--color-gold-box);
   animation: floatModal 3s ease-in-out infinite;
   box-sizing: border-box;
+  overflow: hidden; /* Mencegah konten keluar dari sudut melengkung modal */
 }
 
-/* Scrollbar halus untuk modal card */
-.modalCard::-webkit-scrollbar {
-  width: 4px;
-}
-.modalCard::-webkit-scrollbar-thumb {
-  background-color: var(--color-olive, #696C4D);
-  border-radius: 4px;
-}
-
-/* 3. Tombol X (Close Button) yang Jelas & Selalu Terlihat */
+/* 3. Tombol X (Selalu Diam di Pojok Kanan Atas Bingkai) */
 .closeBtn {
   position: absolute;
-  top: 10px;
+  top: 12px;
   right: 12px;
   border: none;
-  background: rgba(239, 230, 221, 0.9);
-  width: 30px;
-  height: 30px;
+  background: #696C4D;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   color: var(--color-text-dark, #2c2d27);
   cursor: pointer;
-  z-index: 50;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 100; /* Memastikan tombol berada di atas konten scroll */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
@@ -1308,7 +1440,25 @@
   transform: scale(1.1);
 }
 
-/* 4. Pembersihan Padding Kaku Per-Modal */
+/* 4. Area Konten Modal (Area yang Di-scroll) */
+.modalBody {
+  flex: 1;
+  overflow-y: auto; /* Scroll hanya terjadi di dalam kontainer ini */
+  padding: 32px 18px 20px 18px; /* Memberikan ruang ekstra di atas agar konten tidak tertutup tombol X */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Scrollbar Halus untuk Modal Body */
+.modalBody::-webkit-scrollbar {
+  width: 4px;
+}
+.modalBody::-webkit-scrollbar-thumb {
+  background-color: var(--color-olive, #696C4D);
+  border-radius: 4px;
+}
+
+/* 5. Pembersihan Padding Khusus Per-Modal */
 .modalCard_welcome,
 .modalCard_venue,
 .modalCard_location,
@@ -1317,28 +1467,5 @@
 .modalCard_thanks,
 .modalCard_gallery {
   max-width: 340px !important;
-  padding: 28px 18px 20px 18px !important; /* Standarisasi padding fleksibel */
-}
-
-/* 5. Optimization Foto Profil Mempelai (Groom & Bride) */
-.coupleProfileContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.imagePlaceholder {
-  width: 135px; /* Disesuaikan agar proporsional dan tidak memakan seluruh layar */
-  height: 135px;
-  border-radius: 50%;
-  background-color: var(--color-ivory, #DFD4C2);
-  border: 2px solid var(--color-olive, #696C4D);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  margin-bottom: 6px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 0 !important;
 }
