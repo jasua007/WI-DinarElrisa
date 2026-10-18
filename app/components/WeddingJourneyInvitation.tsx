@@ -841,8 +841,8 @@ export default function WeddingJourneyInvitation({
                     <img src={galleryImages[6]} onClick={() => setSelectedImageIndex(6)} className={styles.gridImg_tall} alt="Moment 11" />
                     
                     {/* Baris 3 */}
-                    <img src={galleryImages[7]} onClick={() => setSelectedImageIndex(7)} className={styles.gridImg_tall} alt="Moment 1" />
-                    <img src={galleryImages[8]} onClick={() => setSelectedImageIndex(8)} className={styles.gridImg_tall} alt="Moment 3" />
+                    <img src={galleryImages[8]} onClick={() => setSelectedImageIndex(7)} className={styles.gridImg_tall} alt="Moment 1" />
+                    <img src={galleryImages[7]} onClick={() => setSelectedImageIndex(8)} className={styles.gridImg_tall} alt="Moment 3" />
                     <img src={galleryImages[9]} onClick={() => setSelectedImageIndex(9)} className={styles.gridImg_tall} alt="Moment 2" />
                   </div>
                 </div>

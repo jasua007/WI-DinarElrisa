@@ -753,7 +753,7 @@
   font-size: 28px !important;
   color: var(--color-cypress, #4C5C36) !important;
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   text-align: center;
 }
 
@@ -761,20 +761,20 @@
 .galleryFrameContainer {
   position: relative;
   width: 100%;
-  padding: 28px 14px; /* Ruang agar foto tidak menutupi bunga di sudut frame */
+  padding: 15px 26px ; /* Ruang agar foto tidak menutupi bunga di sudut frame */
   background-image: url('/assets/Frame.png');
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   box-sizing: border-box;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 /* Susunan Bento Grid Khusus (Sesuai Layout.jpg) */
 .galleryGridBento {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  gap: 4px;
   width: 100%;
 }
 
@@ -783,7 +783,7 @@
   width: 100%;
   height: 140px; /* Menentukan tinggi gambar landscape */
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -1428,7 +1428,7 @@
   justify-content: center;
   font-size: 16px;
   font-weight: bold;
-  color: var(--color-text-dark, #2c2d27);
+  color: #f7f8f4;
   cursor: pointer;
   z-index: 100; /* Memastikan tombol berada di atas konten scroll */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
