@@ -74,6 +74,7 @@ const ASSETS_TO_LOAD = [
   '/assets/Open Invitation Background.png',
   '/assets/cat.png',
   '/assets/Frame.png',
+  '/assets/kucing.png', // Sprite sheet 5-frame jalan
 
   // Karakter & Sprite
   '/assets/man-walk2.png',
@@ -164,6 +165,16 @@ export default function WeddingJourneyInvitation({
   const [isWalking, setIsWalking] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
+// State & Ref Karakter Kucing (AI Pet)
+  const [catX, setCatX] = useState(50);
+  const catXRef = useRef(50);
+  const [catDirection, setCatDirection] = useState<'right' | 'left'>('right');
+  const [isCatWalking, setIsCatWalking] = useState(false);
+
+  useEffect(() => {
+    catXRef.current = catX;
+  }, [catX]);
+
   // State untuk menampung daftar doa & Lightbox
   const [wishesList, setWishesList] = useState<WishItem[]>([]);
   const [isLoadingWishes, setIsLoadingWishes] = useState(false);
@@ -236,21 +247,25 @@ export default function WeddingJourneyInvitation({
     };
   }, []);
 
-  // Optimized Game Loop
+ // Optimized Game Loop (Pemain, AI Kucing, & Sensor Checkpoint)
   useEffect(() => {
     if (gameState !== 'playing' || activeModal) {
       walkingStateRef.current = { left: false, right: false };
       setIsWalking(false);
+      setIsCatWalking(false);
       return;
     }
 
     let animationFrameId: number;
-    const speed = 2.5;
+    const speed = 2.5;       // Kecepatan pemain
+    const stopDistance = 70; // Radius comfort zone tempat kucing berhenti
+    const catSpeed = 2.0;    // Kecepatan kucing menyusul
 
     const gameLoop = () => {
       const { left, right } = walkingStateRef.current;
       let currX = playerXRef.current;
 
+      // 1. Pergerakan Pemain Utama
       if (left && !right) {
         const newX = Math.max(60, currX - speed);
         setPlayerX(newX);
@@ -267,7 +282,22 @@ export default function WeddingJourneyInvitation({
         setIsWalking(false);
       }
 
-      // Sensor Trigger Checkpoint
+      // 2. Logika AI Kucing Menyusul Pemain
+      const currCatX = catXRef.current;
+      const distanceToPlayer = currX - currCatX;
+
+      if (Math.abs(distanceToPlayer) > stopDistance) {
+        const moveDir = distanceToPlayer > 0 ? 1 : -1;
+        const newCatX = currCatX + moveDir * catSpeed;
+        
+        setCatX(newCatX);
+        setCatDirection(moveDir === 1 ? 'right' : 'left');
+        setIsCatWalking(true);
+      } else {
+        setIsCatWalking(false);
+      }
+
+      // 3. Sensor Trigger Checkpoint
       const hitCheckpoint = CHECKPOINTS.find((cp) => Math.abs(cp.xPos - currX) < 45);
       if (hitCheckpoint) {
         if (dismissedCheckpoint !== hitCheckpoint.id) {
@@ -446,6 +476,18 @@ export default function WeddingJourneyInvitation({
               className={styles.worldTrack}
               style={{ width: `${WORLD_WIDTH}px`, transform: `translate3d(-${cameraX}px, 0, 0)` }}
             >
+              {/* KARAKTER KUCING (AI PET) */}
+              <div
+                className={styles.catWorldContainer}
+                style={{
+                  left: `${catX}px`,
+                  transform: `translateX(-50%) ${catDirection === 'left' ? 'scaleX(-1)' : 'scaleX(1)'}`,
+                }}
+              >
+                <div
+                  className={`${styles.catSpriteFrame} ${isCatWalking ? styles.animateCatWalk : ''}`}
+                />
+              </div>
               {/* RENDERING ORNAMEN / DEKORASI */}
               {DECORATIONS.map((dec) => (
                 <div

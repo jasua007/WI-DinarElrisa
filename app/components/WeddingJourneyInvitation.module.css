@@ -1469,3 +1469,38 @@
   max-width: 340px !important;
   padding: 0 !important;
 }
+
+/* ==========================================================================
+   STYLING & ANIMASI SPRITE KUCING (5-FRAME WALK)
+   ========================================================================== */
+.catWorldContainer {
+  position: absolute;
+  bottom: 80px; /* Sejajar dengan lantai jalanan */
+  z-index: 18;  /* Di belakang atau di depan karakter tergantung selera */
+  will-change: transform, left;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Frame Sprite Kucing (Dimensi disesuaikan dari aspect ratio 2172x724px) */
+.catSpriteFrame {
+  width: 70px;
+  height: 70px;
+  background-image: url('/assets/kucing.png');
+  background-size: 350px 70px; /* 5 frame x 70px = 350px total lebar */
+  background-position: 0px 0px;
+}
+
+/* Animasi Berjalan 5 Frame */
+.animateCatWalk {
+  animation: playCatSprite 0.65s steps(5, end) infinite;
+}
+
+@keyframes playCatSprite {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: -350px 0px;
+  }
+}
