@@ -692,8 +692,11 @@ export default function WeddingJourneyInvitation({
                 <div className={styles.coupleProfileContainer}>
                   <div className={styles.profileCard}>
                     <div className={styles.imagePlaceholder}>
-                      <img src="/assets/DINAR.jpeg" alt="Dinar Suherlan" className={styles.profileImg} />
-                    </div>
+<img 
+  src="/assets/DINAR.jpeg" 
+  alt="Dinar Suherlan" 
+  className={`${styles.profileImg} ${styles.profileImgGroom}`} 
+/>                    </div>
                     <h4 className={styles.personName}>Dinar Suherlan</h4>
                     <p className={styles.parentText}>
                       Third Son of Mr. Didih Suherman <br></br>& Mrs. Marnah
@@ -704,8 +707,12 @@ export default function WeddingJourneyInvitation({
 
                   <div className={styles.profileCard}>
                     <div className={styles.imagePlaceholder}>
-                      <img src="/assets/EL.jpeg" alt="Elrisa Salsabilla" className={styles.profileImg} />
-                    </div>
+{/* Foto Elrisa */}
+<img 
+  src="/assets/EL.jpeg" 
+  alt="Elrisa Salsabilla" 
+  className={`${styles.profileImg} ${styles.profileImgBride}`} 
+/>                    </div>
                     <h4 className={styles.personName}>Elrisa Salsabilla</h4>
                     <p className={styles.parentText}>
                       Third Daughter of Mr. Ridarnis <br></br>& Mrs. Elvi Suryani

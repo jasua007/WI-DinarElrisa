@@ -369,7 +369,7 @@
   align-items: center;
   text-align: center;
   margin-top: 5px;
-  margin-bottom: 25px;
+  margin-bottom: 50px;
 }
 
 .charTagline {
@@ -377,7 +377,7 @@
   font-size: 11px !important;
   letter-spacing: 4px;
   color: var(--color-olive, #696C4D);
-  margin: 0 0 6px 0;
+  margin: 20 0 6px 0;
   text-transform: uppercase;
 }
 
@@ -409,7 +409,7 @@
   font-size: 11px !important;
   letter-spacing: 3px;
   color: var(--color-olive, #696C4D);
-  margin: 6px 0 0 0;
+  margin: 9px 0 0 0;
 }
 
 /* Card Melayang Choose Your Character */
@@ -426,12 +426,13 @@
   z-index: 20;
 }
 
+/* Judul Choose Your Character */
 .chooseTitle {
-  font-family: 'Brusher', cursive !important;
-  font-size: 22px !important;
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
   color: var(--color-cypress, #4C5C36) !important;
   margin: 0 0 8px 0 !important;
-  font-weight: normal !important;
 }
 
 .pillButtonRow {
@@ -440,13 +441,14 @@
   align-items: center;
 }
 
+/* Tombol Man & Woman */
 .pillBtnMan, .pillBtnWoman {
   border: none;
   padding: 6px 22px;
   border-radius: 20px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
   color: #ffffff;
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.2s ease;
@@ -469,7 +471,7 @@
 /* Standee Karakter */
 .characterSelectionRow {
   position: absolute;
-  bottom: 35px;
+  bottom: 120px;
   left: 0;
   width: 100%;
   display: flex;
@@ -503,9 +505,7 @@
 /* ==========================================================================
    4. GAMEPLAY STAGE & OVERLAYS
    ========================================================================== */
-/* ==========================================================================
-   HEADER INFO OVERLAY (IN-GAME HEADER CLEAN REVAMP)
-   ========================================================================== */
+
 .headerInfoOverlay {
   position: absolute;
   top: 0;
@@ -1086,17 +1086,17 @@
   text-align: center;
 }
 
-/* Container bingkai foto (Placeholder) */
+/* Container bingkai foto */
 .imagePlaceholder {
-  width: 180px;
-  height: 17 0px;
+  width: 160px;
+  height: 160px; /* Dibuat lingkaran presisi (atau atur 180px jika ingin oval) */
   border-radius: 50%;
   background-color: var(--color-ivory, #DFD4C2);
   border: 2px solid var(--color-olive, #696C4D);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: hidden; /* Wajib agar hasil zoom foto terpotong rapi di dalam bingkai */
   margin-bottom: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
@@ -1107,7 +1107,7 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-/* Style foto jika nanti tag <img> dimasukkan */
+/* Base style foto profil */
 .profileImg {
   width: 100%;
   height: 100%;
@@ -1137,6 +1137,18 @@
   font-size: 20px;
   color: var(--color-olive, #696C4D);
   margin: -4px 0;
+}
+
+/* --- KONTROL ZOOM & POSISI FOTO DINAR --- */
+.profileImgGroom {
+  object-position: center 20%; /* Posisi fokus vertikal */
+  transform: scale(1.4) translateY(-7%) translatex(-6%); /* Ubah angka scale(1.8) untuk memperbesar/memperkecil */
+}
+
+/* --- KONTROL ZOOM & POSISI FOTO ELRISA --- */
+.profileImgBride {
+  object-position: center 20%; /* Posisi fokus vertikal */
+  transform: scale(1.9) translateY(-0%); /* Ubah angka scale(1.9) untuk memperbesar/memperkecil */
 }
 
 /* ==========================================================================
