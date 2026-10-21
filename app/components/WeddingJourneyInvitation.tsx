@@ -413,9 +413,9 @@ export default function WeddingJourneyInvitation({
           <div className={styles.characterHeaderContainer}>
             <p className={styles.charTagline}>{tagline}</p>
             <div className={styles.charNamesGroup}>
-              <span className={styles.charGroom}>{groomName}</span>
+              <span className={styles.charGroom}>{brideName}</span>
               <span className={styles.charAmpersand}>&</span>
-              <span className={styles.charBride}>{brideName}</span>
+              <span className={styles.charBride}>{groomName}</span>
             </div>
             <p className={styles.charDate}>{weddingDateLabel}</p>
           </div>
@@ -696,7 +696,7 @@ export default function WeddingJourneyInvitation({
                     </div>
                     <h4 className={styles.personName}>Dinar Suherlan</h4>
                     <p className={styles.parentText}>
-                      Son of Mr. Didih Suherman<br />& Mrs. Marnah
+                      Third Son of Mr. Didih Suherman <br></br>& Mrs. Marnah
                     </p>
                   </div>
 
@@ -708,7 +708,7 @@ export default function WeddingJourneyInvitation({
                     </div>
                     <h4 className={styles.personName}>Elrisa Salsabilla</h4>
                     <p className={styles.parentText}>
-                      Daughter of Mr. Ridarnis<br />& Mrs. Elvi Suryani
+                      Third Daughter of Mr. Ridarnis <br></br>& Mrs. Elvi Suryani
                     </p>
                   </div>
                 </div>
@@ -815,14 +815,27 @@ export default function WeddingJourneyInvitation({
                 <p>Your presence is more than enough, but if you wish to send us a gift, you may do so via:</p>
                 <div className={styles.qrisBox}>
                   <p className={styles.bankName}>Bank BCA</p>
-                  <p className={styles.accountNumber}><strong>6041336878</strong></p>
+                  <p className={styles.accountNumber}><strong>7152028281</strong></p>
+                  <p className={styles.accountName}>a.n. Dinar Suherlan</p>
+                  <button 
+                    type="button"
+                    className={styles.copyBtn}
+                    onClick={() => {
+                      navigator.clipboard.writeText('7152028281');
+                      alert('Nomor rekening BCA berhasil disalin!');
+                    }}
+                  >
+                    📋 COPY
+                  </button>
+                   <p className={styles.bankName}>Bank CIMBBIAGA</p>
+                  <p className={styles.accountNumber}><strong>763380771700</strong></p>
                   <p className={styles.accountName}>a.n. Elrisa Salsabilla</p>
                   <button 
                     type="button"
                     className={styles.copyBtn}
                     onClick={() => {
-                      navigator.clipboard.writeText('6041336878');
-                      alert('Nomor rekening berhasil disalin!');
+                      navigator.clipboard.writeText('763380771700');
+                      alert('Nomor rekening CIMBNIAGA berhasil disalin!');
                     }}
                   >
                     📋 COPY
