@@ -377,7 +377,7 @@
   font-size: 11px !important;
   letter-spacing: 4px;
   color: var(--color-olive, #696C4D);
-  margin: 20 0 6px 0;
+  margin: 10 0 6px 0;
   text-transform: uppercase;
 }
 
@@ -409,7 +409,7 @@
   font-size: 11px !important;
   letter-spacing: 3px;
   color: var(--color-olive, #696C4D);
-  margin: 9px 0 0 0;
+  margin: 6px 0 0 0;
 }
 
 /* Card Melayang Choose Your Character */
@@ -424,6 +424,8 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(4px);
   z-index: 20;
+  margin: -10 0 8px 0 !important;
+
 }
 
 /* Judul Choose Your Character */
@@ -471,7 +473,7 @@
 /* Standee Karakter */
 .characterSelectionRow {
   position: absolute;
-  bottom: 120px;
+  bottom: 110px;
   left: 0;
   width: 100%;
   display: flex;
