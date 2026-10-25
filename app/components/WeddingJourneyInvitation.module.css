@@ -1075,8 +1075,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  margin-top: 12px;
+  gap: 9px;
+  margin-top: 1px;
   margin-bottom: 8px;
 }
 
@@ -1090,7 +1090,7 @@
 
 /* Container bingkai foto */
 .imagePlaceholder {
-  width: 160px;
+  width: 150px;
   height: 160px; /* Dibuat lingkaran presisi (atau atur 180px jika ingin oval) */
   border-radius: 50%;
   background-color: var(--color-ivory, #DFD4C2);
