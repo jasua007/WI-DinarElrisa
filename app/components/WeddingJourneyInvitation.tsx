@@ -832,9 +832,9 @@ export default function WeddingJourneyInvitation({
                       alert('Nomor rekening BCA berhasil disalin!');
                     }}
                   >
-                    📋 COPY
+                    Copy nomor rekening
                   </button>
-                   <p className={styles.bankName}>Bank CIMBBIAGA</p>
+                   <p className={styles.bankName} >Bank CIMB NIAGA</p>
                   <p className={styles.accountNumber}><strong>763380771700</strong></p>
                   <p className={styles.accountName}>a.n. Elrisa Salsabilla</p>
                   <button 
@@ -845,7 +845,7 @@ export default function WeddingJourneyInvitation({
                       alert('Nomor rekening CIMBNIAGA berhasil disalin!');
                     }}
                   >
-                    📋 COPY
+                    Copy nomor rekening
                   </button>
                 </div>
                 <p className={styles.giftThanks}>With love and gratitude.</p>

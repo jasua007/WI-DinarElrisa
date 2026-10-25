@@ -237,7 +237,7 @@
 }
 
 .guestName {
-  font-family: 'Beth Ellen', cursive !important;
+  font-family: 'Brusherx1', cursive !important;
   font-size: 100% !important;
   color: #1e1f1a;
   margin: 0;
@@ -374,7 +374,7 @@
 
 .charTagline {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 11px !important;
+  font-size: 14px !important;
   letter-spacing: 4px;
   color: var(--color-olive, #696C4D);
   margin: 10 0 6px 0;
@@ -391,7 +391,7 @@
 
 .charGroom, .charBride {
   font-family: 'Brusher', cursive !important;
-  font-size: 38px !important;
+  font-size: 41px !important;
   color: var(--color-cypress, #4C5C36);
   font-weight: normal !important;
   line-height: 1;
@@ -399,14 +399,14 @@
 
 .charAmpersand {
   font-family: 'Brusher', cursive !important;
-  font-size: 24px !important;
+  font-size: 27px !important;
   color: var(--color-cypress, #4C5C36);
   font-weight: normal !important;
 }
 
 .charDate {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 11px !important;
+  font-size: 14px !important;
   letter-spacing: 3px;
   color: var(--color-olive, #696C4D);
   margin: 6px 0 0 0;
@@ -514,7 +514,7 @@
   left: 0;
   width: 100%;
   height: auto;
-  padding: 25px 15px 10px 15px;
+  padding: 45px 15px 10px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1061,7 +1061,7 @@
 .modalBody p { 
   font-family: 'Cormorant Garamond', serif !important; /* Diubah ke Cormorant Garamond */
   color: var(--color-olive); 
-  font-size: 13px; 
+  font-size: 15px; 
   font-weight: 400 !important; /* Regular */
   line-height: 1.5;
 }
