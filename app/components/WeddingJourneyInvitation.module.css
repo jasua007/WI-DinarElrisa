@@ -300,14 +300,13 @@
 
 .guestName {
   font-family: 'Adlery Pro', 'Brusher', cursive !important;
-  font-size: 20px;
+  font-size: 32px;
   color: #DAC077;
   margin: 0;
-  text-shadow: 
-    -1px -1px 0 #696C4D,
-     1px -1px 0 #696C4D,
-    -1px  1px 0 #696C4D,
-     1px  1px 0 #696C4D;
+  /* Menggunakan stroke native agar outline bersih */
+  -webkit-text-stroke: 1px #696C4D;
+  /* Bayangan tipis agar teks lebih menonjol dari background */
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* --- TOMBOL OPEN INVITATION (PURE CSS) --- */

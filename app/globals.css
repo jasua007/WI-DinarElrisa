@@ -47,4 +47,15 @@ body {
   
   /* Mencegah auto-zoom/perubahan ukuran font otomatis pada iOS Safari saat rotasi HP */
   -webkit-text-size-adjust: 100%;
+
+  /* ==========================================================================
+   FIX iOS SAFARI AUTO-ZOOM PADA INPUT & TEXTAREA
+   ========================================================================== */
+input, 
+textarea, 
+select {
+  font-size: 16px !important; /* Batas minimal agar iOS tidak memicu auto-zoom */
+}
+
+
 }
