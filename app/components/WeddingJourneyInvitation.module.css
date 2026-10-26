@@ -106,33 +106,14 @@
 
 .bird {
   position: absolute;
-  top: 5%;              /* Menyesuaikan posisi terbang di langit */
-  left: 0;
-  width: 50%;
+  top: 42%; /* Posisi awal di area pegunungan sebelah kiri */
+  left: -20%;
+  width: 45%;
   height: auto;
   object-fit: contain;
   pointer-events: none;
   z-index: 3;
-  
-  /* Animasi meluncur dari kanan ke kiri secara berulang */
-  animation: birdFlyLeft 7s linear infinite;
-}
-
-@keyframes birdFlyLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%); /* Mulai dari luar layar kanan */
-  }
-  10% {
-    opacity: 1;                  /* Tampak jelas saat masuk layar */
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(150%); /* Hilang keluar layar kiri */
-  }
+  animation: birdFlyDiagonal 8s linear infinite;
 }
 
 .coverContent {
@@ -150,7 +131,6 @@
 
 .headerGroup {
   text-align: center;
-  margin-bottom: 40px;
   opacity: 0;
   animation: fadeFloatUp 1.2s ease-out 0.6s forwards;
 }
@@ -160,7 +140,7 @@
   font-size: 80% !important;
   letter-spacing: 4px;
   color: var(--color-text-dark);
-  margin: 5 0 40px 0;
+  margin: 5px 0 40px 0;
   text-transform: uppercase;
   font-weight: 400;
 }
@@ -204,16 +184,6 @@
   animation: slideFromLeft 1.2s ease-out 1.0s forwards;
 }
 
-@keyframes slideFromRight {
-  0% { opacity: 0; transform: translateX(80px); }
-  100% { opacity: 1; transform: translateX(-80px); }
-}
-
-@keyframes slideFromLeft {
-  0% { opacity: 0; transform: translateX(-80px); }
-  100% { opacity: 1; transform: translateX(80px); }
-}
-
 .dateText {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
   font-size: 80% !important;
@@ -222,34 +192,62 @@
   margin: 30px 0 0 0;
 }
 
-.guestGroup {
-  text-align: center;
+/* --- COUNTDOWN (4 KOTAK & GARIS PEMBATAS) --- */
+.countdownRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
   opacity: 0;
   animation: fadeFloatUp 1.2s ease-out 1.4s forwards;
 }
 
-.guestLabel {
+.countdownBox {
+  background-color: rgba(218, 192, 119, 0.6); /* #dac077 transparansi 60% */
+  padding: 8px 6px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 52px;
+  backdrop-filter: blur(3px);
+}
+
+.countdownNum {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 12px !important;
-  color: var(--color-text-dark);
-  margin: -10px 0 1px 0;
-  letter-spacing: 2px;
+  font-size: 22px;
+  color: #ffffff;
+  font-weight: bold;
+  line-height: 1.1;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
-.guestName {
-  font-family: 'Brusherx1', cursive !important;
-  font-size: 100% !important;
-  color: #1e1f1a;
-  margin: 0;
+.countdownLabel {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px;
+  color: #ffffff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 4px;
 }
 
+/* Garis Pembatas Vertikal Antar Kotak */
+.countdownDivider {
+  width: 1px;
+  height: 28px;
+  background-color: rgba(105, 108, 77, 0.45); /* #696C4D transparan */
+  border-radius: 1px;
+}
+
+/* --- KARAKTER & KUCING --- */
 .characterImg {
   position: absolute;
-  bottom: 3%;
+  bottom: 8%;
   left: 50%;
   transform: translateX(-50%);
   width: 130%;
-  max-width: 250px;
+  max-width: 215px;
   height: auto;
   object-fit: contain;
   z-index: 5;
@@ -257,35 +255,132 @@
   animation: fadeFloatUpCenter 1.2s ease-out 1.8s forwards;
 }
 
-.openBtnHitbox {
+.catCoverImg {
   position: absolute;
-  bottom: 3.5%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 175px;
-  height: 48px;
-  background-image: url('/assets/Open Invitation Background.png');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+  bottom: 10%;
+  right: 39%;
+  width: 100px;
+  height: auto;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+  transform-origin: bottom center;
+  animation: 
+    fadeFloatUp 1.2s ease-out 1.8s forwards,
+    catHeadTilt 1s ease-in-out infinite 3.0s;
+}
+
+/* --- AREA BAWAH COVER (GUEST & BUTTON) --- */
+.coverBottomArea {
+  position: absolute;
+  bottom: 25px; /* Jarak dari bawah layar */
+  left: 0;      /* Pastikan menempel di tepi kiri */
+  width: 100%;  /* Lebar penuh */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   z-index: 20;
+  opacity: 0;
+  /* PERBAIKAN: Gunakan fadeFloatUp biasa agar tidak tergeser ke kiri */
+  animation: fadeFloatUp 1.2s ease-out 2.2s forwards;
+}
+
+.guestGroup {
+  text-align: center;
+  margin-bottom: 15px; /* Jarak yang pas antara nama tamu dan tombol */
+}
+
+.guestLabel {
+  font-family: 'Adlery Pro', 'Brusher', cursive !important;
+  font-size: 18px;
+  color: #696C4D;
+  margin: 0 0 -5px 0;
+}
+
+.guestName {
+  font-family: 'Adlery Pro', 'Brusher', cursive !important;
+  font-size: 20px;
+  color: #DAC077;
+  margin: 0;
+  text-shadow: 
+    -1px -1px 0 #696C4D,
+     1px -1px 0 #696C4D,
+    -1px  1px 0 #696C4D,
+     1px  1px 0 #696C4D;
+}
+
+/* --- TOMBOL OPEN INVITATION (PURE CSS) --- */
+.openBtnHitbox {
+  background-color: #DAC077;
+  border: 2px solid #A3A78A;
+  border-radius: 30px;
+  padding: 1px 5px;
+  cursor: pointer;
+  /* PERBAIKAN: Matikan absolute lama agar Flexbox bekerja menengahkan tombol */
+  position: relative; 
+  left: auto;
+  bottom: auto;
+  transform: none; 
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  animation: fadeFloatUpCenter 1s ease-out 2.2s forwards, breatheCenter 3s ease-in-out infinite 3.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease, filter 0.15s ease;
+  animation: none !important; /* Menghilangkan animasi bounce lama */
+}
+
+.openBtnHitbox:active {
+  transform: scale(0.95);
+  filter: brightness(0.9);
 }
 
 .openBtnHitbox span {
   font-family: 'Pinyon Script', cursive !important;
-  font-size: 21px !important;
-  color: #3d3b2f;
+  font-size: 24px !important;
+  color: #ffffff;
+  margin-top: 3px;
   pointer-events: none;
-  margin-top: -1px; 
-  margin-left: 5px; 
+}
+
+/* --- ELEMEN KURSOR (PANAH.PNG) --- */
+.cursorIcon {
+  position: absolute;
+  right: -25px; /* Posisi kursor panah pas di kanan tombol */
+  bottom: -15px;
+  width: 40px;
+  height: auto;
+  pointer-events: none;
+  animation: cursorClickPulse 0.9s infinite alternate cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* --- KEYFRAMES COVER --- */
+@keyframes birdFlyDiagonal {
+  0% {
+    opacity: 0.5;
+    transform: translate(0, 0) scale(0.8);
+  }
+  15% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    /* Meluncur miring ke kanan atas melewati puncak langit */
+    transform: translate(130vw, -28vh) scale(1.15);
+  }
+}
+
+@keyframes slideFromRight {
+  0% { opacity: 0; transform: translateX(80px); }
+  100% { opacity: 1; transform: translateX(-80px); }
+}
+
+@keyframes slideFromLeft {
+  0% { opacity: 0; transform: translateX(-80px); }
+  100% { opacity: 1; transform: translateX(80px); }
 }
 
 @keyframes fadeFloatDown {
@@ -303,41 +398,15 @@
   100% { opacity: 1; transform: translate(-50%, 0); }
 }
 
-@keyframes breatheCenter {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, -3px); }
-}
-
-/* --- ANIMASI KUCING COVER --- */
-.catCoverImg {
-  position: absolute;
-  bottom: 3.5%;      /* Disesuaikan posisinya di dekat tombol */
-  right: 38%;        /* Tetap konsisten di posisi samping kanan */
-  width: 110px;
-  height: auto;
-  z-index: 30;       /* Dipastikan berada di atas tombol */
-  pointer-events: none;
-  opacity: 0;
-  
-  transform-origin: bottom center;
-  
-  /* Gunakan fadeFloatUp biasa agar tidak dipaksa digeser -50% ke tengah */
-  animation: 
-    fadeFloatUp 1.2s ease-out 1.8s forwards,
-    catHeadTilt 1s ease-in-out infinite 3.0s;
-}
-
-/* Keyframes Rotasi Menggeleng Halus */
 @keyframes catHeadTilt {
-  0% {
-    transform: rotate(-1deg) translateY(0px);
-  }
-  50% {
-    transform: rotate(2deg) translateY(-1px); /* Sedikit terangkat saat mengayun */
-  }
-  100% {
-    transform: rotate(-1deg) translateY(0px);
-  }
+  0% { transform: rotate(-1deg) translateY(0px); }
+  50% { transform: rotate(2deg) translateY(-1px); }
+  100% { transform: rotate(-1deg) translateY(0px); }
+}
+
+@keyframes cursorClickPulse {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-6px, -6px) scale(0.9); }
 }
 
 /* ==========================================================================
@@ -362,7 +431,6 @@
   overflow: hidden;
 }
 
-/* Header Tanpa Border Frame */
 .characterHeaderContainer {
   display: flex;
   flex-direction: column;
@@ -377,7 +445,7 @@
   font-size: 14px !important;
   letter-spacing: 4px;
   color: var(--color-olive, #696C4D);
-  margin: 10 0 6px 0;
+  margin: 10px 0 6px 0;
   text-transform: uppercase;
 }
 
@@ -412,7 +480,6 @@
   margin: 6px 0 0 0;
 }
 
-/* Card Melayang Choose Your Character */
 .chooseCardContainer {
   background: rgba(253, 251, 247, 0.88);
   border: 1.5px solid var(--color-gold-box, #c9ad6a);
@@ -424,8 +491,7 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(4px);
   z-index: 20;
-  margin: -10 0 8px 0 !important;
-
+  margin: -10px 0 8px 0 !important;
 }
 
 /* Judul Choose Your Character */

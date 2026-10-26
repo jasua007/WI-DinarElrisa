@@ -158,6 +158,34 @@ export default function WeddingJourneyInvitation({
   const [isSubmittingRsvp, setIsSubmittingRsvp] = useState(false);
   const [isSubmittingWish, setIsSubmittingWish] = useState(false);
 
+  // --- REALTIME COUNTDOWN LOGIC ---
+  const calculateTimeLeft = () => {
+    // Target waktu: 22 November 2026, 07:00 WIB
+    const targetDate = new Date('2026-11-22T07:00:00+07:00').getTime();
+    const now = new Date().getTime();
+    const difference = targetDate - now;
+
+    if (difference > 0) {
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    }
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    if (gameState !== 'cover') return; // Hanya jalan saat di layar cover
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [gameState]);
+
   // Player & Game Loop States
   const [playerX, setPlayerX] = useState(100);
   const playerXRef = useRef(100);
@@ -362,7 +390,7 @@ export default function WeddingJourneyInvitation({
         </div>
       )}
 
-      {/* 1. COVER SCREEN */}
+{/* 1. COVER SCREEN */}
       {gameState === 'cover' && (
         <div className={styles.cover}>
           <img src="/assets/Flower.png" alt="" className={styles.flowerOverlay} />
@@ -379,32 +407,67 @@ export default function WeddingJourneyInvitation({
               <p className={styles.dateText}>{weddingDateLabel}</p>
             </div>
 
-            {guestName && (
-              <div className={styles.guestGroup}>
-                <p className={styles.guestLabel}>To the dearest,</p>
-                <p className={styles.guestName}>{guestName}</p>
+            {/* COUNTDOWN 4 KOTAK DENGAN GARIS PEMBATAS */}
+            <div className={styles.countdownRow}>
+              <div className={styles.countdownBox}>
+                <span className={styles.countdownNum}>{String(timeLeft.days).padStart(2, '0')}</span>
+                <span className={styles.countdownLabel}>DAYS</span>
               </div>
-            )}
+
+              <span className={styles.countdownDivider} />
+
+              <div className={styles.countdownBox}>
+                <span className={styles.countdownNum}>{String(timeLeft.hours).padStart(2, '0')}</span>
+                <span className={styles.countdownLabel}>HOURS</span>
+              </div>
+
+              <span className={styles.countdownDivider} />
+
+              <div className={styles.countdownBox}>
+                <span className={styles.countdownNum}>{String(timeLeft.minutes).padStart(2, '0')}</span>
+                <span className={styles.countdownLabel}>MINS</span>
+              </div>
+
+              <span className={styles.countdownDivider} />
+
+              <div className={styles.countdownBox}>
+                <span className={styles.countdownNum}>{String(timeLeft.seconds).padStart(2, '0')}</span>
+                <span className={styles.countdownLabel}>SECS</span>
+              </div>
+            </div>
           </div>
 
+          {/* KARAKTER & KUCING COVER */}
           <img src="/assets/NewGroomBrideCharacter.png" alt="Couple Character" className={styles.characterImg} />
           <img src="/assets/cat.png" alt="Cute Cat" className={styles.catCoverImg} />
 
-          <button
-            className={styles.openBtnHitbox}
-            onClick={() => {
-              setGameState('gender');
-              if (audioRef.current) {
-                audioRef.current.play()
-                  .then(() => setIsPlaying(true))
-                  .catch((err) => console.log('Gagal memutar audio:', err));
-              }
-            }}
-          >
-            <span>Open Invitation</span>
-          </button>
+          {/* AREA BAWAH (NAMA TAMU & TOMBOL) */}
+          <div className={styles.coverBottomArea}>
+            {guestName && (
+              <div className={styles.guestGroup}>
+                <p className={styles.guestLabel}>Dear,</p>
+                <p className={styles.guestName}>{guestName}</p>
+              </div>
+            )}
+
+            <button
+              className={styles.openBtnHitbox}
+              onClick={() => {
+                setGameState('gender');
+                if (audioRef.current) {
+                  audioRef.current.play()
+                    .then(() => setIsPlaying(true))
+                    .catch((err) => console.log('Gagal memutar audio:', err));
+                }
+              }}
+            >
+              <span>Open Invitation</span>
+              <img src="/assets/panah.png" alt="Click Cursor" className={styles.cursorIcon} />
+            </button>
+          </div>
         </div>
       )}
+
 
      {/* 2. CHOOSE CHARACTER */}
       {gameState === 'gender' && (
