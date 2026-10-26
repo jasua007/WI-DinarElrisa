@@ -177,9 +177,12 @@ export default function WeddingJourneyInvitation({
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [isMounted, setIsMounted] = useState(false); // Tambahkan state ini
 
-  useEffect(() => {
-    if (gameState !== 'cover') return; // Hanya jalan saat di layar cover
+useEffect(() => {
+    setIsMounted(true); // Menandakan komponen sudah di-load aman oleh browser klien
+
+    if (gameState !== 'cover') return; 
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
@@ -407,31 +410,31 @@ export default function WeddingJourneyInvitation({
               <p className={styles.dateText}>{weddingDateLabel}</p>
             </div>
 
-            {/* COUNTDOWN 4 KOTAK DENGAN GARIS PEMBATAS */}
+           {/* COUNTDOWN 4 KOTAK DENGAN GARIS PEMBATAS */}
             <div className={styles.countdownRow}>
               <div className={styles.countdownBox}>
-                <span className={styles.countdownNum}>{String(timeLeft.days).padStart(2, '0')}</span>
+                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.days).padStart(2, '0') : '00'}</span>
                 <span className={styles.countdownLabel}>DAYS</span>
               </div>
 
               <span className={styles.countdownDivider} />
 
               <div className={styles.countdownBox}>
-                <span className={styles.countdownNum}>{String(timeLeft.hours).padStart(2, '0')}</span>
+                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.hours).padStart(2, '0') : '00'}</span>
                 <span className={styles.countdownLabel}>HOURS</span>
               </div>
 
               <span className={styles.countdownDivider} />
 
               <div className={styles.countdownBox}>
-                <span className={styles.countdownNum}>{String(timeLeft.minutes).padStart(2, '0')}</span>
+                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.minutes).padStart(2, '0') : '00'}</span>
                 <span className={styles.countdownLabel}>MINS</span>
               </div>
 
               <span className={styles.countdownDivider} />
 
               <div className={styles.countdownBox}>
-                <span className={styles.countdownNum}>{String(timeLeft.seconds).padStart(2, '0')}</span>
+                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.seconds).padStart(2, '0') : '00'}</span>
                 <span className={styles.countdownLabel}>SECS</span>
               </div>
             </div>
@@ -927,7 +930,7 @@ export default function WeddingJourneyInvitation({
 
                 <div className={styles.scheduleBox}>
                   <div className={styles.scheduleItem}>
-                    <h4>Wedding Ceremony</h4>
+                    <h4>Wedding Reception</h4>
                     <p>Sunday, 22nd November 2026</p>
                     <p><strong>07:00 AM - 09:00 AM</strong></p>
                   </div>
@@ -935,7 +938,7 @@ export default function WeddingJourneyInvitation({
                   <hr className={styles.divider} />
 
                   <div className={styles.scheduleItem}>
-                    <h4>Wedding Reception</h4>
+                    <h4>Wedding Ceremony</h4>
                     <p>Sunday, 22nd November 2026</p>
                     <p><strong>10:00 AM - 02:30 PM</strong></p>
                   </div>

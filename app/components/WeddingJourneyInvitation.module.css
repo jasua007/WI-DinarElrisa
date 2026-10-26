@@ -235,7 +235,7 @@
 /* Garis Pembatas Vertikal Antar Kotak */
 .countdownDivider {
   width: 1px;
-  height: 28px;
+  height: 55px;
   background-color: rgba(105, 108, 77, 0.45); /* #696C4D transparan */
   border-radius: 1px;
 }
@@ -243,11 +243,11 @@
 /* --- KARAKTER & KUCING --- */
 .characterImg {
   position: absolute;
-  bottom: 8%;
+  bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
-  width: 130%;
-  max-width: 215px;
+  width: 100%;
+  max-width: 190px;
   height: auto;
   object-fit: contain;
   z-index: 5;
@@ -257,7 +257,7 @@
 
 .catCoverImg {
   position: absolute;
-  bottom: 10%;
+  bottom: 11%;
   right: 39%;
   width: 100px;
   height: auto;
@@ -273,7 +273,7 @@
 /* --- AREA BAWAH COVER (GUEST & BUTTON) --- */
 .coverBottomArea {
   position: absolute;
-  bottom: 25px; /* Jarak dari bawah layar */
+  bottom: 15px; /* Jarak dari bawah layar */
   left: 0;      /* Pastikan menempel di tepi kiri */
   width: 100%;  /* Lebar penuh */
   display: flex;
@@ -300,7 +300,7 @@
 
 .guestName {
   font-family: 'Adlery Pro', 'Brusher', cursive !important;
-  font-size: 32px;
+  font-size: 25px;
   color: #DAC077;
   margin: 0;
   /* Menggunakan stroke native agar outline bersih */
@@ -313,7 +313,7 @@
 .openBtnHitbox {
   background-color: #DAC077;
   border: 2px solid #A3A78A;
-  border-radius: 30px;
+  border-radius: 17px;
   padding: 1px 5px;
   cursor: pointer;
   /* PERBAIKAN: Matikan absolute lama agar Flexbox bekerja menengahkan tombol */
@@ -336,7 +336,7 @@
 
 .openBtnHitbox span {
   font-family: 'Pinyon Script', cursive !important;
-  font-size: 24px !important;
+  font-size: 22px !important;
   color: #ffffff;
   margin-top: 3px;
   pointer-events: none;
