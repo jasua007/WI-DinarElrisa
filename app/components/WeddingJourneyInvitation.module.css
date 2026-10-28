@@ -256,7 +256,7 @@
 
 /* Label "the dearest." */
 .guestLabel {
-  font-family: 'Moontime', cursive !important;
+  font-family: 'MoonTime', cursive !important;
   font-size: 27px !important;
   color: #696C4D;
   margin: 15px 0 -5px 0; /* Ditambahkan satuan px */
