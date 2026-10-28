@@ -106,14 +106,15 @@
 
 .bird {
   position: absolute;
-  top: 42%; /* Posisi awal di area pegunungan sebelah kiri */
+  top: 37%; /* Posisi awal di area pegunungan sebelah kiri */
   left: -20%;
-  width: 45%;
+  width: 40%;
   height: auto;
   object-fit: contain;
   pointer-events: none;
   z-index: 3;
   animation: birdFlyDiagonal 8s linear infinite;
+  
 }
 
 .coverContent {
@@ -140,7 +141,7 @@
   font-size: 80% !important;
   letter-spacing: 4px;
   color: var(--color-text-dark);
-  margin: 5px 0 40px 0;
+  margin: 20px 0 35px 0;
   text-transform: uppercase;
   font-weight: 400;
 }
@@ -186,51 +187,13 @@
 
 .dateText {
   font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 80% !important;
+  font-size: 90% !important;
   letter-spacing: 4px;
   color: var(--color-text-dark);
   margin: 30px 0 0 0;
 }
 
-/* --- COUNTDOWN (4 KOTAK & GARIS PEMBATAS) --- */
-.countdownRow {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 25px;
-  opacity: 0;
-  animation: fadeFloatUp 1.2s ease-out 1.4s forwards;
-}
 
-.countdownBox {
-  background-color: rgba(218, 192, 119, 0.6); /* #dac077 transparansi 60% */
-  padding: 8px 6px;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 52px;
-  backdrop-filter: blur(3px);
-}
-
-.countdownNum {
-  font-family: 'Special Elite', 'Courier Prime', monospace !important;
-  font-size: 22px;
-  color: #ffffff;
-  font-weight: bold;
-  line-height: 1.1;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-}
-
-.countdownLabel {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 8px;
-  color: #ffffff;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-top: 4px;
-}
 
 /* Garis Pembatas Vertikal Antar Kotak */
 .countdownDivider {
@@ -295,7 +258,7 @@
   font-family: 'Adlery Pro', 'Brusher', cursive !important;
   font-size: 18px;
   color: #696C4D;
-  margin: 40 0 -5px 0;
+  margin: 15 0 -5px 0;
 }
 
 .guestName {
@@ -311,8 +274,8 @@
 
 /* --- TOMBOL OPEN INVITATION (PURE CSS) --- */
 .openBtnHitbox {
-  background-color: #DAC077;
-  border: 2px solid #A3A78A;
+  background-color: #dac077a2;
+  border: 1px solid #A3A78A;
   border-radius: 5px;
   padding: 0px 10px;
   cursor: pointer;
@@ -1593,4 +1556,104 @@
   100% {
     background-position: -350px 0px;
   }
+}
+
+/* ==========================================================================
+   COUNTDOWN KHUSUS MODAL DETAILS (PROPORTIONAL & NO ANIMATION)
+   ========================================================================== */
+.modalCountdownRow {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  opacity: 1 !important; /* Langsung tampil tanpa fade up */
+  animation: none !important; /* Matikan animasi cover */
+}
+
+.modalCountdownBox {
+  background-color: #a3a78ac3;
+  padding: 5px 4px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 44px;
+  backdrop-filter: blur(2px);
+}
+
+.modalCountdownNum {
+  font-family: 'Special Elite', 'Courier Prime', monospace !important;
+  font-size: 17px;
+  color: #ffffff;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.modalCountdownLabel {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 7.5px;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.modalCountdownDivider {
+  width: 1px;
+  height: 37px;
+  background-color: rgba(105, 108, 77, 0.4);
+}
+
+/* ==========================================================================
+   VINTAGE DIVIDER (PURE CSS)
+   ========================================================================== */
+.vintageDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  max-width: 250px;
+  margin: 25px auto 0px auto; /* Menyesuaikan jarak atas & bawah */
+  opacity: 0;
+  /* Tambahkan animasi fadeFloatUp agar munculnya mulus mengikuti elemen lain */
+  animation: fadeFloatUp 1.2s ease-out 1.2s forwards; 
+}
+
+/* Garis kiri dan kanan */
+.dividerLineLeft,
+.dividerLineRight {
+  flex: 1;
+  height: 1.2px;
+}
+
+/* Garis kiri memudar ke ujung kiri */
+.dividerLineLeft {
+  background: linear-gradient(to right, transparent, #3d3b2f);
+}
+
+/* Garis kanan memudar ke ujung kanan */
+.dividerLineRight {
+  background: linear-gradient(to left, transparent, #3d3b2f);
+}
+
+/* Area Ornamen Tengah */
+.dividerOrnament {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Jarak antara bintang dan titik */
+  padding: 0 12px;
+  color: #3d3b2f; /* Warna ornamen disamakan dengan teks */
+}
+
+/* Styling Titik (Belah Ketupat) */
+.ornamentDot {
+  font-size: 8px;
+  transform: translateY(-0.5px);
+}
+
+/* Styling Bintang Tengah */
+.ornamentStar {
+  font-size: 16px;
+  transform: translateY(-1px); /* Koreksi optikal agar benar-benar sejajar dengan garis */
 }

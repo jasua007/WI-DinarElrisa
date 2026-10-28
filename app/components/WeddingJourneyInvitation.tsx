@@ -181,8 +181,6 @@ export default function WeddingJourneyInvitation({
 
 useEffect(() => {
     setIsMounted(true); // Menandakan komponen sudah di-load aman oleh browser klien
-
-    if (gameState !== 'cover') return; 
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
@@ -409,7 +407,15 @@ useEffect(() => {
               </div>
               <p className={styles.dateText}>{weddingDateLabel}</p>
             </div>
-
+<div className={styles.vintageDivider}>
+              <div className={styles.dividerLineLeft}></div>
+              <div className={styles.dividerOrnament}>
+                <span className={styles.ornamentDot}>♦</span>
+                <span className={styles.ornamentStar}>✦</span>
+                <span className={styles.ornamentDot}>♦</span>
+              </div>
+              <div className={styles.dividerLineRight}></div>
+            </div>
            {/* COUNTDOWN 4 KOTAK DENGAN GARIS PEMBATAS
             <div className={styles.countdownRow}>
               <div className={styles.countdownBox}>
@@ -942,38 +948,39 @@ useEffect(() => {
                   </div>
 
                   <div className={styles.schaduleBox}>
-                               {/* COUNTDOWN 4 KOTAK DENGAN GARIS PEMBATAS */}
-            <div className={styles.countdownRow}>
-              <div className={styles.countdownBox}>
-                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.days).padStart(2, '0') : '00'}</span>
-                <span className={styles.countdownLabel}>DAYS</span>
-              </div>
 
-              <span className={styles.countdownDivider} />
+                    {/* COUNTDOWN KHUSUS MODAL */}
+<div className={styles.modalCountdownRow}>
+  <div className={styles.modalCountdownBox}>
+    <span className={styles.modalCountdownNum}>{isMounted ? String(timeLeft.days).padStart(2, '0') : '00'}</span>
+    <span className={styles.modalCountdownLabel}>DAYS</span>
+  </div>
 
-              <div className={styles.countdownBox}>
-                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.hours).padStart(2, '0') : '00'}</span>
-                <span className={styles.countdownLabel}>HOURS</span>
-              </div>
+  <span className={styles.modalCountdownDivider} />
 
-              <span className={styles.countdownDivider} />
+  <div className={styles.modalCountdownBox}>
+    <span className={styles.modalCountdownNum}>{isMounted ? String(timeLeft.hours).padStart(2, '0') : '00'}</span>
+    <span className={styles.modalCountdownLabel}>HOURS</span>
+  </div>
 
-              <div className={styles.countdownBox}>
-                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.minutes).padStart(2, '0') : '00'}</span>
-                <span className={styles.countdownLabel}>MINS</span>
-              </div>
+  <span className={styles.modalCountdownDivider} />
 
-              <span className={styles.countdownDivider} />
+  <div className={styles.modalCountdownBox}>
+    <span className={styles.modalCountdownNum}>{isMounted ? String(timeLeft.minutes).padStart(2, '0') : '00'}</span>
+    <span className={styles.modalCountdownLabel}>MINS</span>
+  </div>
 
-              <div className={styles.countdownBox}>
-                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.seconds).padStart(2, '0') : '00'}</span>
-                <span className={styles.countdownLabel}>SECS</span>
-              </div>
-            </div>
+  <span className={styles.modalCountdownDivider} />
+
+  <div className={styles.modalCountdownBox}>
+    <span className={styles.modalCountdownNum}>{isMounted ? String(timeLeft.seconds).padStart(2, '0') : '00'}</span>
+    <span className={styles.modalCountdownLabel}>SECS</span>
+  </div>
+</div>
           
                   </div>
 
-                  <hr className={styles.divider} />
+                 
 
                   <div className={styles.scheduleItem}>
                     <h4>Wedding Ceremony</h4>
