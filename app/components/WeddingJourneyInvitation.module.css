@@ -141,7 +141,7 @@
   font-size: 80% !important;
   letter-spacing: 4px;
   color: var(--color-text-dark);
-  margin: 20px 0 35px 0;
+  margin: 15px 0 25px 0;
   text-transform: uppercase;
   font-weight: 400;
 }
@@ -150,7 +150,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: -10px 0 -15px;
+  margin: -10px 0 -17px;
   position: relative;
   box-sizing: border-box;
   line-height: 0.8;
@@ -254,21 +254,21 @@
   margin-bottom: 15px; /* Jarak yang pas antara nama tamu dan tombol */
 }
 
+/* Label "the dearest." */
 .guestLabel {
-  font-family: 'Adlery Pro', 'Brusher', cursive !important;
-  font-size: 18px;
+  font-family: 'Moontime', cursive !important;
+  font-size: 18px !important;
   color: #696C4D;
-  margin: 15 0 -5px 0;
+  margin: 15px 0 -5px 0; /* Ditambahkan satuan px */
 }
 
+/* Nama Tamu "Joshua & Partner" */
 .guestName {
-  font-family: 'Adlery Pro', 'Brusher', cursive !important;
-  font-size: 25px;
-  color: #DAC077;
+  font-family: 'Adlery Pro', cursive !important;
+  font-size: 25px !important;
+  color: #696C4D; /* Sesuaikan ke #DAC077 jika ingin tetap warna emas */
   margin: 0;
-  /* Menggunakan stroke native agar outline bersih */
   -webkit-text-stroke: 1px #696C4D;
-  /* Bayangan tipis agar teks lebih menonjol dari background */
   text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.15);
 }
 
@@ -1614,7 +1614,7 @@
   justify-content: center;
   width: 70%;
   max-width: 250px;
-  margin: 25px auto 0px auto; /* Menyesuaikan jarak atas & bawah */
+  margin: 13px auto -10px auto; /* Menyesuaikan jarak atas & bawah */
   opacity: 0;
   /* Tambahkan animasi fadeFloatUp agar munculnya mulus mengikuti elemen lain */
   animation: fadeFloatUp 1.2s ease-out 1.2s forwards; 
@@ -1647,9 +1647,13 @@
 }
 
 /* Styling Titik (Belah Ketupat) */
+/* Styling Titik Belah Ketupat Murni CSS (Bebas Bug Emoji iOS) */
 .ornamentDot {
-  font-size: 8px;
-  transform: translateY(-0.5px);
+  width: 5px;
+  height: 5px;
+  background-color: #3d3b2f; /* Warna disamakan persis dengan bintang & garis */
+  transform: rotate(45deg);
+  display: inline-block;
 }
 
 /* Styling Bintang Tengah */

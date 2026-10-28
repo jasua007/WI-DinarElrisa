@@ -407,15 +407,16 @@ useEffect(() => {
               </div>
               <p className={styles.dateText}>{weddingDateLabel}</p>
             </div>
+            {/* VINTAGE DIVIDER (PURE CSS) */}
 <div className={styles.vintageDivider}>
-              <div className={styles.dividerLineLeft}></div>
-              <div className={styles.dividerOrnament}>
-                <span className={styles.ornamentDot}>♦</span>
-                <span className={styles.ornamentStar}>✦</span>
-                <span className={styles.ornamentDot}>♦</span>
-              </div>
-              <div className={styles.dividerLineRight}></div>
-            </div>
+  <div className={styles.dividerLineLeft}></div>
+  <div className={styles.dividerOrnament}>
+    <span className={styles.ornamentDot} />
+    <span className={styles.ornamentStar}>✦</span>
+    <span className={styles.ornamentDot} />
+  </div>
+  <div className={styles.dividerLineRight}></div>
+</div>
            {/* COUNTDOWN 4 KOTAK DENGAN GARIS PEMBATAS
             <div className={styles.countdownRow}>
               <div className={styles.countdownBox}>
