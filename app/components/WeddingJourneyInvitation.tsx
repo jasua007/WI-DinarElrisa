@@ -410,7 +410,7 @@ useEffect(() => {
               <p className={styles.dateText}>{weddingDateLabel}</p>
             </div>
 
-           {/* COUNTDOWN 4 KOTAK DENGAN GARIS PEMBATAS */}
+           {/* COUNTDOWN 4 KOTAK DENGAN GARIS PEMBATAS
             <div className={styles.countdownRow}>
               <div className={styles.countdownBox}>
                 <span className={styles.countdownNum}>{isMounted ? String(timeLeft.days).padStart(2, '0') : '00'}</span>
@@ -437,7 +437,13 @@ useEffect(() => {
                 <span className={styles.countdownNum}>{isMounted ? String(timeLeft.seconds).padStart(2, '0') : '00'}</span>
                 <span className={styles.countdownLabel}>SECS</span>
               </div>
-            </div>
+            </div> */}
+                        {guestName && (
+              <div className={styles.guestGroup}>
+                <p className={styles.guestLabel}>Dear,</p>
+                <p className={styles.guestName}>{guestName}</p>
+              </div>
+            )}
           </div>
 
           {/* KARAKTER & KUCING COVER */}
@@ -446,12 +452,12 @@ useEffect(() => {
 
           {/* AREA BAWAH (NAMA TAMU & TOMBOL) */}
           <div className={styles.coverBottomArea}>
-            {guestName && (
+            {/* {guestName && (
               <div className={styles.guestGroup}>
                 <p className={styles.guestLabel}>Dear,</p>
                 <p className={styles.guestName}>{guestName}</p>
               </div>
-            )}
+            )} */}
 
             <button
               className={styles.openBtnHitbox}
@@ -933,6 +939,38 @@ useEffect(() => {
                     <h4>Wedding Reception</h4>
                     <p>Sunday, 22nd November 2026</p>
                     <p><strong>07:00 AM - 09:00 AM</strong></p>
+                  </div>
+
+                  <div className={styles.schaduleBox}>
+                               {/* COUNTDOWN 4 KOTAK DENGAN GARIS PEMBATAS */}
+            <div className={styles.countdownRow}>
+              <div className={styles.countdownBox}>
+                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.days).padStart(2, '0') : '00'}</span>
+                <span className={styles.countdownLabel}>DAYS</span>
+              </div>
+
+              <span className={styles.countdownDivider} />
+
+              <div className={styles.countdownBox}>
+                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.hours).padStart(2, '0') : '00'}</span>
+                <span className={styles.countdownLabel}>HOURS</span>
+              </div>
+
+              <span className={styles.countdownDivider} />
+
+              <div className={styles.countdownBox}>
+                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.minutes).padStart(2, '0') : '00'}</span>
+                <span className={styles.countdownLabel}>MINS</span>
+              </div>
+
+              <span className={styles.countdownDivider} />
+
+              <div className={styles.countdownBox}>
+                <span className={styles.countdownNum}>{isMounted ? String(timeLeft.seconds).padStart(2, '0') : '00'}</span>
+                <span className={styles.countdownLabel}>SECS</span>
+              </div>
+            </div>
+          
                   </div>
 
                   <hr className={styles.divider} />

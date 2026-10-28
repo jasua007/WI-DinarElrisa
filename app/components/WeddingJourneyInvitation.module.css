@@ -295,7 +295,7 @@
   font-family: 'Adlery Pro', 'Brusher', cursive !important;
   font-size: 18px;
   color: #696C4D;
-  margin: 0 0 -5px 0;
+  margin: 40 0 -5px 0;
 }
 
 .guestName {
@@ -313,8 +313,8 @@
 .openBtnHitbox {
   background-color: #DAC077;
   border: 2px solid #A3A78A;
-  border-radius: 17px;
-  padding: 1px 5px;
+  border-radius: 5px;
+  padding: 0px 10px;
   cursor: pointer;
   /* PERBAIKAN: Matikan absolute lama agar Flexbox bekerja menengahkan tombol */
   position: relative; 
@@ -327,7 +327,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.15s ease, filter 0.15s ease;
   animation: none !important; /* Menghilangkan animasi bounce lama */
-  margin: -7 10 7;
+  margin: -100 10 7;
 }
 
 .openBtnHitbox:active {
