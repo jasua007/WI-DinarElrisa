@@ -447,7 +447,7 @@ useEffect(() => {
             </div> */}
                         {guestName && (
               <div className={styles.guestGroup}>
-                <p className={styles.guestLabel}>Dear,</p>
+                <p className={styles.guestLabel}>the dearest,</p>
                 <p className={styles.guestName}>{guestName}</p>
               </div>
             )}
