@@ -763,40 +763,58 @@ useEffect(() => {
               </div>
             )}
 
-            {/* 3. MODAL GROOM & BRIDE */}
+{/* 3. MODAL GROOM & BRIDE (REVAMP WITH FRAMES) */}
             {activeModal === 'location' && (
-              <div className={styles.modalBody}>
-                <h3>Groom & Bride</h3>
+              <div className={`${styles.modalBody} ${styles.groomBrideModal}`}>
+                
+                {/* Ornamen Sudut Kiri Atas */}
+                <img src="/assets/Photo Frame.png" alt="Ornament" className={styles.modalCornerOrnament} />
+
+                <h3 className={styles.modalTitleScript}>Groom & Bride</h3>
                 
                 <div className={styles.coupleProfileContainer}>
+                  
+                  {/* CARD DINAR */}
                   <div className={styles.profileCard}>
-                    <div className={styles.imagePlaceholder}>
-<img 
-  src="/assets/DINAR.jpeg" 
-  alt="Dinar Suherlan" 
-  className={`${styles.profileImg} ${styles.profileImgGroom}`} 
-/>                    </div>
+                    <div className={styles.profileImageWrapper}>
+                      <div className={styles.imagePlaceholder}>
+                        <img 
+                          src="/assets/DINAR.jpeg" 
+                          alt="Dinar Suherlan" 
+                          className={`${styles.profileImg} ${styles.profileImgGroom}`} 
+                        />
+                      </div>
+                      <img src="/assets/Border Corner.png" alt="Frame" className={styles.photoFrameOverlay} />
+                    </div>
+                    
                     <h4 className={styles.personName}>Dinar Suherlan</h4>
                     <p className={styles.parentText}>
-                      Third Son of Mr. Didih Suherman <br></br>& Mrs. Marnah
+                      Third Son of Mr. Didih Suherman <br />& Mrs. Marnah
                     </p>
                   </div>
 
+                  {/* DIVIDER AMPERSAND */}
                   <div className={styles.profileDivider}>&</div>
 
+                  {/* CARD ELRISA */}
                   <div className={styles.profileCard}>
-                    <div className={styles.imagePlaceholder}>
-{/* Foto Elrisa */}
-<img 
-  src="/assets/EL.jpeg" 
-  alt="Elrisa Salsabilla" 
-  className={`${styles.profileImg} ${styles.profileImgBride}`} 
-/>                    </div>
+                    <div className={styles.profileImageWrapper}>
+                      <div className={styles.imagePlaceholder}>
+                        <img 
+                          src="/assets/EL.jpeg" 
+                          alt="Elrisa Salsabilla" 
+                          className={`${styles.profileImg} ${styles.profileImgBride}`} 
+                        />
+                      </div>
+                      <img src="/assets/Border Corner.png" alt="Frame" className={styles.photoFrameOverlay} />
+                    </div>
+                    
                     <h4 className={styles.personName}>Elrisa Salsabilla</h4>
                     <p className={styles.parentText}>
-                      Third Daughter of Mr. Ridarnis <br></br>& Mrs. Elvi Suryani
+                      Third Daughter of Mr. Ridarnis <br />& Mrs. Elvi Suryani
                     </p>
                   </div>
+
                 </div>
               </div>
             )}
@@ -943,7 +961,7 @@ useEffect(() => {
 
                 <div className={styles.scheduleBox}>
                   <div className={styles.scheduleItem}>
-                    <h4>Wedding Reception</h4>
+                    <h4>Wedding Ceremony</h4>
                     <p>Sunday, 22nd November 2026</p>
                     <p><strong>07:00 AM - 09:00 AM</strong></p>
                   </div>
@@ -984,7 +1002,7 @@ useEffect(() => {
                  
 
                   <div className={styles.scheduleItem}>
-                    <h4>Wedding Ceremony</h4>
+                    <h4>Wedding Reception</h4>
                     <p>Sunday, 22nd November 2026</p>
                     <p><strong>10:00 AM - 02:30 PM</strong></p>
                   </div>

@@ -1095,17 +1095,44 @@
 }
 
 /* ==========================================================================
-   STYLING MODAL GROOM & BRIDE
+   STYLING MODAL GROOM & BRIDE (FRAMES REVAMP)
    ========================================================================== */
+
+/* Styling tambahan khusus Modal Groom & Bride */
+.groomBrideModal {
+  position: relative;
+  padding: 40px 20px 25px 20px !important; /* Ruang atas lebih besar untuk ornamen & judul */
+}
+
+/* Ornamen Sudut (Photo Frame.png) */
+.modalCornerOrnament {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 65px; /* Sesuaikan jika kurang besar/kecil */
+  height: auto;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Judul Modal Script */
+.modalTitleScript {
+  font-family: 'Pinyon Script', cursive !important;
+  font-size: 36px !important;
+  color: var(--color-olive, #696C4D);
+  text-align: center;
+  margin: 0 0 15px 0;
+  font-weight: normal;
+}
 
 /* Kontainer pembungkus kedua profil */
 .coupleProfileContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 9px;
-  margin-top: 1px;
-  margin-bottom: 8px;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
 }
 
 /* Card tiap mempelai */
@@ -1116,25 +1143,47 @@
   text-align: center;
 }
 
-/* Container bingkai foto */
-.imagePlaceholder {
-  width: 150px;
-  height: 160px; /* Dibuat lingkaran presisi (atau atur 180px jika ingin oval) */
-  border-radius: 50%;
-  background-color: var(--color-ivory, #DFD4C2);
-  border: 2px solid var(--color-olive, #696C4D);
+/* Container Pembungkus Utama */
+.profileImageWrapper {
+  position: relative;
+  width: 120px; /* Ukuran area foto (bisa disesuaikan) */
+  height: 120px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* Wajib agar hasil zoom foto terpotong rapi di dalam bingkai */
-  margin-bottom: 8px;
+}
+
+/* Lingkaran Foto Pengantin */
+.imagePlaceholder {
+  width: 100%;
+  height: 110%;
+  border-radius: 50%;
+  background-color: var(--color-ivory, #DFD4C2);
+  overflow: hidden;
+  z-index: 1;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-.imagePlaceholder span {
-  font-size: 11px;
-  color: var(--color-olive, #696C4D);
-  font-family: 'Montserrat', sans-serif;
+/* ==========================================================================
+   KONTROL MANUAL BINGKAI (UBAH ANGKA DI BAWAH UNTUK PAS-KAN BINGKAI)
+   ========================================================================== */
+.photoFrameOverlay {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+
+  /* 1. ATUR UKURAN BINGKAI */
+  width: 150px;  /* <-- Ubah angka ini untuk mengatur LEBAR bingkai */
+  height: 150px; /* <-- Ubah angka ini untuk mengatur TINGGI bingkai */
+
+  /* 2. ATUR POSISI GESER BINGKAI */
+  top: 49%;      /* <-- Jika bingkai kurang naik/turun, atur misal jadi 48% atau 52% */
+  left: 50%;     /* <-- Jika bingkai kurang kiri/kanan, atur misal jadi 48% atau 52% */
+  
+  /* Titik tumpu tengah */
+  transform: translate(-50%, -50%); 
+  object-fit: contain;
 }
 
 /* Base style foto profil */
@@ -1144,12 +1193,24 @@
   object-fit: cover;
 }
 
+/* --- KONTROL ZOOM & POSISI FOTO DINAR --- */
+.profileImgGroom {
+  object-position: center 40%; 
+  transform: scale(1.4) translateY(2%); 
+}
+
+/* --- KONTROL ZOOM & POSISI FOTO ELRISA --- */
+.profileImgBride {
+  object-position: center 45%; 
+  transform: scale(2.2) translateY(15%); 
+}
+
 /* Nama Mempelai */
 .personName {
-  font-family: 'Pinyon Script', cursive !important;
-  font-size: 18px;
+  font-family: 'Adlery Pro', 'Brusher', cursive !important;
+  font-size: 24px;
   color: var(--color-text-dark, #2d2d2d);
-  margin: 4px 0 2px 0;
+  margin: 0 0 2px 0;
 }
 
 /* Keterangan Orang Tua */
@@ -1164,23 +1225,10 @@
 /* Pembatas ampersand (&) antar profil */
 .profileDivider {
   font-family: 'Pinyon Script', cursive !important;
-  font-size: 20px;
+  font-size: 28px;
   color: var(--color-olive, #696C4D);
-  margin: -4px 0;
+  margin: -6px 0;
 }
-
-/* --- KONTROL ZOOM & POSISI FOTO DINAR --- */
-.profileImgGroom {
-  object-position: center 20%; /* Posisi fokus vertikal */
-  transform: scale(1.4) translateY(-7%) translatex(-6%); /* Ubah angka scale(1.8) untuk memperbesar/memperkecil */
-}
-
-/* --- KONTROL ZOOM & POSISI FOTO ELRISA --- */
-.profileImgBride {
-  object-position: center 20%; /* Posisi fokus vertikal */
-  transform: scale(1.9) translateY(-0%); /* Ubah angka scale(1.9) untuk memperbesar/memperkecil */
-}
-
 /* ==========================================================================
    STYLING MODAL WEDDING DETAILS
    ========================================================================== */

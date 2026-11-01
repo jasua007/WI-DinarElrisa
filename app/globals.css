@@ -65,14 +65,30 @@ body {
   /* Mencegah auto-zoom/perubahan ukuran font otomatis pada iOS Safari saat rotasi HP */
   -webkit-text-size-adjust: 100%;
 
-  /* ==========================================================================
-   FIX iOS SAFARI AUTO-ZOOM PADA INPUT & TEXTAREA
+/* ==========================================================================
+   FIX iOS SAFARI AUTO-ZOOM + SERAGAMKAN FONT FORM (INPUT & SELECT)
    ========================================================================== */
 input, 
 textarea, 
 select {
-  font-size: 16px !important; /* Batas minimal agar iOS tidak memicu auto-zoom */
+  font-size: 16px !important; /* Mencegah auto-zoom di iPhone */
+  font-family: 'Cormorant Garamond', serif !important; /* Memaksa menggunakan font serif elegan */
+  color: #2d2d2d !important; /* Warna teks isi */
+  background-color: #ffffff;
 }
 
+/* Kustomisasi Teks Placeholder (Misal: "Tamu Undangan") */
+input::placeholder,
+textarea::placeholder {
+  font-family: 'Cormorant Garamond', serif !important;
+  color: #8c8c8c !important;
+  font-style: italic;
+}
+
+/* Kustomisasi Opsi Dropdown Attendance Confirmation */
+select option {
+  font-family: 'Cormorant Garamond', serif !important;
+  color: #2d2d2d;
+}
 
 }
