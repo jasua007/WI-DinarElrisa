@@ -97,6 +97,7 @@ const ASSETS_TO_LOAD = [
   '/assets/pointing.png',
   '/assets/Chair.png',
   '/assets/rumah.png',
+  '/assets/qr-filter-placeholder.png',
 
   // Foto Mempelai & Galeri
   '/assets/DINAR.jpeg',
