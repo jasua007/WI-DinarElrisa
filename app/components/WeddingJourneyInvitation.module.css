@@ -1730,7 +1730,7 @@
 /* Subtitle "A little piece of our special day..." */
 .filterSubtitle {
   font-family: 'Cormorant Garamond', serif !important;
-  font-size: 15px !important;
+  font-size: 13.5px !important;
   font-weight: 600;
   color: var(--color-olive, #696C4D) !important;
   margin: -5px 0 10px 0 !important;
@@ -1740,7 +1740,7 @@
 /* Paragraf Instruksi */
 .filterInstruction {
   font-family: 'Cormorant Garamond', serif !important;
-  font-size: 13.5px !important;
+  font-size: 13px !important;
   color: var(--color-olive, #696C4D) !important;
   margin: 0 0 15px 0 !important;
   line-height: 1.4 !important;
