@@ -99,6 +99,8 @@ const ASSETS_TO_LOAD = [
 
   // Foto Mempelai & Galeri
   '/assets/DINAR.jpeg',
+  '/assets/Border Corner.png',
+  '/assets/Photo Frame.png',
   '/assets/EL.jpeg',
   '/assets/1.jpeg',
   '/assets/2.jpeg',
