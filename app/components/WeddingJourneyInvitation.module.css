@@ -1758,7 +1758,7 @@
 .qrFrame {
   width: 150px;
   height: 150px;
-  padding: 10px;
+  padding: 5px;
   background-color: #ffffff;
   border: 1.5px solid var(--color-olive, #696C4D);
   border-radius: 16px;

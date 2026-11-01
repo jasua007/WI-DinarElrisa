@@ -838,8 +838,7 @@ useEffect(() => {
                 <hr className={styles.divider} />
 
                 {/* FORM KIRIM WISHES */}
-                <h4>Send Your Wishes</h4>
-                <form
+                <h4 style={{ fontFamily: "'Pinyon Script', cursive" }}>Send Your Wishes</h4>                <form
                   onSubmit={async (e) => {
                     e.preventDefault();
                     if (isSubmittingWish) return;
