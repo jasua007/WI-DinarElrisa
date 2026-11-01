@@ -718,6 +718,12 @@
   bottom: 30px !important;
 }
 
+.checkpoint_filter {
+  width: 180px !important; /* Menara jam bebas membesar */
+  bottom: 0px !important;
+  margin: -20px;
+}
+
 /* ==========================================================================
    EFEK GLOW / PENDARAN INTERAKTIF CHECKPOINT
    ========================================================================== */
@@ -1707,4 +1713,113 @@
 .ornamentStar {
   font-size: 16px;
   transform: translateY(-1px); /* Koreksi optikal agar benar-benar sejajar dengan garis */
+}
+
+/* ==========================================================================
+   STYLING MODAL CAPTURE OUR MOMENTS (REVAMP TEXT & LINK)
+   ========================================================================== */
+.filterModal {
+  position: relative;
+  padding: 35px 20px 25px 20px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Subtitle "A little piece of our special day..." */
+.filterSubtitle {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 15px !important;
+  font-weight: 600;
+  color: var(--color-olive, #696C4D) !important;
+  margin: -5px 0 10px 0 !important;
+  line-height: 1.3 !important;
+}
+
+/* Paragraf Instruksi */
+.filterInstruction {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 13.5px !important;
+  color: var(--color-olive, #696C4D) !important;
+  margin: 0 0 15px 0 !important;
+  line-height: 1.4 !important;
+  max-width: 270px;
+}
+
+/* Container QR Code */
+.qrContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.qrFrame {
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1.5px solid var(--color-olive, #696C4D);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Tombol Direct Link Instagram "or Click to Add Yours" */
+.openFilterBtn {
+  display: inline-block;
+  width: 80%;
+  max-width: 230px;
+  padding: 10px 16px;
+  background-color: var(--color-olive, #696C4D);
+  color: #ffffff !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(105, 108, 77, 0.25);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  margin-bottom: 14px;
+}
+
+.openFilterBtn:active {
+  transform: scale(0.96);
+}
+
+/* Teks Penutup "Thank you for being part..." */
+.filterThankYou {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 13.5px !important;
+  color: var(--color-olive, #696C4D) !important;
+  font-style: italic;
+  margin: 0 !important;
+  line-height: 1.3 !important;
+}
+
+/* Footer Signature "With love, Dinar & Elrisa" */
+.filterFooterText {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 13px !important;
+  color: var(--color-olive, #696C4D) !important;
+  margin-top: 14px !important;
+  line-height: 1.3 !important;
+}
+
+.filterSignature {
+  font-family: 'Pinyon Script', cursive !important;
+  font-size: 22px !important;
+  color: var(--color-olive, #696C4D);
+  display: inline-block;
+  margin-top: 2px;
 }

@@ -50,10 +50,11 @@ const CHECKPOINTS: Checkpoint[] = [
   { id: 'thanks', xPos: 1350, title: 'Terima Kasih', npcLabel: 'Pesan Spesial', npcImage: '/assets/mempelai.png', className: styles.checkpoint_thanks },
   { id: 'rsvp', xPos: 1850, title: 'Konfirmasi Kehadiran', npcLabel: 'RSVP', npcImage: '/assets/npc-rsvp.png', className: styles.checkpoint_rsvp },
   { id: 'gift', xPos: 2280, title: 'Kado Digital & QRIS', npcLabel: 'Wedding Gift', npcImage: '/assets/Gift.png', className: styles.checkpoint_gift },
-  { id: 'venue', xPos: 3100, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/Groom & Bride.png', className: styles.checkpoint_venue },
   { id: 'gallery', xPos: 2680, title: 'Galeri Foto', npcLabel: 'Galeri Momen', npcImage: '/assets/Gallery.png', className: styles.checkpoint_gallery },
+  // POS BARU: PHOTOBOOTH FILTER
+  { id: 'filter', xPos: 3260, title: 'Wedding Filter', npcLabel: 'Filter Photo', npcImage: '/assets/Capture Our Moments.png', className: styles.checkpoint_filter },
+  { id: 'venue', xPos: 3100, title: 'Lokasi Acara', npcLabel: 'Tempat Acara', npcImage: '/assets/Groom & Bride.png', className: styles.checkpoint_venue },
 ];
-
 // Daftar Ornamen / Dekorasi Hiasan Jalanan
 const DECORATIONS: Decoration[] = [
   { id: 'flower_left', xPos: 120, image: '/assets/pointing.png', width: 240, bottom: 92, zIndex: 15 },
@@ -1027,6 +1028,54 @@ useEffect(() => {
                 </button>
               </div>
             )}
+
+            {/* MODAL CAPTURE OUR MOMENTS */}
+{activeModal === 'filter' && (
+  <div className={`${styles.modalBody} ${styles.filterModal}`}>
+   
+    <h3 className={styles.modalTitleScript}>Capture Our Moments</h3>
+    
+    <p className={styles.filterSubtitle}>
+      A little piece of our special day, captured by you! ♡
+    </p>
+
+    <p className={styles.filterInstruction}>
+      We'd love to see our wedding through your eyes.<br />
+      Use our Wedding Frame, add your favorite moments, and don't forget to tag us!
+    </p>
+
+    {/* WADAH QR CODE */}
+    <div className={styles.qrContainer}>
+      <div className={styles.qrFrame}>
+        <img 
+          src="/assets/qr-filter-placeholder.png" 
+          alt="QR Code Wedding Frame" 
+          className={styles.qrImage}
+        />
+      </div>
+    </div>
+
+    {/* TOMBOL DIRECT LINK INSTAGRAM */}
+    <a 
+      href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE4NDY5NzE2MTA5MTM3Mzkx?story_media_id=4020673874601209445&exln=angwbnpnamYxcWNh" /* <--- Masukkan link filter Instagram di sini */
+      target="_blank" 
+      rel="noopener noreferrer"
+      className={styles.openFilterBtn}
+    >
+      or Click to Add Yours
+    </a>
+
+    <p className={styles.filterThankYou}>
+      Thank you for being part of our precious memories.
+    </p>
+
+    <div className={styles.filterFooterText}>
+      With love,<br />
+      <span className={styles.filterSignature}>Dinar & Elrisa</span>
+    </div>
+  </div>
+)}
+
 
             {/* 7. MODAL GALERI FOTO */}
             {activeModal === 'gallery' && (
