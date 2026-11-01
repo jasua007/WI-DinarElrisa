@@ -1207,7 +1207,7 @@
 
 /* Nama Mempelai */
 .personName {
-  font-family: 'Adlery Pro', 'Brusher', cursive !important;
+  font-family: 'Pinyon Script', cursive !important;
   font-size: 24px;
   color: var(--color-text-dark, #2d2d2d);
   margin: 0 0 2px 0;
@@ -1225,8 +1225,8 @@
 /* Pembatas ampersand (&) antar profil */
 .profileDivider {
   font-family: 'Pinyon Script', cursive !important;
-  font-size: 28px;
-  color: var(--color-olive, #696C4D);
+  font-size: 15px;
+  color: var(--color-sage, #FFF4D9);
   margin: -6px 0;
 }
 /* ==========================================================================

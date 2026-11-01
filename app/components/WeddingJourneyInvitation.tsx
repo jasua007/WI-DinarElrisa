@@ -796,7 +796,7 @@ useEffect(() => {
                   </div>
 
                   {/* DIVIDER AMPERSAND */}
-                  <div className={styles.profileDivider}>&</div>
+                  <div className={styles.profileDivider}>.</div>
 
                   {/* CARD ELRISA */}
                   <div className={styles.profileCard}>
