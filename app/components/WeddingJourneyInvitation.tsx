@@ -1072,7 +1072,7 @@ useEffect(() => {
 
     <div className={styles.filterFooterText}>
       With love,<br />
-      <span className={styles.filterSignature}>Dinar & Elrisa</span>
+      <span className={styles.filterSignature}>Elrisa & Dinar</span>
     </div>
   </div>
 )}
