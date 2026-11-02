@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     siteName: "The Wedding of Elrisa & Dinar",
     images: [
       {
-        url: "/assets/2.jpeg",
+        url: "/assets/prev.jpg",
         width: 1200,
         height: 630,
         alt: "The Wedding of Elrisa & Dinar",
