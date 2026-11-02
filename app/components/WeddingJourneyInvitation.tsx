@@ -932,7 +932,7 @@ useEffect(() => {
                       alert('Nomor rekening BCA berhasil disalin!');
                     }}
                   >
-                    copy account number 📄
+                   📄 Copy account number 
                   </button>
                    <p className={styles.bankName} >Bank CIMB NIAGA</p>
                   <p className={styles.accountNumber}><strong>763380771700</strong></p>
@@ -945,7 +945,7 @@ useEffect(() => {
                       alert('Nomor rekening CIMBNIAGA berhasil disalin!');
                     }}
                   >
-                    Copy nomor rekening 📄
+                   📄 Copy account number 
                   </button>
                 </div>
                 <p className={styles.giftThanks}>With love and gratitude.</p>
